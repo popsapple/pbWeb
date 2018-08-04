@@ -45,7 +45,10 @@ export default {
             cacheDirectory: true
           }
         }
-      }
+      },
+      { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ]
   },
 
@@ -59,7 +62,7 @@ export default {
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.ts', 'tsx', '.json'],
     modules: [path.join(__dirname, 'app'), 'node_modules']
   },
 
@@ -68,6 +71,11 @@ export default {
       NODE_ENV: 'production'
     }),
 
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    })
   ]
 };
