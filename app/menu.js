@@ -216,8 +216,69 @@ export default class MenuBuilder {
         }
       ]
     };
+
+    const subMenuFile = {
+      label: 'File',
+      submenu: [
+        {
+          label: 'New File',
+          accelerator: 'Command+N',
+          selector: 'new file'
+        },
+        {
+          label: 'Open...',
+          accelerator: 'Command+O',
+          click: () => {
+            dialog.showOpenDialog(
+              {
+                properties: ['openFile'],
+                title: 'PageBuilder 파일 열기',
+                filters: [
+                  { name: 'HTML', extensions: ['htm', 'html'] },
+                  { name: 'CSS', extensions: ['css'] },
+                  { name: 'Javascript', extensions: ['js'] },
+                  { name: 'All Files', extensions: ['*'] }
+                ]
+              },
+              files => {
+                console.log(`files.entries: ${files.entries}`);
+                if (files.length === 1) {
+                  this.editor.send('file-open', files[0]);
+                }
+              }
+            );
+          }
+        },
+        { type: 'separator' },
+        {
+          label: 'Save',
+          accelerator: 'Command+S'
+        },
+        {
+          label: 'Save as...',
+          accelerator: 'Command+A'
+        },
+        {
+          label: 'Print',
+          accelerator: 'Command+P'
+        },
+        {
+          label: 'Export...',
+          accelerator: 'Command+Q'
+        },
+        { type: 'separator' },
+        {
+          label: 'Close',
+          accelerator: 'Command+W',
+          click: () => {
+            this.mainWindow.close();
+          }
+        }
+      ]
+    };
+
     const subMenuEdit = {
-      label: '편집',
+      label: 'Edit',
       submenu: [
         { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' },
         { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' },
@@ -318,6 +379,13 @@ export default class MenuBuilder {
     const subMenuView =
       process.env.NODE_ENV === 'development' ? subMenuViewDev : subMenuViewProd;
 
-    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp];
+    return [
+      subMenuAbout,
+      subMenuFile,
+      subMenuEdit,
+      subMenuView,
+      subMenuWindow,
+      subMenuHelp
+    ];
   }
 }
