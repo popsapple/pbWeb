@@ -1,7 +1,5 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
-
-// Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min';
 import 'froala-editor/js/languages/ko';
 
@@ -14,7 +12,8 @@ class FrogEditor extends React.Component {
     super();
 
     this.state = {
-      model: ''
+      model: '',
+      csslist: []
     };
 
     this.config = {
@@ -33,6 +32,9 @@ class FrogEditor extends React.Component {
         'td',
         'span'
       ],
+      iframeStyleFiles: this.state.csslist,
+      htmlAllowedEmptyTags: ['style', 'script'],
+      htmlRemoveTags: ['base'],
       lineBreakerOffset: 50,
       height: 600,
       theme: 'royal',
@@ -58,12 +60,23 @@ class FrogEditor extends React.Component {
     ipcRenderer.on('file-open', (event, filename) => {
       this.readFileIntoEditor(filename);
     });
+
+    ipcRenderer.on('css-open', (event, filename) => {
+      this.readCSSIntoEditor(filename);
+    });
   }
 
   handleModelChange(model) {
     this.setState({
       model
     });
+  }
+
+  readCSSChange(csslistTemp) {
+    this.setState({
+      csslist: [...this.state.csslist, csslistTemp]
+    });
+    this.config.iframeStyleFiles = this.state.csslist;
   }
 
   readFileIntoEditor = theFileEntry => {
@@ -73,10 +86,20 @@ class FrogEditor extends React.Component {
       } else {
         this.handleModelChange(String(data));
       }
-      // this.handleDocumentChange(theFileEntry);
-      // editor.setValue(String(data));
     });
   };
+
+  readCSSIntoEditor = theFileEntry => {
+    fs.readFile(theFileEntry.toString(), (err, data) => {
+      if (err) {
+        console.log(`Read failed: ${err}`);
+      } else {
+        this.readCSSChange(theFileEntry.toString());
+        console.log(data);
+      }
+    });
+  };
+
   render() {
     return (
       <ReactFroalaWysiwyg

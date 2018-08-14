@@ -1,15 +1,11 @@
-// @flow
 import { app, dialog, Menu, shell, ipcMain } from 'electron';
 
 export default class MenuBuilder {
-  // mainWindow: BrowserWindow;
-  // thisEditor
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
 
     ipcMain.on('editor-loaded', (event, arg) => {
       console.log(`[ipcMain] got message from menu ${arg}`);
-
       this.editor = event.sender;
     });
   }
@@ -73,9 +69,7 @@ export default class MenuBuilder {
                   ]
                 },
                 files => {
-                  console.log(`files.entries: ${files.entries}`);
                   if (files.length === 1) {
-                    // console.log('selected-file: ', files[0] && files.map(val => val))
                     this.editor.send('file-open', files[0]);
                   }
                 }
@@ -223,7 +217,10 @@ export default class MenuBuilder {
         {
           label: 'New File',
           accelerator: 'Command+N',
-          selector: 'new file'
+          selector: 'new file',
+          click: () => {
+            console.log('NEW FILE');
+          }
         },
         {
           label: 'Open...',
@@ -241,9 +238,17 @@ export default class MenuBuilder {
                 ]
               },
               files => {
-                console.log(`files.entries: ${files.entries}`);
+                console.log('=============');
+                console.log(files[0]);
                 if (files.length === 1) {
-                  this.editor.send('file-open', files[0]);
+                  this.editor.send(
+                    'file-open',
+                    '/Users/clbeemac3/Documents/ReactElectron/app/resources/index.html'
+                  );
+                  this.editor.send(
+                    'css-open',
+                    '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
+                  );
                 }
               }
             );
@@ -252,7 +257,10 @@ export default class MenuBuilder {
         { type: 'separator' },
         {
           label: 'Save',
-          accelerator: 'Command+S'
+          accelerator: 'Command+S',
+          click: () => {
+            console.log('SAVE');
+          }
         },
         {
           label: 'Save as...',
