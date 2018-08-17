@@ -12,8 +12,6 @@
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
-    "lint": "cross-env NODE_ENV=development eslint --cache --format=node_modules/eslint-formatter-pretty .",
-    "lint-fix": "npm run --silent lint -- --fix; exit 0",
     "lint-styles": "stylelint app/*.css app/components/*.css --syntax scss",
     "lint-styles-fix": "stylefmt -r app/*.css app/components/*.css",
     "package": "npm run build && build --publish never",
@@ -35,7 +33,6 @@
   "browserslist": "electron 1.6",
   "lint-staged": {
     "*.js": [
-      "cross-env NODE_ENV=development eslint --cache --format=node_modules/eslint-formatter-pretty",
       "prettier --ignore-path .eslintignore --single-quote --write",
       "git add"
     ]
