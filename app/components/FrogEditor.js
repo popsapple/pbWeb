@@ -13,7 +13,8 @@ class FrogEditor extends React.Component {
 
     this.state = {
       model: '',
-      csslist: []
+      csslist: [],
+      createFileOk: true
     };
 
     this.config = {
@@ -64,11 +65,19 @@ class FrogEditor extends React.Component {
     ipcRenderer.on('css-open', (event, filename) => {
       this.readCSSIntoEditor(filename);
     });
+
+    ipcRenderer.on('html-save', (event, filename) => {
+      this.saveHTML(filename);
+    });
+
+    ipcRenderer.on('html-saveAs', (event, filename) => {
+      this.saveAsHTML(filename);
+    });
   }
 
   handleModelChange(model) {
     this.setState({
-      model
+      model: model
     });
   }
 
@@ -95,8 +104,39 @@ class FrogEditor extends React.Component {
         console.log(`Read failed: ${err}`);
       } else {
         this.readCSSChange(theFileEntry.toString());
-        console.log(data);
       }
+    });
+  };
+
+  saveHTML = theFileEntry => {
+    theFileEntry = theFileEntry.toString();
+    if (this.state.createFileOk) {
+      if (theFileEntry.indexOf('.html') == -1) {
+        fs.writeFile(theFileEntry + '.html', this.state.model, err => {
+          console.log(`Read failed: ${err}`);
+        });
+      } else {
+        fs.writeFile(theFileEntry, this.state.model, err => {
+          console.log(`Read failed: ${err}`);
+        });
+      }
+      this.setState({ createFileOk: false });
+    } else {
+      if (theFileEntry.indexOf('.html') == -1) {
+        fs.writeFile(theFileEntry + '.html', this.state.model, err => {
+          console.log(`Read failed: ${err}`);
+        });
+      } else {
+        fs.writeFile(theFileEntry, this.state.model, err => {
+          console.log(`Read failed: ${err}`);
+        });
+      }
+    }
+  };
+
+  saveAsHTML = theFileEntry => {
+    fs.writeFile(theFileEntry + '.html', this.state.model, err => {
+      console.log(`Read failed: ${err}`);
     });
   };
 

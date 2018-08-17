@@ -179,8 +179,11 @@ export default class MenuBuilder {
   }
 
   buildDarwinTemplate() {
+    let saveOk = true;
+    let selectedFilePath = '';
+
     const subMenuAbout = {
-      label: 'Electron',
+      label: 'PageBuilder',
       submenu: [
         {
           label: 'About ElectronReact',
@@ -238,17 +241,14 @@ export default class MenuBuilder {
                 ]
               },
               files => {
-                console.log('=============');
-                console.log(files[0]);
                 if (files.length === 1) {
-                  this.editor.send(
-                    'file-open',
-                    '/Users/clbeemac3/Documents/ReactElectron/app/resources/index.html'
-                  );
+                  this.editor.send('file-open', files[0]);
                   this.editor.send(
                     'css-open',
                     '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
                   );
+                  saveOk = false;
+                  selectedFilePath = files;
                 }
               }
             );
@@ -259,12 +259,38 @@ export default class MenuBuilder {
           label: 'Save',
           accelerator: 'Command+S',
           click: () => {
-            console.log('SAVE');
+            if (saveOk) {
+              dialog.showSaveDialog(
+                {
+                  properties: ['saveFile'],
+                  title: 'PageBuilder 저장'
+                },
+                files => {
+                  this.editor.send('html-save', files);
+                  saveOk = false;
+                  selectedFilePath = files;
+                  console.log('==title1==\n' + app.title);
+                }
+              );
+            } else {
+              this.editor.send('html-save', selectedFilePath);
+            }
           }
         },
         {
           label: 'Save as...',
-          accelerator: 'Command+A'
+          accelerator: 'Command+A',
+          click: () => {
+            dialog.showSaveDialog(
+              {
+                properties: ['saveAsFile'],
+                title: 'PageBuilder 다른이름으로 저장'
+              },
+              files => {
+                this.editor.send('html-saveAs', files);
+              }
+            );
+          }
         },
         {
           label: 'Print',
