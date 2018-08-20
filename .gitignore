@@ -55,3 +55,5 @@ npm-debug.log.*
 !node_modules/froala-editor/js/languages
 !node_modules/froala-editor/js/plugins
 !node_modules/froala-editor/js/third_party
+
+!node_modules/bootstrap
