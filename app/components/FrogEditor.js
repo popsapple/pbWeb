@@ -71,6 +71,7 @@ class FrogEditor extends React.Component {
     });
 
     ipcRenderer.on('css-open', (event, filename) => {
+      console.log("cssopen=============")
       this.readCSSIntoEditor(filename);
     });
 
@@ -107,6 +108,7 @@ class FrogEditor extends React.Component {
   readCSSIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
       console.log(data);
+      console.log('=========css==========')
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
@@ -115,6 +117,8 @@ class FrogEditor extends React.Component {
         });
         this.key_item += 1;
         this.config.iframeStyleFiles = this.state.csslist;
+        console.log("this.config.iframeStyleFiles")
+        console.log(this.config.iframeStyleFiles);
         this.props.pbUpdateHandler();
         
       }

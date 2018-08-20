@@ -29,7 +29,7 @@ export default class MenuBuilder {
   }
 
   setupDevelopmentEnvironment() {
-    //this.mainWindow.openDevTools();
+    this.mainWindow.openDevTools();
     
     this.mainWindow.webContents.on('context-menu', (e, props) => {
       const { x, y } = props;
@@ -71,11 +71,38 @@ export default class MenuBuilder {
                 },
                 files => {
                   if (files.length === 1) {
-                    this.editor.send('file-open', files[0]);
-                    this.editor.send(
-                      'css-open',
-                      'C:/Users/clbee/Desktop/REACT WORK/electron/app/resources/css/bootstrap.css'
-                    );
+                    if(files[0].match(/(.html)$/)){
+                      this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/test_index/index.html
+                      var htmlPathArray = files[0].split("/")
+                      for(let i=0; i<htmlPathArray.length; i++){
+                        if (htmlPathArray[i].match(/(.html)$/)){
+                          this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
+                        }
+                      }
+                    }
+                    
+                    if(files[0].match(/(.js)$/)){
+                      this.editor.send('js-open', '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js');
+                      var jsPathArray = files[0].split("/")
+                      for(let i=0; i<jsPathArray.length; i++){
+                        if (jsPathArray[i].match(/(.js)$/)){
+                          this.mainWindow.setTitle(`[ ${jsPathArray[i]} ] - PageBuilder`)
+                        }
+                      }
+                    }
+                   
+                    if(files[0].match(/(.css)$/)){
+                      this.editor.send('css-open', '/Users/clbeemac3/Desktop/test_index/css/bootstrap.css');
+                      var cssPathArray = files[0].split("/")
+                      for(let i=0; i<cssPathArray.length; i++){
+                        if (cssPathArray[i].match(/(.css)$/)){
+                          this.mainWindow.setTitle(`[ ${cssPathArray[i]} ] - PageBuilder`)
+                        }
+                      }
+                    }
+                    
+                    saveOk = false;
+                    selectedFilePath = files;
                   }
                 }
               );
@@ -83,11 +110,40 @@ export default class MenuBuilder {
           },
           {
             label: '&저장',
-            accelerator: 'Ctrl+S'
+            accelerator: 'Ctrl+S',
+            click: () => {
+              if (saveOk) {
+                dialog.showSaveDialog(
+                  {
+                    properties: ['saveFile'],
+                    title: 'PageBuilder 저장'
+                  },
+                  files => {
+                    this.editor.send('html-save', files);
+                    saveOk = false;
+                    selectedFilePath = files;
+                    console.log('==title1==\n' + app.title);
+                  }
+                );
+              } else {
+                this.editor.send('html-save', selectedFilePath);
+              }
+            }
           },
           {
             label: '&다른이름으로 저장',
-            accelerator: 'Ctrl+A'
+            accelerator: 'Ctrl+A',
+            click: () => {
+              dialog.showSaveDialog(
+                {
+                  properties: ['saveAsFile'],
+                  title: 'PageBuilder 다른이름으로 저장'
+                },
+                files => {
+                  this.editor.send('html-saveAs', files);
+                }
+              );
+            }
           },
           {
             label: '&인쇄',
@@ -247,16 +303,36 @@ export default class MenuBuilder {
               },
               files => {
                 if (files.length === 1) {
-                  this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/test_index/index.html
-                  var pathArray = files[0].split("/")
-                  for(let i=0; i<pathArray.length; i++){
-                    if (pathArray[i].match(/(.html)$/)){
-                      this.mainWindow.setTitle(`[ ${pathArray[i]} ] - PageBuilder`)
+                  if(files[0].match(/(.html)$/)){
+                    this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/test_index/index.html
+                    var htmlPathArray = files[0].split("/")
+                    for(let i=0; i<htmlPathArray.length; i++){
+                      if (htmlPathArray[i].match(/(.html)$/)){
+                        this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
+                      }
                     }
                   }
-                  this.editor.send('js-open', '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js');
-                  this.editor.send('css-open', '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css');
-
+                  
+                  if(files[0].match(/(.js)$/)){
+                    this.editor.send('js-open', '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js');
+                    var jsPathArray = files[0].split("/")
+                    for(let i=0; i<jsPathArray.length; i++){
+                      if (jsPathArray[i].match(/(.js)$/)){
+                        this.mainWindow.setTitle(`[ ${jsPathArray[i]} ] - PageBuilder`)
+                      }
+                    }
+                  }
+                 
+                  if(files[0].match(/(.css)$/)){
+                    this.editor.send('css-open', '/Users/clbeemac3/Desktop/test_index/css/bootstrap.css');
+                    var cssPathArray = files[0].split("/")
+                    for(let i=0; i<cssPathArray.length; i++){
+                      if (cssPathArray[i].match(/(.css)$/)){
+                        this.mainWindow.setTitle(`[ ${cssPathArray[i]} ] - PageBuilder`)
+                      }
+                    }
+                  }
+                  
                   saveOk = false;
                   selectedFilePath = files;
                 }
