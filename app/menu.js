@@ -46,6 +46,9 @@ export default class MenuBuilder {
   }
 
   buildDefaultTemplate() {
+    let saveOk = true;
+    let selectedFilePath = '';
+    
     const templateDefault = [
       {
         label: '&파일',
