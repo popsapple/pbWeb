@@ -15,7 +15,7 @@ export default class HomePage extends Component {
         <main className="col-md-8 col-xl-8 bd-content">
           <Home />
         </main>
-        <div className="col-md-2 inspector">
+        <div className="col-md-2 inspector sidebar right">
           <SideInspector />
           </div>
       </div>
