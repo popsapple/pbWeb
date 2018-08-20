@@ -34,6 +34,7 @@ class FrogEditor extends React.Component {
         'span'
       ],
       iframeStyleFiles: this.state.csslist,
+      iframeScriptFiles: [],
       htmlAllowedEmptyTags: ['style', 'script'],
       htmlRemoveTags: ['base'],
       lineBreakerOffset: 50,
@@ -52,6 +53,8 @@ class FrogEditor extends React.Component {
         }
       }
     };
+    this.key_item = 0;
+    this.handleManualController = this.handleManualController.bind(this);
     this.handleModelChange = this.handleModelChange.bind(this);
   }
 
@@ -81,11 +84,9 @@ class FrogEditor extends React.Component {
     });
   }
 
-  readCSSChange(csslistTemp) {
-    this.setState({
-      csslist: [...this.state.csslist, csslistTemp]
-    });
-    this.config.iframeStyleFiles = this.state.csslist;
+  handleManualController(item) {
+    this.config.iframeStyleFiles = this.state.csslist; // ['C:/Users/clbee/Desktop/REACT WORK/electron/app/resources/css/bootstrap.css'];
+    item.initialize(this.config);
   }
 
   readFileIntoEditor = theFileEntry => {
@@ -100,10 +101,16 @@ class FrogEditor extends React.Component {
 
   readCSSIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
+      console.log(data);
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
-        this.readCSSChange(theFileEntry.toString());
+        this.setState({
+          csslist: [...this.state.csslist, theFileEntry.toString()]
+        });
+        this.key_item += 1;
+        this.config.iframeStyleFiles = this.state.csslist;
+        this.props.pbUpdateHandler();
       }
     });
   };
@@ -143,9 +150,11 @@ class FrogEditor extends React.Component {
   render() {
     return (
       <ReactFroalaWysiwyg
+        key={this.key_item}
         config={this.config}
         model={this.state.model}
         onModelChange={this.handleModelChange}
+        onManualControllerReady={this.handleManualController}
       />
     );
   }

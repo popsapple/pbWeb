@@ -71,6 +71,10 @@ export default class MenuBuilder {
                 files => {
                   if (files.length === 1) {
                     this.editor.send('file-open', files[0]);
+                    this.editor.send(
+                      'css-open',
+                      'C:/Users/clbee/Desktop/REACT WORK/electron/app/resources/css/bootstrap.css'
+                    );
                   }
                 }
               );
@@ -245,7 +249,7 @@ export default class MenuBuilder {
                   this.editor.send('file-open', files[0]);
                   this.editor.send(
                     'css-open',
-                    '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
+                    'C:/Users/clbee/Desktop/REACT WORK/electron/app/resources/css/bootstrap.css'
                   );
                   saveOk = false;
                   selectedFilePath = files;
