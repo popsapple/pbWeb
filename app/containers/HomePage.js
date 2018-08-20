@@ -4,23 +4,21 @@ import Home from '../components/Home';
 import SideComponent from '../components/SideComponent';
 import SideInspector from '../components/SideInspector';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 export default class HomePage extends Component {
   render() {
     return (
-      <div class="container-fluid">
-        <div class="row justify-content-center">
-          <div class="col-md-2 py-md-3 pl-md-5 bd-sidebar">
-            <SideComponent />
-          </div>
-          <main class="col-md-auto col-xl-8 py-md-3 pl-md-5 bd-content">
-            <Home />
-          </main>
-          <div class="col-md-2 py-md-3 pl-md-5">
-            <SideInspector />
-          </div>
+      <div className="container-fluid root homepage">
+      <div className="row justify-content-center">
+        <div className="col-md-2 sidebar">
+          <SideComponent />
         </div>
+        <main className="col-md-8 col-xl-8 bd-content">
+          <Home />
+        </main>
+        <div className="col-md-2 inspector">
+          <SideInspector />
+          </div>
+      </div>
       </div>
     );
   }

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import FrogEditor from './FrogEditor';
 import SideComponent from './SideComponent'
 
-import 'bootstrap/dist/css/bootstrap.css'
 
 export default class Home extends Component {
    constructor(){
