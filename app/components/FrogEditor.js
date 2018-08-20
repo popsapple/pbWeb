@@ -32,6 +32,7 @@ class FrogEditor extends React.Component {
         'span'
       ],
       iframeStyleFiles: this.state.csslist,
+      iframeScriptFiles: [],
       htmlAllowedEmptyTags: ['style', 'script'],
       htmlRemoveTags: ['base'],
       lineBreakerOffset: 50,
