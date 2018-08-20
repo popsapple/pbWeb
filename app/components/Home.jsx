@@ -16,9 +16,7 @@ export default class Home extends Component {
   }
   render() {
     return (
-      <main class="col-md-auto col-xl-8 py-md-3 pl-md-5 bd-content">
-        <FrogEditor pbUpdateHandler={this.forceUpdateHandler}/>
-      </main>
+        <div><FrogEditor pbUpdateHandler={this.forceUpdateHandler}/></div>
     );
   }
 }

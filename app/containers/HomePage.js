@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import Home from '../components/Home';
-import SideComponent from './SideComponent';
-import SideInspector from './SideInspector';
+import SideComponent from '../components/SideComponent';
+import SideInspector from '../components/SideInspector';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
