@@ -9,7 +9,7 @@ import SideComponentSlider from './side/slider';
 export default class SideComponent extends React.Component{
     render(){
         return(
-            <div className="component">
+            <div className="component_list">
             	<ul>
             		<SideComponentPreview />
             		<SideComponentData />

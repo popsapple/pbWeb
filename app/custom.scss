@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/bootstrap";
+
+li {
+	list-style: none;
+}
+
+.component_list {
+	border-left-width: 1px;
+	border-style: solid;
+	border-color: $gray-lighter;
+	height: 100vh;
+	&.right {
+		border-right-width: 1px;
+	}
+}
