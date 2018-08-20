@@ -10,7 +10,6 @@ export default class Home extends Component {
     this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
   };
   forceUpdateHandler(){
-  console.log("forceUpdateHandler");
   	this.forceUpdate();
   }
   render() {
