@@ -48,7 +48,7 @@ export default class MenuBuilder {
   buildDefaultTemplate() {
     let saveOk = true;
     let selectedFilePath = '';
-    
+
     const templateDefault = [
       {
         label: '&파일',
@@ -85,7 +85,7 @@ export default class MenuBuilder {
                     }
                     
                     if(files[0].match(/(.js)$/)){
-                      this.editor.send('js-open', '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js');
+                      this.editor.send('js-open', files[0]);
                       var jsPathArray = files[0].split("/")
                       for(let i=0; i<jsPathArray.length; i++){
                         if (jsPathArray[i].match(/(.js)$/)){
@@ -95,7 +95,7 @@ export default class MenuBuilder {
                     }
                    
                     if(files[0].match(/(.css)$/)){
-                      this.editor.send('css-open', '/Users/clbeemac3/Desktop/test_index/css/bootstrap.css');
+                      this.editor.send('css-open', files[0]);
                       var cssPathArray = files[0].split("/")
                       for(let i=0; i<cssPathArray.length; i++){
                         if (cssPathArray[i].match(/(.css)$/)){
@@ -317,7 +317,7 @@ export default class MenuBuilder {
                   }
                   
                   if(files[0].match(/(.js)$/)){
-                    this.editor.send('js-open', '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js');
+                    this.editor.send('js-open', files[0]);
                     var jsPathArray = files[0].split("/")
                     for(let i=0; i<jsPathArray.length; i++){
                       if (jsPathArray[i].match(/(.js)$/)){
@@ -327,7 +327,7 @@ export default class MenuBuilder {
                   }
                  
                   if(files[0].match(/(.css)$/)){
-                    this.editor.send('css-open', '/Users/clbeemac3/Desktop/test_index/css/bootstrap.css');
+                    this.editor.send('css-open', files[0]);
                     var cssPathArray = files[0].split("/")
                     for(let i=0; i<cssPathArray.length; i++){
                       if (cssPathArray[i].match(/(.css)$/)){
