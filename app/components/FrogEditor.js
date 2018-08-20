@@ -116,6 +116,7 @@ class FrogEditor extends React.Component {
         this.key_item += 1;
         this.config.iframeStyleFiles = this.state.csslist;
         this.props.pbUpdateHandler();
+        
       }
     });
   };

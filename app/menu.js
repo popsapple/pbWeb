@@ -29,7 +29,8 @@ export default class MenuBuilder {
   }
 
   setupDevelopmentEnvironment() {
-    this.mainWindow.openDevTools();
+    //this.mainWindow.openDevTools();
+    
     this.mainWindow.webContents.on('context-menu', (e, props) => {
       const { x, y } = props;
 
@@ -226,7 +227,7 @@ export default class MenuBuilder {
           accelerator: 'Command+N',
           selector: 'new file',
           click: () => {
-            console.log('NEW FILE');
+            console.log("new file")
           }
         },
         {
@@ -246,9 +247,16 @@ export default class MenuBuilder {
               },
               files => {
                 if (files.length === 1) {
-                  this.editor.send('file-open', files[0]);
+                  this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/test_index/index.html
+                  var pathArray = files[0].split("/")
+                  for(let i=0; i<pathArray.length; i++){
+                    if (pathArray[i].match(/(.html)$/)){
+                      this.mainWindow.setTitle(`[ ${pathArray[i]} ] - PageBuilder`)
+                    }
+                  }
                   this.editor.send('js-open', '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js');
                   this.editor.send('css-open', '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css');
+
                   saveOk = false;
                   selectedFilePath = files;
                 }

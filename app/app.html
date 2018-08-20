@@ -2,9 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>PageBuilder for HTML5</title>
+    <title id="appTitle">PageBuilder</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script>
+      window.jQuery = window.$ =  require('jquery/dist/jquery.min');
+      
       (function() {
         if (!process.env.HOT) {
           const link = document.createElement('link');
