@@ -1,7 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import FrogEditor from './FrogEditor';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import SideComponent from './SideComponent'
+
+import 'bootstrap/dist/css/bootstrap.css'
 
 export default class Home extends Component {
    constructor(){
@@ -13,14 +15,19 @@ export default class Home extends Component {
   	this.forceUpdate();
   }
   render() {
-    return (<div className='container'>
-    <header className='navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar' style={{backgroundColor: "#003399", height: '1.5em'}}>
-      <nav class="navbar navbar-light">
-        <span class="navbar-brand" style={{color: 'white'}}>PageBuilder</span>
-          {/* <a class="navbar-brand" href="/about" style={{color: 'white'}}>PageBuilder</a> */}
-      </nav>
-    </header>
-    <FrogEditor pbUpdateHandler={this.forceUpdateHandler} />
-  </div>);
+    return (
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-2 py-md-3 pl-md-5 bd-sidebar"> 
+          components
+        </div>
+        <main class="col-md-auto col-xl-8 py-md-3 pl-md-5 bd-content">
+          <FrogEditor pbUpdateHandler={this.forceUpdateHandler}/>
+        </main>
+        <div class="col-md-2 py-md-3 pl-md-5">
+          inspector
+        </div>
+      </div>
+    </div>);
   }
 }
