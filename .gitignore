@@ -50,3 +50,6 @@ main.js.map
 
 .idea
 npm-debug.log.*
+
+
+!node_modules/froala-editor/js/*
