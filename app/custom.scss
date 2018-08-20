@@ -4,12 +4,18 @@ li {
 	list-style: none;
 }
 
-.component_list {
-	border-left-width: 1px;
+.sidebar {
+	border:0px;
+	border-right-width: 1px;
 	border-style: solid;
-	border-color: $gray-lighter;
+	border-color: $gray-light;
+	background: $gray-lightst;
 	height: 100vh;
 	&.right {
-		border-right-width: 1px;
+		border-left-width: 1px;
 	}
+}
+
+.bd-content {
+	padding: 0px;
 }
