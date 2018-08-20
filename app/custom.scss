@@ -19,3 +19,16 @@ li {
 .bd-content {
 	padding: 0px;
 }
+
+.inspector {
+	position: relative;
+	.label {
+		position: absolute;
+		z-index: 100;
+		width: 20px;
+		height: 40px;
+		position: absolute;
+		top: calc(50% - 20px);
+		left: -20px;
+	}
+}
