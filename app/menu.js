@@ -76,7 +76,7 @@ export default class MenuBuilder {
                   if (files.length === 1) {
                     if(files[0].match(/(.html)$/)){
                       this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/test_index/index.html
-                      var htmlPathArray = files[0].split("/")
+                      var htmlPathArray = files[0].split("\\")
                       for(let i=0; i<htmlPathArray.length; i++){
                         if (htmlPathArray[i].match(/(.html)$/)){
                           this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
@@ -86,7 +86,7 @@ export default class MenuBuilder {
                     
                     if(files[0].match(/(.js)$/)){
                       this.editor.send('js-open', files[0]);
-                      var jsPathArray = files[0].split("/")
+                      var jsPathArray = files[0].split("\\")
                       for(let i=0; i<jsPathArray.length; i++){
                         if (jsPathArray[i].match(/(.js)$/)){
                           this.mainWindow.setTitle(`[ ${jsPathArray[i]} ] - PageBuilder`)
@@ -96,7 +96,7 @@ export default class MenuBuilder {
                    
                     if(files[0].match(/(.css)$/)){
                       this.editor.send('css-open', files[0]);
-                      var cssPathArray = files[0].split("/")
+                      var cssPathArray = files[0].split("\\")
                       for(let i=0; i<cssPathArray.length; i++){
                         if (cssPathArray[i].match(/(.css)$/)){
                           this.mainWindow.setTitle(`[ ${cssPathArray[i]} ] - PageBuilder`)
@@ -308,7 +308,7 @@ export default class MenuBuilder {
                 if (files.length === 1) {
                   if(files[0].match(/(.html)$/)){
                     this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/test_index/index.html
-                    var htmlPathArray = files[0].split("\\")
+                    var htmlPathArray = files[0].split("/")
                     for(let i=0; i<htmlPathArray.length; i++){
                       if (htmlPathArray[i].match(/(.html)$/)){
                         this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
@@ -318,7 +318,7 @@ export default class MenuBuilder {
                   
                   if(files[0].match(/(.js)$/)){
                     this.editor.send('js-open', files[0]);
-                    var jsPathArray = files[0].split("\\")
+                    var jsPathArray = files[0].split("/")
                     for(let i=0; i<jsPathArray.length; i++){
                       if (jsPathArray[i].match(/(.js)$/)){
                         this.mainWindow.setTitle(`[ ${jsPathArray[i]} ] - PageBuilder`)
@@ -328,7 +328,7 @@ export default class MenuBuilder {
                  
                   if(files[0].match(/(.css)$/)){
                     this.editor.send('css-open', files[0]);
-                    var cssPathArray = files[0].split("\\")
+                    var cssPathArray = files[0].split("/")
                     for(let i=0; i<cssPathArray.length; i++){
                       if (cssPathArray[i].match(/(.css)$/)){
                         this.mainWindow.setTitle(`[ ${cssPathArray[i]} ] - PageBuilder`)
