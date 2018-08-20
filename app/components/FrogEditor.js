@@ -14,6 +14,7 @@ class FrogEditor extends React.Component {
     this.state = {
       model: '',
       csslist: [],
+      jslist: [],
       createFileOk: true
     };
 
@@ -65,6 +66,10 @@ class FrogEditor extends React.Component {
       this.readFileIntoEditor(filename);
     });
 
+    ipcRenderer.on('js-open', (event, filename) => {
+      this.readJSIntoEditor(filename);
+    });
+
     ipcRenderer.on('css-open', (event, filename) => {
       this.readCSSIntoEditor(filename);
     });
@@ -110,6 +115,22 @@ class FrogEditor extends React.Component {
         });
         this.key_item += 1;
         this.config.iframeStyleFiles = this.state.csslist;
+        this.props.pbUpdateHandler();
+      }
+    });
+  };
+
+  readJSIntoEditor = theFileEntry => {
+    fs.readFile(theFileEntry.toString(), (err, data) => {
+      console.log(data);
+      if (err) {
+        console.log(`Read failed: ${err}`);
+      } else {
+        this.setState({
+          jslist: [...this.state.jslist, theFileEntry.toString()]
+        });
+        this.key_item += 1;
+        this.config.iframeScriptFiles = this.state.jslist;
         this.props.pbUpdateHandler();
       }
     });
