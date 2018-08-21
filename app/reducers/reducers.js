@@ -10,7 +10,6 @@ const counter = (state = {}, action) => {
 		      completed: false
 		    };
 		case FINDEDITOR:
-		console.log("findEditor02");
 			return Object.assign({}, state, {
 	        testing: "findEditor02"
 	      })  

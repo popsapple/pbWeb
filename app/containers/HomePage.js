@@ -1,25 +1,21 @@
 // @flow
 import React, { Component } from 'react';
 import Home from '../components/Home';
+import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';  
 import SideComponent from '../components/SideComponent';
 import SideInspector from '../components/SideInspector';
-import { createStore } from 'redux';
-import counterApp  from '../reducers/reducers';
-import { findEditor }  from '../actions/actions';
+import { SampleProvider } from '../context';
 
-const store = createStore(counterApp);
 
 export default class HomePage extends Component {
   constructor(){
     super();
   };
 
-  componentDidMount(){
-    store.dispatch(findEditor(this.main));
-  }
   render() {
     return (
+      <SampleProvider>
       <div className="container-fluid">
         <div className="row">
           <SideComponent />
@@ -29,6 +25,7 @@ export default class HomePage extends Component {
           <SideInspector />
         </div>
       </div>
+      </SampleProvider>
     );
   }
 }
