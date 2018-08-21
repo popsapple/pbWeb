@@ -9,6 +9,7 @@ import SideComponentSlider from './side/slider';
 export default class SideComponent extends React.Component{
     render(){
         return(
+        <div className="col-md-2 sidebar">
             <div className="component_list">
             	<ul>
             		<SideComponentPreview />
@@ -19,6 +20,7 @@ export default class SideComponent extends React.Component{
             		<SideComponentSlider />
             	</ul>
             </div>
+        </div>
         )
     }
 }
