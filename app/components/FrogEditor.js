@@ -6,6 +6,7 @@ import 'froala-editor/js/languages/ko';
 import fs from 'fs';
 
 import ReactFroalaWysiwyg from 'react-froala-wysiwyg';
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 
 class FrogEditor extends React.Component {
   constructor() {
@@ -185,13 +186,18 @@ class FrogEditor extends React.Component {
 
   render() {
     return (
-      <ReactFroalaWysiwyg
-        key={this.key_item}
-        config={this.config}
-        model={this.state.model}
-        onModelChange={this.handleModelChange}
-        onManualControllerReady={this.handleManualController}
-      />
+      <div>
+        <ReactFroalaWysiwyg
+          key={this.key_item}
+          config={this.config}
+          model={this.state.model}
+          onModelChange={this.handleModelChange}
+          onManualControllerReady={this.handleManualController}
+        />
+        <FroalaEditorView
+          model={this.state.model}
+        />
+      </div>
     );
   }
 }

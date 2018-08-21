@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class App extends React.Component {
   render() {
@@ -7,10 +8,10 @@ export default class App extends React.Component {
   }
 }
 
-App.propTypes = {
-  children: React.Node
-};
-
 App.defaultProps = {
   children: {}
+};
+
+App.propTypes = {
+  children: PropTypes.node
 };

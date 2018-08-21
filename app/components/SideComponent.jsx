@@ -8,11 +8,13 @@ import SideComponentSlider from './side/slider';
 
 export default class SideComponent extends React.Component{
     render(){
+        console.log("====================");
+        console.log(this.props.maincontainer);
         return(
         <div className="col-md-2 sidebar">
             <div className="component_list">
             	<ul>
-            		<SideComponentPreview />
+            		<SideComponentPreview maincontainer={this.props.maincontainer} />
             		<SideComponentData />
             		<SideComponentPolygon />
             		<SideComponentAccordion />
