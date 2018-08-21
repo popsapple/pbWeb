@@ -1,8 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import FrogEditor from './FrogEditor';
-import SideComponent from './SideComponent'
-
+import SideComponent from './SideComponent';
 
 export default class Home extends Component {
    constructor(){
