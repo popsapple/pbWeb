@@ -1,4 +1,4 @@
-import { app, dialog, Menu, shell, ipcMain } from 'electron';
+import { app, dialog, Menu, shell, ipcMain, ipcRenderer } from 'electron';
 const fs = require('fs')
 
 export default class MenuBuilder {
@@ -9,6 +9,12 @@ export default class MenuBuilder {
       console.log(`[ipcMain] got message from menu ${arg}`);
       this.editor = event.sender;
     });
+
+    // ipcMain.on('tree-loaded', (event, arg) => {
+    //   console.log(`[ipcMain] got message from menu ${arg}`);
+    //   // console.log(event)
+    //   this.renderer = event.sender;
+    // });
   }
 
   buildMenu() {
@@ -114,7 +120,6 @@ export default class MenuBuilder {
                     this.editor.send('html-save', files);
                     saveOk = false;
                     selectedFilePath = files;
-                    console.log('==title1==\n' + app.title);
                   }
                 );
               } else {
@@ -301,19 +306,17 @@ export default class MenuBuilder {
                     for(let i=0; i<htmlPathArray.length; i++){
                       if (htmlPathArray[i].match(/(.html)$/)){
                         this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
-                        var folderPath = files[0].replace(htmlPathArray[i],''); //특정문자 제거
+                        var folderPath = files[0].replace(htmlPathArray[i],'');
                         
                       }
                     }
                     fs.readdir(folderPath+'css', function(error, cssList){
-                      console.log('---------cssList-----------')
-                      console.log(cssList);
-                      this.editor.send('css-list', cssList)
+                      // console.log('---------cssList-----------')
+                      // console.log(cssList);
                     })
                     fs.readdir(folderPath+'js', function(error, jsList){
-                      console.log('---------jsList-----------')
-                      console.log(jsList);
-                      this.editor.send('js-list', jsList)
+                      // console.log('---------jsList-----------')
+                      // console.log(jsList);
                     })
                   }
                   
@@ -347,12 +350,12 @@ export default class MenuBuilder {
                   this.editor.send('html-save', files);
                   saveOk = false;
                   selectedFilePath = files;
-                  console.log('==title1==\n' + app.title);
                 }
               );
             } else {
               this.editor.send('html-save', selectedFilePath);
             }
+            console.log('저장되었습니다.')
           }
         },
         {
