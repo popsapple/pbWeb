@@ -7,6 +7,10 @@ import fs from 'fs';
 
 import ReactFroalaWysiwyg from 'react-froala-wysiwyg';
 import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
+import FrogEditorView from './FrogEditorView';
+
+import { connect } from 'react-redux';
+import { showEditorView, setEditorView } from '../actions/actions';
 
 class FrogEditor extends React.Component {
   constructor() {
@@ -108,8 +112,6 @@ class FrogEditor extends React.Component {
 
   readCSSIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
-      console.log(data);
-      console.log('=========css==========')
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
@@ -184,9 +186,7 @@ class FrogEditor extends React.Component {
           onModelChange={this.handleModelChange}
           onManualControllerReady={this.handleManualController}
         />
-        <FroalaEditorView
-          model={this.state.model}
-        />
+        <FrogEditorView storelist={this.props.storelist} model={this.state.model} />
       </div>
     );
   }

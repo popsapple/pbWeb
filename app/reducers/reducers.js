@@ -1,6 +1,6 @@
 import { SHOWEDITORVIEW } from '../actions/actions';
-import { FINDEDITOR } from '../actions/actions';
-import { combineReducers } from "redux"
+import { SETEDITORVIEW } from '../actions/actions';
+import { combineReducers } from "redux"//findEdito
 
 const counter = (state = {}, action) => {
     switch(action.type) {
@@ -9,9 +9,9 @@ const counter = (state = {}, action) => {
 		      text: "SHOWEDITORVIEW",
 		      completed: false
 		    };
-		case FINDEDITOR:
+		case SETEDITORVIEW:
 			return Object.assign({}, state, {
-	        testing: "findEditor02"
+	        editor_view: action.ele
 	      })  
         default:
             return state;
@@ -19,7 +19,7 @@ const counter = (state = {}, action) => {
 };
 
 const counterApp = combineReducers({
-    counter
+    default: counter
 });
 
 export default counterApp;

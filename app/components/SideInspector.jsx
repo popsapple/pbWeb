@@ -27,7 +27,7 @@ export default class SideInspector extends React.Component{
     		this.setState({
 	    		labal_draging: false
 	    	});
-    	},500);
+    	},700);
     	
     }
     DragLabelMove(event){

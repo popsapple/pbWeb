@@ -1,5 +1,5 @@
 export const SHOWEDITORVIEW = 'SHOWEDITORVIEW';
-export const FINDEDITOR = 'FINDEDITOR';
+export const SETEDITORVIEW = 'SETEDITORVIEW';
 
 
 export function showEditorView() {
@@ -8,9 +8,9 @@ export function showEditorView() {
     };
 }
 
-export function findEditor(){
-    console.log("findEditor");
+export function setEditorView(ele){
     return {
-        type: FINDEDITOR
+        type: SETEDITORVIEW,
+        ele: ele
     };
 }

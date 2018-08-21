@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { showEditorView, findEditor } from '../../actions/actions';
+import { showEditorView, setEditorView } from '../../actions/actions';
 import { SampleConsumer } from '../../context';
 
 export default class SideComponentPreview extends React.Component{
@@ -12,7 +12,14 @@ export default class SideComponentPreview extends React.Component{
 	};
 
 	previewOpen() {
-		console.log(this.store.getState());
+		let editor_view = this.store.getState().default.editor_view;
+		console.log("==================")
+		console.log(editor_view);
+		if(editor_view.className.indexOf("active") != -1){
+			editor_view.className = editor_view.className.replace(" active", "");
+		}else{
+			editor_view.className += " active";
+		}
 		//console.log(this.store.getState());//this.props.maincontainer.querySelector(".fr-view").className= "fr-view active";
 	}
 
@@ -21,9 +28,10 @@ export default class SideComponentPreview extends React.Component{
     		store: this.store
     	})
 	}
+
     render(){
         return(
-        	<div>
+	        <li>
 	        	<SampleConsumer>
 			      {
 			        (sample) => (
@@ -35,10 +43,8 @@ export default class SideComponentPreview extends React.Component{
 			        )
 			      }
 			    </SampleConsumer>
-	            <li>
-	    			<button onClick={this.previewOpen.bind(this)}>미리보기</button>
-	    		</li>
-    		</div>
+    			<button onClick={this.previewOpen.bind(this)}>미리보기</button>
+    		</li>
     	)
     }
 }
