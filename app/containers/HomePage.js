@@ -5,20 +5,19 @@ import SideComponent from '../components/SideComponent';
 import SideInspector from '../components/SideInspector';
 
 export default class HomePage extends Component {
+  constructor(){
+    super();
+  };
   render() {
     return (
       <div className="container-fluid">
-      <div className="row justify-content-center">
-        <div className="col-md-2 sidebar">
+        <div className="row">
           <SideComponent />
-        </div>
-        <main className="col-md-8 col-xl-8 bd-content">
-          <Home />
-        </main>
-        <div className="col-md-2 inspector sidebar right">
+          <main className="col-md-8 col-xl-8 bd-content fr-content">
+            <Home />
+          </main>
           <SideInspector />
-          </div>
-      </div>
+        </div>
       </div>
     );
   }

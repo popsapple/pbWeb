@@ -25,10 +25,17 @@ li {
 	.label {
 		position: absolute;
 		z-index: 100;
-		width: 20px;
+		width: 70px;
 		height: 40px;
 		position: absolute;
-		top: calc(50% - 20px);
-		left: -20px;
+		top: calc(50% - 35px);
+		left: -35px;
+	}
+	&.active {
+	    flex: auto;
+	    right: 0px;
+	    top: 0px;
+	    position: absolute;
+	    z-index: 10;
 	}
 }
