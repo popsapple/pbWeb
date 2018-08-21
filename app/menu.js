@@ -1,4 +1,5 @@
 import { app, dialog, Menu, shell, ipcMain } from 'electron';
+const fs = require('fs')
 
 export default class MenuBuilder {
   constructor(mainWindow) {
@@ -86,22 +87,10 @@ export default class MenuBuilder {
                     
                     if(files[0].match(/(.js)$/)){
                       this.editor.send('js-open', files[0]);
-                      var jsPathArray = files[0].split("\\")
-                      for(let i=0; i<jsPathArray.length; i++){
-                        if (jsPathArray[i].match(/(.js)$/)){
-                          this.mainWindow.setTitle(`[ ${jsPathArray[i]} ] - PageBuilder`)
-                        }
-                      }
                     }
                    
                     if(files[0].match(/(.css)$/)){
                       this.editor.send('css-open', files[0]);
-                      var cssPathArray = files[0].split("\\")
-                      for(let i=0; i<cssPathArray.length; i++){
-                        if (cssPathArray[i].match(/(.css)$/)){
-                          this.mainWindow.setTitle(`[ ${cssPathArray[i]} ] - PageBuilder`)
-                        }
-                      }
                     }
                     
                     saveOk = false;
@@ -307,33 +296,33 @@ export default class MenuBuilder {
               files => {
                 if (files.length === 1) {
                   if(files[0].match(/(.html)$/)){
-                    this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/test_index/index.html
-                    var htmlPathArray = files[0].split("\\")
+                    this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/sample_html/index.html
+                    var htmlPathArray = files[0].split("/")
                     for(let i=0; i<htmlPathArray.length; i++){
                       if (htmlPathArray[i].match(/(.html)$/)){
                         this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
+                        var folderPath = files[0].replace(htmlPathArray[i],''); //특정문자 제거
+                        
                       }
                     }
+                    fs.readdir(folderPath+'css', function(error, cssList){
+                      console.log('---------cssList-----------')
+                      console.log(cssList);
+                      this.editor.send('css-list', cssList)
+                    })
+                    fs.readdir(folderPath+'js', function(error, jsList){
+                      console.log('---------jsList-----------')
+                      console.log(jsList);
+                      this.editor.send('js-list', jsList)
+                    })
                   }
                   
                   if(files[0].match(/(.js)$/)){
                     this.editor.send('js-open', files[0]);
-                    var jsPathArray = files[0].split("\\")
-                    for(let i=0; i<jsPathArray.length; i++){
-                      if (jsPathArray[i].match(/(.js)$/)){
-                        this.mainWindow.setTitle(`[ ${jsPathArray[i]} ] - PageBuilder`)
-                      }
-                    }
                   }
                  
                   if(files[0].match(/(.css)$/)){
                     this.editor.send('css-open', files[0]);
-                    var cssPathArray = files[0].split("\\")
-                    for(let i=0; i<cssPathArray.length; i++){
-                      if (cssPathArray[i].match(/(.css)$/)){
-                        this.mainWindow.setTitle(`[ ${cssPathArray[i]} ] - PageBuilder`)
-                      }
-                    }
                   }
                   
                   saveOk = false;
