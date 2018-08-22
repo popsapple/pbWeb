@@ -82,12 +82,13 @@ export default class MenuBuilder {
                 files => {
                   if (files.length === 1) {
                     if(files[0].match(/(.html)$/)){
-                      this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/sample_html/index.html
+                      this.editor.send('file-open', files[0]); //선택한 파일의 경로. ex)/Users/clbeemac3/Desktop/test_index/index.html
                       var htmlPathArray = files[0].split("\\")
                       for(let i=0; i<htmlPathArray.length; i++){
                         if (htmlPathArray[i].match(/(.html)$/)){
                           this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
                           var folderPath = files[0].replace(htmlPathArray[i],'');
+                          
                         }
                       }
   
@@ -134,7 +135,6 @@ export default class MenuBuilder {
               } else {
                 this.editor.send('html-save', selectedFilePath);
               }
-              console.log('저장되었습니다.')
             }
           },
           {
@@ -317,6 +317,7 @@ export default class MenuBuilder {
                       if (htmlPathArray[i].match(/(.html)$/)){
                         this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
                         var folderPath = files[0].replace(htmlPathArray[i],'');
+                        
                       }
                     }
 

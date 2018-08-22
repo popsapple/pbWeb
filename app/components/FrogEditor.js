@@ -108,12 +108,24 @@ class FrogEditor extends React.Component {
       } else {
         this.handleModelChange(String(data));
 
-        var start = parsingData.indexOf('<!--[')
-        var end = parsingData.indexOf(']-->')
-        var parsing = parsingData.substring(start+6, end)
-        var json = JSON.parse(parsing)
-        console.log(json)
-        
+        if(parsingData.indexOf('<!--[') != -1){
+          var start = parsingData.indexOf('<!--[')
+          var end = parsingData.indexOf(']-->')
+          var parsing = parsingData.substring(start+6, end)
+          var json = JSON.parse(parsing)
+          for(var i=0; i<json.js.length; i++){
+            if(json.js[i].indexOf("&is_use='true'" != -1)){
+              json.js[i] = json.js[i].split("&")[0]; 
+              this.readCSSIntoEditor(json.js[i])
+            }
+          }
+          for(var i=0; i<json.css.length; i++){
+            if(json.css[i].indexOf("&is_use='true'" != -1)){
+              json.css[i] = json.css[i].split("&")[0]; 
+              this.readCSSIntoEditor(json.css[i])
+            }
+          }
+        }   
       }
     });
   };
