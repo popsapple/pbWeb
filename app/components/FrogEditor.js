@@ -85,6 +85,7 @@ class FrogEditor extends React.Component {
   }
 
   handleModelChange(model) {
+
     this.setState({
       model: model
     });
@@ -98,22 +99,17 @@ class FrogEditor extends React.Component {
   readFileIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
       var parsingData = data.toString()
-      // console.log('-------parsingData---------')
-      // console.log(parsingData)
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
         this.handleModelChange(String(data));
 
-        var start = parsingData.indexOf('<!-- [[')
-        var end = parsingData.indexOf(']] -->')
-        var parsing = parsingData.substring(start+7, end)
-        console.log('-------parsing---------')
-        console.log(parsing)
+        var start = parsingData.indexOf('<!--[')
+        var end = parsingData.indexOf(']-->')
+        var parsing = parsingData.substring(start+6, end)
+        var json = JSON.parse(parsing)
+        console.log(json)
         
-        if(parsing.indexOf('JS') != -1){
-          console.log('-------JS_IN-------')
-        }
       }
     });
   };

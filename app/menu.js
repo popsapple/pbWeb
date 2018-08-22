@@ -307,16 +307,15 @@ export default class MenuBuilder {
                       if (htmlPathArray[i].match(/(.html)$/)){
                         this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
                         var folderPath = files[0].replace(htmlPathArray[i],'');
-                        
                       }
                     }
-                    fs.readdir(folderPath+'css', function(error, cssList){
-                      // console.log('---------cssList-----------')
-                      // console.log(cssList);
+
+                    fs.readdir(folderPath+'css', (error, cssList) => {
+                      this.editor.send('css-list', cssList);
+
                     })
-                    fs.readdir(folderPath+'js', function(error, jsList){
-                      // console.log('---------jsList-----------')
-                      // console.log(jsList);
+                    fs.readdir(folderPath+'js', (error, jsList) => {
+                      this.editor.send('js-list', jsList);
                     })
                   }
                   
