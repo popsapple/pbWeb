@@ -1,21 +1,40 @@
 @import "~bootstrap/scss/bootstrap";
+@import "./resources/font/font";
 
+* {
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+}
+html body,
+html body * { 
+	font-family: 'NanumSquare', sans-serif; 
+}
 li {
 	list-style: none;
 }
 
 .sidebar {
+	position: fixed;
 	border:0px;
+	z-index: 10;
 	border-right-width: 1px;
 	border-style: solid;
-	border-color: $gray-light;
-	background: $gray-lightst;
+	border-color: $gray-lightst;
+	background: $white;
 	height: 100vh;
+	padding: 10px;
+	box-sizing: border-box;
+	box-shadow: $gray-lighter 0px 0px 8px 1px;
+    top: 10px;
+    height: calc(100vh - 10px);
 	&.right {
 		border-left-width: 1px;
 	}
 }
-
+.bd-content{
+	@include make-col-offset(1)
+}
 .bd-content {
 	padding: 0px;
 }
@@ -35,7 +54,6 @@ li {
 	&.active {
 	    flex: auto;
 	    right: 0px;
-	    top: 0px;
 	    position: absolute;
 	    z-index: 10001;
 	}
@@ -49,16 +67,21 @@ iframe.fr-iframe,
 .fr-box.fr-basic.fr-top .fr-wrapper {
 	height: calc(100vh - 43px) !important;
 }
-
+html .fr-toolbar.fr-top {
+    border: 0px;
+}
 .editorview {
 	display: none;
 	position: absolute;
-	top:300px;
-	left:30px;
-	width:300px;
-	height:250px;
-	border: 1px solid #000000;
-	z-index: 10000;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+	border: 1px solid $gray-lightst;
+	border-top: 0px;
+	border-bottom: 0px;
+	z-index: 10;
+	background: $white;
 	&.active {
 		display: block;
 	}
@@ -85,7 +108,7 @@ iframe.fr-iframe,
 	> button {
 		position: absolute;
 		z-index: 10000;
-		bottom:0px;
+		bottom:30px;
 		right:30px;
 		width: 30px;
 		height: 30px;

@@ -27,6 +27,7 @@ class FrogEditor extends React.Component {
       charCounterCount: false,
       reactIgnoreAttrs: ['class', 'id'],
       language: 'ko',
+      codeMirror: window.CodeMirror,
       fullPage: true,
       quickInsertButtons: ['image', 'table'],
       lineBreakerTags: [
@@ -89,7 +90,6 @@ class FrogEditor extends React.Component {
   }
 
   handleModelChange(model) {
-
     this.setState({
       model: model
     });
@@ -107,7 +107,6 @@ class FrogEditor extends React.Component {
         console.log(`Read failed: ${err}`);
       } else {
         this.handleModelChange(String(data));
-
         if(parsingData.indexOf('<!--[') != -1){
           var start = parsingData.indexOf('<!--[')
           var end = parsingData.indexOf(']-->')
@@ -140,8 +139,6 @@ class FrogEditor extends React.Component {
         });
         this.key_item += 1;
         this.config.iframeStyleFiles = this.state.csslist;
-        console.log("this.config.iframeStyleFiles")
-        console.log(this.config.iframeStyleFiles);
         this.props.pbUpdateHandler();
         
       }
@@ -206,7 +203,7 @@ class FrogEditor extends React.Component {
           onModelChange={this.handleModelChange}
           onManualControllerReady={this.handleManualController}
         />
-        <FrogEditorView storelist={this.props.storelist} model={this.state.model} />
+        <FrogEditorView model={this.state.model} />
       </div>
     );
   }

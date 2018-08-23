@@ -4,7 +4,7 @@ export default class SideComponentData extends React.Component{
     render(){
         return(
             <li>
-    			<button>미리보기</button>
+    			<button>매핑데이터</button>
     		</li>
         )
     }

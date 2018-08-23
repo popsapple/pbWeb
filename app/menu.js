@@ -9,12 +9,6 @@ export default class MenuBuilder {
       console.log(`[ipcMain] got message from menu ${arg}`);
       this.editor = event.sender;
     });
-
-    // ipcMain.on('tree-loaded', (event, arg) => {
-    //   console.log(`[ipcMain] got message from menu ${arg}`);
-    //   // console.log(event)
-    //   this.renderer = event.sender;
-    // });
   }
 
   buildMenu() {
@@ -174,6 +168,16 @@ export default class MenuBuilder {
         submenu:
           process.env.NODE_ENV === 'development'
             ? [
+                {
+                  label: '&Preview',
+                  accelerator: 'Ctrl+P',
+                  click: () => {
+                    this.editor.send('preview-open',()=>{
+                      console.log("AAAA")
+                    });
+                    //this.mainWindow.webContents.reload();
+                  }
+                },
                 {
                   label: '&Reload',
                   accelerator: 'Ctrl+R',
@@ -447,6 +451,16 @@ export default class MenuBuilder {
     const subMenuViewProd = {
       label: '보기',
       submenu: [
+        {
+          label: 'Preview',
+          accelerator: 'Ctrl+Command+P',
+          click: () => {
+            this.editor.send('preview-open',()=>{
+              console.log("AAAA")
+            });
+            //this.mainWindow.webContents.reload();
+          }
+        },
         {
           label: 'Toggle Full Screen',
           accelerator: 'Ctrl+Command+F',
