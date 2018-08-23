@@ -23,6 +23,7 @@ class FrogEditor extends React.Component {
       createFileOk: true
     };
 
+    this.editor;
     this.config = {
       charCounterCount: false,
       reactIgnoreAttrs: ['class', 'id'],
@@ -49,14 +50,48 @@ class FrogEditor extends React.Component {
       theme: 'royal',
       events: {
         'froalaEditor.initialized': (e, editor) => {
-          editor.events.on('dragover', dragEvent => {
-            dragEvent.preventDefault();
-          });
-          editor.events.on('dragstart', (dragEvent, id) => {
-            if (id) {
-              dragEvent.nativeEvent.dataTransfer.setData('id', id);
+          console.log('editor 초기화됨')
+          this.editor = editor;
+
+          editor.events.on('dragover',ev => {  
+            ev.preventDefault();
+          })
+          editor.events.on('dragstart',(ev,id) => {  
+            console.log('dragstart',id)
+            if(id) { 
+              ev.nativeEvent.dataTransfer.setData('id', id)
             }
-          });
+          })
+
+          editor.events.on('drop', dropEvent => {
+            const trtd = dropEvent.originalEvent.dataTransfer.getData('id')
+            if (!trtd) {
+              return
+            }
+            // Focus at the current posisiton.
+            // console.log('drop event !')
+            editor.markers.insertAtPoint(dropEvent.originalEvent)
+            var $marker = editor.$el.find('.fr-marker')
+            $marker.replaceWith($.FroalaEditor.MARKERS)
+            editor.selection.restore()
+     
+            // Save into undo stack the current position.
+            if (!editor.undo.canDo()) {
+              editor.undo.saveStep()
+            }
+            // console.log(`dataTrasfer: ${trtd}::::`)
+            // Insert HTML.            
+            editor.html.insert(trtd)
+            
+            // Save into undo stack the changes.
+            editor.undo.saveStep()
+     
+            // Stop event propagation.
+            dropEvent.preventDefault()
+            dropEvent.stopPropagation()
+
+            return false
+          }, true)
         }
       }
     };
@@ -91,6 +126,7 @@ class FrogEditor extends React.Component {
     ipcRenderer.on('html-saveAs', (event, filename) => {
       this.saveAsHTML(filename);
     });
+
   }
 
   handleModelChange(model) {

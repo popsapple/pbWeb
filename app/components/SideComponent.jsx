@@ -11,8 +11,8 @@ export default class SideComponent extends React.Component{
             	<ul>
             		<SideComponentData />
             		<SideComponentPolygon />
-                    <SideComponentOther />
             	</ul>
+                <SideComponentOther />
             </div>
         </div>
         )

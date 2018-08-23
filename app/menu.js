@@ -4,10 +4,14 @@ const fs = require('fs')
 export default class MenuBuilder {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
-
+    
     ipcMain.on('editor-loaded', (event, arg) => {
       console.log(`[ipcMain] got message from menu ${arg}`);
       this.editor = event.sender;
+    });
+    
+    ipcRenderer.on('asynchronous-message', (event, arg) => {
+      console.log(arg) // "pong"이 출력됩니다.
     });
   }
 
