@@ -11,12 +11,24 @@ export default class WorkingTree extends React.Component{
     }
     componentWillMount(){
         ipcRenderer.on('css-list', (event, csslist) => {
-            this.InputCSS(csslist)
-            
+            if(csslist != null){
+                this.InputCSS(csslist)
+                console.log(csslist)
+            } else {
+                console.log('no css file')
+                var css = "bootstrap.css"
+                this.InputCSS([css])
+            }
         });
 
         ipcRenderer.on('js-list', (event, jslist) => {
-            this.InputJS(jslist)
+            if(jslist != null){
+                this.InputJS(jslist)
+            } else {
+                console.log('no js file')
+                var js = "bootstrap.js"
+                this.InputJS([js])
+            }
         });
     }
 

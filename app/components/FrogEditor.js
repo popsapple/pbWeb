@@ -68,6 +68,10 @@ class FrogEditor extends React.Component {
   componentWillMount() {
     ipcRenderer.send('editor-loaded', 'FrogEditor');
 
+    ipcRenderer.on('new-file', (event, filename) => {
+      this.makeFileIntoEditor(filename);
+    });
+
     ipcRenderer.on('file-open', (event, filename) => {
       this.readFileIntoEditor(filename);
     });
@@ -100,31 +104,50 @@ class FrogEditor extends React.Component {
     item.initialize(this.config);
   }
 
+  makeFileIntoEditor = theFileEntry => {
+    fs.readFile(theFileEntry.toString(), (err, data) => {
+      if (err) {
+        console.log(`Read failed: ${err}`);
+      } else {
+        this.setState({
+          model: ''
+        })
+      }
+    });
+  };
+
   readFileIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
-      var parsingData = data.toString()
+      var htmlCode = data.toString()
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
         this.handleModelChange(String(data));
-        if(parsingData.indexOf('<!--[') != -1){
-          var start = parsingData.indexOf('<!--[')
-          var end = parsingData.indexOf(']-->')
-          var parsing = parsingData.substring(start+6, end)
-          var json = JSON.parse(parsing)
-          for(var i=0; i<json.js.length; i++){
-            if(json.js[i].indexOf("&is_use='true'" != -1)){
-              json.js[i] = json.js[i].split("&")[0]; 
-              this.readCSSIntoEditor(json.js[i])
+        if(htmlCode.indexOf('<!--[') != -1){
+          var start = htmlCode.indexOf('<!--[')
+          var end = htmlCode.indexOf(']-->')
+          var annotation = htmlCode.substring(start+6, end)
+          var toJson = JSON.parse(annotation)
+          for(var i=0; i<toJson.js.length; i++){
+            if(toJson.js[i].indexOf("&is_use='true'" != -1)){
+              toJson.js[i] = toJson.js[i].split("&")[0]; 
+              this.readCSSIntoEditor(toJson.js[i])
             }
           }
-          for(var i=0; i<json.css.length; i++){
-            if(json.css[i].indexOf("&is_use='true'" != -1)){
-              json.css[i] = json.css[i].split("&")[0]; 
-              this.readCSSIntoEditor(json.css[i])
+          for(var i=0; i<toJson.css.length; i++){
+            if(toJson.css[i].indexOf("&is_use='true'" != -1)){
+              toJson.css[i] = toJson.css[i].split("&")[0]; 
+              this.readCSSIntoEditor(toJson.css[i])
             }
           }
-        }   
+        } 
+        else{
+          var defaultCSSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
+          this.readCSSIntoEditor(defaultCSSPath)
+
+          var defaultJSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js'
+          this.readJSIntoEditor(defaultJSPath)
+        }
       }
     });
   };
@@ -147,7 +170,6 @@ class FrogEditor extends React.Component {
 
   readJSIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
-      console.log(data);
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {

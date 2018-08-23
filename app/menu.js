@@ -173,7 +173,6 @@ export default class MenuBuilder {
                   accelerator: 'Ctrl+P',
                   click: () => {
                     this.editor.send('preview-open',()=>{
-                      console.log("AAAA")
                     });
                     //this.mainWindow.webContents.reload();
                   }
@@ -295,6 +294,16 @@ export default class MenuBuilder {
           selector: 'new file',
           click: () => {
             console.log("new file")
+            var newHTML_url = "/Users/clbeemac3/Documents/ReactElectron/app/resources/untitled.html"
+            this.editor.send('file-open', newHTML_url)
+            var htmlPathArray = newHTML_url.split("/")
+            for(let i=0; i<htmlPathArray.length; i++){
+              if (htmlPathArray[i].match(/(.html)$/)){
+                this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
+                var folderPath = newHTML_url.replace(htmlPathArray[i],'');
+              }
+            }
+            saveOk = true;
           }
         },
         {
@@ -324,10 +333,8 @@ export default class MenuBuilder {
                         
                       }
                     }
-
                     fs.readdir(folderPath+'css', (error, cssList) => {
                       this.editor.send('css-list', cssList);
-
                     })
                     fs.readdir(folderPath+'js', (error, jsList) => {
                       this.editor.send('js-list', jsList);
@@ -362,6 +369,16 @@ export default class MenuBuilder {
                 },
                 files => {
                   this.editor.send('html-save', files);
+                  // if(files[0].match(/(.html)$/)){
+                  //   this.editor.send('file-open', files[0]);
+                  //   var htmlPathArray = files[0].split("/")
+                  //   for(let i=0; i<htmlPathArray.length; i++){
+                  //     if (htmlPathArray[i].match(/(.html)$/)){
+                  //       this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
+                  //       var folderPath = files[0].replace(htmlPathArray[i],'');
+                  //     }
+                  //   }
+                  // }
                   saveOk = false;
                   selectedFilePath = files;
                 }
@@ -422,9 +439,19 @@ export default class MenuBuilder {
         }
       ]
     };
+    
     const subMenuViewDev = {
       label: 'View',
       submenu: [
+        {
+          label: 'Preview',
+          accelerator: 'Ctrl+Command+P',
+          click: () => {
+            this.editor.send('preview-open',()=>{
+            });
+            //this.mainWindow.webContents.reload();
+          }
+        },
         {
           label: 'Reload',
           accelerator: 'Command+R',
@@ -448,28 +475,7 @@ export default class MenuBuilder {
         }
       ]
     };
-    const subMenuViewProd = {
-      label: '보기',
-      submenu: [
-        {
-          label: 'Preview',
-          accelerator: 'Ctrl+Command+P',
-          click: () => {
-            this.editor.send('preview-open',()=>{
-              console.log("AAAA")
-            });
-            //this.mainWindow.webContents.reload();
-          }
-        },
-        {
-          label: 'Toggle Full Screen',
-          accelerator: 'Ctrl+Command+F',
-          click: () => {
-            this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
-          }
-        }
-      ]
-    };
+    
     const subMenuWindow = {
       label: 'Window',
       submenu: [
