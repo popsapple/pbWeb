@@ -2,6 +2,8 @@ import React from 'react';
 import fs from 'fs';
 import { connect } from 'react-redux';
 
+const {ipcRenderer} = require('electron');
+
 
 export default class SideComponentList {
 	constructor() {
@@ -12,10 +14,10 @@ export default class SideComponentList {
 			layout_input_lg: "layout_input_lg",
 			layout_submit_btn: "layout_submit_btn",
 			layout_val: {
-				xs: "1 7 1",
-				sm: "2 2 2",
-				md: "3 3 3",
-				lg: "4 4 3 1"
+				xs: "6 6",
+				sm: "4 4 4",
+				md: "6 6",
+				lg: "3 3 3 3"
 			}
 		}
 
@@ -26,18 +28,18 @@ export default class SideComponentList {
 				"type": "layout",
 				"id": 'other11',
 				"iconhml": `<li>
-					<input type="text" id="${this.state.layout_input_xs}" />
-					<input type="text" id="${this.state.layout_input_sm}" />
-					<input type="text" id="${this.state.layout_input_md}" />
-					<input type="text" id="${this.state.layout_input_lg}" />
-					<button id="${this.state.layout_submit_btn}">확인</button>
+					<input type="text" id="${this.state.layout_input_xs}" value="6 6" />
+					<input type="text" id="${this.state.layout_input_sm}" value="4 4 4" />
+					<input type="text" id="${this.state.layout_input_md}" value="6 6" />
+					<input type="text" id="${this.state.layout_input_lg}" value="3 3 3 3" />
+					<button draggable="true" id="${this.state.layout_submit_btn}">확인</button>
 				</li>`,
 				"html": `<div></div>`
 			},
 			{
 				"type": "dropdown",
 				"id": 'other01',
-				"iconhml": `<li><button>드롭다운</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton1">드롭다운</button></li>`,
 				"html": `<div class="dropdown">
 				  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
 				    Dropdown
@@ -54,7 +56,7 @@ export default class SideComponentList {
 			{
 				"type": "buttongroup",
 				"id": 'other02',
-				"iconhml": `<li><button>버튼그룹</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton2">버튼그룹</button></li>`,
 				"html": `<div class="btn-group" role="group" aria-label="...">
 				  <button type="button" class="btn btn-default">Left</button>
 				  <button type="button" class="btn btn-default">Middle</button>
@@ -64,7 +66,7 @@ export default class SideComponentList {
 			{
 				"type": "droupup",
 				"id": 'other03',
-				"iconhml": `<li><button>드롭업</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton3">드롭업</button></li>`,
 				"html": `<div class="btn-group dropup">
 				  <button type="button" class="btn btn-default">Dropup</button>
 				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -79,7 +81,7 @@ export default class SideComponentList {
 			{
 				"type": "inputstyle",
 				"id": 'other04',
-				"iconhml": `<li><button>인풋</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton4">인풋</button></li>`,
 				"html": `<div class="input-group">
 				  <span class="input-group-addon" id="basic-addon1">@</span>
 				  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
@@ -88,7 +90,7 @@ export default class SideComponentList {
 			{
 				"type": "tabstyle",
 				"id": 'other05',
-				"iconhml": `<li><button>탭</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton5">탭</button></li>`,
 				"html": `<ul class="nav nav-tabs">
 				  <li role="presentation" class="active"><a href="#">Home</a></li>
 				  <li role="presentation"><a href="#">Profile</a></li>
@@ -98,7 +100,7 @@ export default class SideComponentList {
 			{
 				"type": "tabstyle02",
 				"id": 'other06',
-				"iconhml": `<li><button>탭(알약형)</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton6">탭(알약형)</button></li>`,
 				"html": `<ul class="nav nav-pills">
 				  <li role="presentation" class="active"><a href="#">Home</a></li>
 				  <li role="presentation"><a href="#">Profile</a></li>
@@ -108,7 +110,7 @@ export default class SideComponentList {
 			{
 				"type": "navigation",
 				"id": 'other07',
-				"iconhml": `<li><button>네비게이션</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton7">네비게이션</button></li>`,
 				"html": `<nav class="navbar navbar-default">
 				  <div class="container-fluid">
 				    <!-- Brand and toggle get grouped for better mobile display -->
@@ -165,7 +167,7 @@ export default class SideComponentList {
 			{
 				"type": "pagination",
 				"id": 'other07',
-				"iconhml": `<li><button>페이지네이션</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton8">페이지네이션</button></li>`,
 				"html": `<nav>
 				  <ul class="pagination">
 				    <li>
@@ -189,7 +191,7 @@ export default class SideComponentList {
 			{
 				"type": "label",
 				"id": 'other08',
-				"iconhml": `<li><button>라벨</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton9">라벨</button></li>`,
 				"html": `<span class="label label-default">Default</span>
 				<span class="label label-primary">Primary</span>
 				<span class="label label-success">Success</span>
@@ -200,7 +202,7 @@ export default class SideComponentList {
 			{
 				"type": "jumbotron",
 				"id": 'other09',
-				"iconhml": `<li><button>점보트론</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton10">점보트론</button></li>`,
 				"html": `<div class="jumbotron">
 				  <h1>Hello, world!</h1>
 				  <p>...</p>
@@ -210,7 +212,7 @@ export default class SideComponentList {
 			{
 				"type": "progress",
 				"id": 'other10',
-				"iconhml": `<li><button>진행바</button></li>`,
+				"iconhml": `<li><button draggable="true" id="ComponentButton11">진행바</button></li>`,
 				"html": `<div class="progress">
 				  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
 				    60%
@@ -226,7 +228,6 @@ export default class SideComponentList {
 
 
 	LayoutContainerSetting(xs = "6 6", sm = "1 4 4", md = "2 4 4", lg = "3 3 3 3"){ // 만약 없애고 싶으면 0, 새 줄로 떨구고 싶으면 12
-		console.log("LayoutContainerSetting");
 		var grid = [xs,sm,md,lg];
 		var grid_devied = ["","","","","","","","","","","",""];
 		var grid_devied_ = [];
@@ -262,40 +263,50 @@ export default class SideComponentList {
 						break;			
 				}
 				for(var i = 0; i < max_divied; i++){
+
+					grid_class[i] += " col-"+type+"-"+0; // 안쓰면 자동으로 0이 들어가도록
+					match[i] ? sum+=parseInt(match[i]) : '';
 					match.map((grid_num, idx)=>{
 						if(i == idx){
 							grid_class[i] += " col-"+type+"-"+grid_num;
 						}
-						if(i == 0){
-							sum+=parseInt(grid_num);
-							console.log("ele_idx :: "+ele_idx+" :: sum :: "+sum);
-
-							if(sum > 12){
-								err_ele = "over";
-								console.log("열두개가 넘는게 있음 :: "+count_list);
-							};
-						}
 					});
+
 				}
 			}
+			if(sum > 12 || sum < 12){
+				err_ele = "over";
+				console.log("열두개가 아닌게 있음 :: "+sum);
+			};
 			count_list++;
 		});
 
 		grid_devied.map((ele, idx)=>{
 			if(grid_class[idx]){
-				ele = "<div class='layout_box"+grid_class[idx]+"'></div>";
+				ele = "<div class='layout_box"+grid_class[idx]+"'><p><br/></p></div>";
 				grid_devied_.push(ele);
 			}
 		})
-		console.log("err_ele :: "+err_ele);
+
 		if(err_ele != ""){
+			this.layoutDivied.html = "layoutnone";
 			if(err_ele == "over"){
-				alert("그리드의 총 합이 12개를 넘을 수 없습니다");
+				alert("그리드의 총 합이 12개여야 합니다");
 			}else{
 				alert("그리드는 숫자와 공백으로만 입력해 주세요");
 			}
+		}else{
+			this.layoutDivied.html = "<div class='container'>"+grid_devied_.join("")+"</div>";
 		}
-		this.layoutDivied.html = grid_devied_.join("");
+		
+	}
+
+	InsertCompomentEditor(idx){
+		console.log("evented!!! "+this.list[idx].html.indexOf("layoutnone"));
+		if(this.list[idx].html.indexOf("layoutnone") == -1){
+			ipcRenderer.send('asynchronous-message', this.list[idx].html);
+		}
+		
 	}
 
 	ready(){
@@ -312,9 +323,24 @@ export default class SideComponentList {
 			this.ChangeState = {layout_val: Object.assign({...this.state.layout_val},{lg: event.target.value})};
 		},false);
 
-		document.getElementById(this.state.layout_submit_btn).addEventListener("click",(event)=>{
+		document.getElementById(this.state.layout_submit_btn).addEventListener("dragstart",(event)=>{
 			this.LayoutContainerSetting(this.state.layout_val.xs,this.state.layout_val.sm,this.state.layout_val.md,this.state.layout_val.lg);
+		    if(this.layoutDivied.html.indexOf("layoutnone") == -1){
+				ipcRenderer.send('asynchronous-message', this.layoutDivied.html);
+			}
 		},false);
+
+		for(var index = 0; index < this.list.length; index++){
+			if(index == 0){
+				continue;
+			}
+			((index)=>{
+				document.getElementById("ComponentButton"+index).removeEventListener("dragstart",()=>{});
+				document.getElementById("ComponentButton"+index).addEventListener("dragstart",(event)=>{
+					this.InsertCompomentEditor(index);
+				},false);
+			})(index)
+		}
 
 		this.layoutDivied = this.list.find(function(element) {
 		  return element.id.indexOf("other11") != -1;

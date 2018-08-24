@@ -9,10 +9,10 @@ export default class MenuBuilder {
       console.log(`[ipcMain] got message from menu ${arg}`);
       this.editor = event.sender;
     });
-    
-    ipcRenderer.on('asynchronous-message', (event, arg) => {
-      console.log(arg) // "pong"이 출력됩니다.
-    });
+
+    ipcMain.on('asynchronous-message', (event, arg) => {
+      event.sender.send('asynchronous-reply', arg)
+    })
   }
 
   buildMenu() {
