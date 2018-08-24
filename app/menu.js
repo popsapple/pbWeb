@@ -9,10 +9,7 @@ export default class MenuBuilder {
       console.log(`[ipcMain] got message from menu ${arg}`);
       this.editor = event.sender;
     });
-    
-    ipcRenderer.on('asynchronous-message', (event, arg) => {
-      console.log(arg) // "pong"이 출력됩니다.
-    });
+
   }
 
   buildMenu() {
@@ -297,18 +294,37 @@ export default class MenuBuilder {
           accelerator: 'Command+N',
           selector: 'new file',
           click: () => {
-            console.log("new file")
             var newHTML_url = "/Users/clbeemac3/Documents/ReactElectron/app/resources/untitled.html"
-            this.editor.send('file-open', newHTML_url)
+            this.editor.send('new-file', newHTML_url)
             var htmlPathArray = newHTML_url.split("/")
             for(let i=0; i<htmlPathArray.length; i++){
               if (htmlPathArray[i].match(/(.html)$/)){
                 this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
                 var folderPath = newHTML_url.replace(htmlPathArray[i],'');
               }
+              fs.readdir(folderPath+'css', (error, cssList) => {
+                this.editor.send('css-list', cssList);
+              })
+              fs.readdir(folderPath+'js', (error, jsList) => {
+                  this.editor.send('js-list', jsList);
+              })
             }
+            
+
+
             saveOk = true;
-          }
+
+            // fs.mkdir(folderPath+'css', (err) => {
+            //   if(err){
+            //     console.log(err)
+            //     return false;
+            //   } else {
+            //     console.log('make directory finished')
+            //     return true;
+            //   }
+            // })
+          },
+        
         },
         {
           label: 'Open...',
@@ -338,20 +354,20 @@ export default class MenuBuilder {
                       }
                     }
                     fs.readdir(folderPath+'css', (error, cssList) => {
-                      this.editor.send('css-list', cssList);
+                        this.editor.send('css-list', cssList);
                     })
                     fs.readdir(folderPath+'js', (error, jsList) => {
-                      this.editor.send('js-list', jsList);
+                        this.editor.send('js-list', jsList);
                     })
                   }
                   
-                  if(files[0].match(/(.js)$/)){
-                    this.editor.send('js-open', files[0]);
-                  }
+                  // if(files[0].match(/(.js)$/)){
+                  //   this.editor.send('js-open', files[0]);
+                  // }
                  
-                  if(files[0].match(/(.css)$/)){
-                    this.editor.send('css-open', files[0]);
-                  }
+                  // if(files[0].match(/(.css)$/)){
+                  //   this.editor.send('css-open', files[0]);
+                  // }
                   
                   saveOk = false;
                   selectedFilePath = files;
@@ -372,7 +388,19 @@ export default class MenuBuilder {
                   title: 'PageBuilder 저장'
                 },
                 files => {
-                  this.editor.send('html-save', files);
+                  if(files == 'undefined'){
+                    alert('Please enter the contents')
+                  } else{
+                    this.editor.send('html-save', files);
+
+                  console.log('====files====')
+                  console.log(files)
+                  // theFileEntry + '.html'
+
+                  //저장한 title로 app title 설정하는 부분
+                  this.mainWindow.setTitle(`[ ${files}.html ] - PageBuilder`)
+
+
                   // if(files[0].match(/(.html)$/)){
                   //   this.editor.send('file-open', files[0]);
                   //   var htmlPathArray = files[0].split("/")
@@ -383,14 +411,15 @@ export default class MenuBuilder {
                   //     }
                   //   }
                   // }
+
                   saveOk = false;
                   selectedFilePath = files;
+                  }
                 }
               );
             } else {
               this.editor.send('html-save', selectedFilePath);
             }
-            console.log('저장되었습니다.')
           }
         },
         {

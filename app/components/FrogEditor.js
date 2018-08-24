@@ -127,6 +127,11 @@ class FrogEditor extends React.Component {
       this.saveAsHTML(filename);
     });
 
+    
+    // ipcRenderer.on('asynchronous-message', (event, arg) => {
+    //   console.log(arg) // "pong"이 출력됩니다.
+    // });
+
   }
 
   handleModelChange(model) {
@@ -145,9 +150,25 @@ class FrogEditor extends React.Component {
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
-        this.setState({
-          model: ''
-        })
+        var htmlCode = data.toString()
+        this.handleModelChange(String(data));
+        var start = htmlCode.indexOf('<!--[')
+        var end = htmlCode.indexOf(']-->')
+        var annotation = htmlCode.substring(start+6, end)
+        var toJson = JSON.parse(annotation)
+        for(var i=0; i<toJson.js.length; i++){
+          if(toJson.js[i].indexOf("&is_use='true'" != -1)){
+            toJson.js[i] = toJson.js[i].split("&")[0]; 
+            this.readJSIntoEditor(toJson.js[i])
+          }
+        }
+        for(var i=0; i<toJson.css.length; i++){
+          if(toJson.css[i].indexOf("&is_use='true'" != -1)){
+            toJson.css[i] = toJson.css[i].split("&")[0]; 
+            console.log(toJson.css[i])
+            this.readCSSIntoEditor(toJson.css[i])
+          }
+        }
       }
     });
   };
@@ -159,15 +180,17 @@ class FrogEditor extends React.Component {
         console.log(`Read failed: ${err}`);
       } else {
         this.handleModelChange(String(data));
-        if(htmlCode.indexOf('<!--[') != -1){
+        if(htmlCode.indexOf('<!--[') != -1){ //css, js 경로가 있을 경우
           var start = htmlCode.indexOf('<!--[')
           var end = htmlCode.indexOf(']-->')
           var annotation = htmlCode.substring(start+6, end)
           var toJson = JSON.parse(annotation)
+
+          // if()
           for(var i=0; i<toJson.js.length; i++){
             if(toJson.js[i].indexOf("&is_use='true'" != -1)){
               toJson.js[i] = toJson.js[i].split("&")[0]; 
-              this.readCSSIntoEditor(toJson.js[i])
+              this.readJSIntoEditor(toJson.js[i])
             }
           }
           for(var i=0; i<toJson.css.length; i++){
@@ -177,12 +200,14 @@ class FrogEditor extends React.Component {
             }
           }
         } 
-        else{
-          var defaultCSSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
-          this.readCSSIntoEditor(defaultCSSPath)
+        else{ //css, js 경로가 없을 경우
+          console.log('no file')
+          
+          // var defaultCSSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
+          // this.readCSSIntoEditor(defaultCSSPath)
 
-          var defaultJSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js'
-          this.readJSIntoEditor(defaultJSPath)
+          // var defaultJSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js'
+          // this.readJSIntoEditor(defaultJSPath)
         }
       }
     });
@@ -220,28 +245,39 @@ class FrogEditor extends React.Component {
   };
 
   saveHTML = theFileEntry => {
-    theFileEntry = theFileEntry.toString();
-    if (this.state.createFileOk) {
-      if (theFileEntry.indexOf('.html') == -1) {
-        fs.writeFile(theFileEntry + '.html', this.state.model, err => {
-          console.log(`Read failed: ${err}`);
-        });
-      } else {
-        fs.writeFile(theFileEntry, this.state.model, err => {
-          console.log(`Read failed: ${err}`);
-        });
-      }
-      this.setState({ createFileOk: false });
+    if(theFileEntry == null){
+      console.log('please write contents')
+
     } else {
-      if (theFileEntry.indexOf('.html') == -1) {
-        fs.writeFile(theFileEntry + '.html', this.state.model, err => {
-          console.log(`Read failed: ${err}`);
-        });
+      theFileEntry = theFileEntry.toString();
+      console.log('==========theFileEntry=============')
+      console.log(theFileEntry)
+      if (this.state.createFileOk) {
+        console.log('------indexof------')
+        console.log(theFileEntry.indexOf('.html'))
+        if (theFileEntry.indexOf('.html') == -1) {
+          fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
+            if(err) console.log(`Read failed: ${err}`);
+          });
+        } else {
+          fs.writeFile(theFileEntry, this.state.model, (err) => {
+            if(err) console.log(`Read failed: ${err}`);
+          });
+        }
+        this.setState({ createFileOk: false });
       } else {
-        fs.writeFile(theFileEntry, this.state.model, err => {
-          console.log(`Read failed: ${err}`);
-        });
+        if (theFileEntry.indexOf('.html') == -1) {
+          fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
+            if(err) console.log(`Read failed: ${err}`);
+          });
+        } else {
+          fs.writeFile(theFileEntry, this.state.model, (err) => {
+            if(err) console.log(`Read failed: ${err}`);
+          });
+        }
       }
+      // this.mainWindow.setTitle(`[ ${theFileEntry} ] - PageBuilder`)
+      console.log('저장되었습니다.')
     }
   };
 
