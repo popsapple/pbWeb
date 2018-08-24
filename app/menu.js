@@ -10,8 +10,8 @@ export default class MenuBuilder {
       this.editor = event.sender;
     });
 
-    ipcMain.on('asynchronous-message', (event, arg) => {
-      event.sender.send('asynchronous-reply', arg)
+    ipcMain.on('editor-drag', (event, arg) => {
+      event.sender.send('editor-draginsert', arg)
     })
   }
 

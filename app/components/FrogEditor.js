@@ -57,7 +57,7 @@ class FrogEditor extends React.Component {
           this.editor = editor;
 
 
-          ipcRenderer.on('asynchronous-reply', (e, arg) => {
+          ipcRenderer.on('editor-draginsert', (e, arg) => {
             this.insert_html = arg;
           })
 

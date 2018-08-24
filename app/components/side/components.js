@@ -304,7 +304,7 @@ export default class SideComponentList {
 	InsertCompomentEditor(idx){
 		console.log("evented!!! "+this.list[idx].html.indexOf("layoutnone"));
 		if(this.list[idx].html.indexOf("layoutnone") == -1){
-			ipcRenderer.send('asynchronous-message', this.list[idx].html);
+			ipcRenderer.send('editor-drag', this.list[idx].html);
 		}
 		
 	}
@@ -326,7 +326,7 @@ export default class SideComponentList {
 		document.getElementById(this.state.layout_submit_btn).addEventListener("dragstart",(event)=>{
 			this.LayoutContainerSetting(this.state.layout_val.xs,this.state.layout_val.sm,this.state.layout_val.md,this.state.layout_val.lg);
 		    if(this.layoutDivied.html.indexOf("layoutnone") == -1){
-				ipcRenderer.send('asynchronous-message', this.layoutDivied.html);
+				ipcRenderer.send('editor-drag', this.layoutDivied.html);
 			}
 		},false);
 
