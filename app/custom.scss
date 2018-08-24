@@ -1,6 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./resources/font/font";
-
 * {
 	margin: 0px;
 	padding: 0px;
@@ -59,6 +58,12 @@ li {
 	}
 }
 
+.component_list {
+	input {
+		width: 100%;
+	}
+}
+
 main.fr-content {
 	height: calc(100vh) !important;
 	overflow: hidden;
@@ -69,6 +74,18 @@ iframe.fr-iframe,
 }
 html .fr-toolbar.fr-top {
     border: 0px;
+}
+.fr-view {
+	.container {
+		padding: 0px;
+		.layout_box {
+			box-sizing: border-box;
+			min-height: 100px;
+			&:first-child {
+				border-left:1px dashed #563d7c;
+			}
+		}
+	}
 }
 .editorview {
 	display: none;
