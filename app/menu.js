@@ -61,7 +61,26 @@ export default class MenuBuilder {
         submenu: [
           {
             label: '&새로 만들기',
-            accelerator: 'Ctrl+N'
+            accelerator: 'Ctrl+N',
+            selector: 'new file',
+            click: () => {
+              var newHTML_url = "/Users/clbeemac3/Documents/ReactElectron/app/resources/untitled.html"
+              this.editor.send('new-file', newHTML_url)
+              var htmlPathArray = newHTML_url.split("/")
+              for(let i=0; i<htmlPathArray.length; i++){
+                if (htmlPathArray[i].match(/(.html)$/)){
+                  this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
+                  var folderPath = newHTML_url.replace(htmlPathArray[i],'');
+                }
+                fs.readdir(folderPath+'css', (error, cssList) => {
+                  this.editor.send('css-list', cssList);
+                })
+                fs.readdir(folderPath+'js', (error, jsList) => {
+                    this.editor.send('js-list', jsList);
+                })
+              }
+              saveOk = true;
+            }        
           },
           {
             label: '&열기',
@@ -133,6 +152,12 @@ export default class MenuBuilder {
                 );
               } else {
                 this.editor.send('html-save', selectedFilePath);
+
+                var htmlFiles = files + '.html'
+                var pathArray = files.split("/")
+                var filename = pathArray[pathArray.length-1]
+                this.mainWindow.setTitle(`[ ${filename}.html ] - PageBuilder`)
+
               }
             }
           },
@@ -313,22 +338,8 @@ export default class MenuBuilder {
                   this.editor.send('js-list', jsList);
               })
             }
-            
-
-
             saveOk = true;
-
-            // fs.mkdir(folderPath+'css', (err) => {
-            //   if(err){
-            //     console.log(err)
-            //     return false;
-            //   } else {
-            //     console.log('make directory finished')
-            //     return true;
-            //   }
-            // })
-          },
-        
+          }        
         },
         {
           label: 'Open...',
@@ -397,14 +408,14 @@ export default class MenuBuilder {
                   } else{
                     this.editor.send('html-save', files);
 
-                  //저장한 title로 app title 설정하는 부분
-                  var htmlFiles = files + '.html'
-                  var pathArray = files.split("/")
-                  var filename = pathArray[pathArray.length-1]
-                  this.mainWindow.setTitle(`[ ${filename}.html ] - PageBuilder`)
+                    //저장한 title로 app title 설정하는 부분
+                    var htmlFiles = files + '.html'
+                    var pathArray = files.split("/")
+                    var filename = pathArray[pathArray.length-1]
+                    this.mainWindow.setTitle(`[ ${filename}.html ] - PageBuilder`)
 
-                  saveOk = false;
-                  selectedFilePath = files;
+                    saveOk = false;
+                    selectedFilePath = files;
                   }
                 }
               );
