@@ -407,7 +407,7 @@ export default class MenuBuilder {
                     alert('Please enter the contents')
                   } else{
                     this.editor.send('html-save', files);
-
+                    
                     //저장한 title로 app title 설정하는 부분
                     var htmlFiles = files + '.html'
                     var pathArray = files.split("/")
