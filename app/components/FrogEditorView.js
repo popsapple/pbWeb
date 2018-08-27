@@ -59,7 +59,12 @@ class FrogEditorView extends React.Component {
       <div draggable='false' style={this.state.style} className='editorview' id='FrogEditorView' ref={ref => {this.input = ref;}}>
         <div className="fr-view-inner">
           <div style={this.state.style_inside}  className="fr-view-inside">
-            <FroalaEditorView model={this.props.model} />
+            <iframe id='preivew' src='' />
+            {
+              (() => {
+                document.querySelector("#preivew").src = document.querySelector(".fr-iframe").src;
+              })()
+            }
           </div>
         </div>
         <button className="zoomin" onMouseDown={()=>{event.stopPropagation();this.setState({size_draging: false,labal_draging: false});this.InnerScale('in')}}>+</button>
