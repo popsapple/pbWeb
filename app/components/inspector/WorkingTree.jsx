@@ -1,5 +1,8 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
+import { Link } from 'react-router-dom';
+
+import ErrorPage from '../ErrorPage';
 
 export default class WorkingTree extends React.Component{
     constructor(){
@@ -11,14 +14,45 @@ export default class WorkingTree extends React.Component{
     }
     componentWillMount(){
         ipcRenderer.on('css-list', (event, csslist) => {
-            this.InputCSS(csslist)
-            
+            console.log('------csslist------')
+            console.log(csslist)
+
+            if(csslist != null){
+                this.InputCSS(csslist)
+                // console.log(csslist)
+            } else {
+                console.log('no css file')
+                 this.ErrorControl()
+                // var css = "bootstrap.css"
+                // this.InputCSS([css])
+            }
         });
 
         ipcRenderer.on('js-list', (event, jslist) => {
-            this.InputJS(jslist)
+            console.log('------jslist------')
+            console.log(jslist)
+
+            if(jslist != null){
+                this.InputJS(jslist)
+            } else {
+                console.log('no js file')
+                this.ErrorControl()
+                // var js = "bootstrap.js"
+                // this.InputJS([js])
+            }
         });
     }
+
+    ErrorControl = () => {
+        console.log('error in')
+        this.render
+        return(
+            <ErrorPage/>
+            // <Link to="/Error"></Link>
+            
+        )
+    }
+
 
     InputCSS = theFileEntry => {
         this.setState({

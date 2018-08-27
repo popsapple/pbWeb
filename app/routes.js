@@ -7,7 +7,8 @@ import HomePage from './containers/HomePage';
 export default () => (
   <App>
     <Switch>
-      <Route path="/" component={HomePage} />
+      <Route exact path="/" component={HomePage} />
+      {/* <Route path="/Error" component={ErrorPage} /> */}
     </Switch>
   </App>
 );

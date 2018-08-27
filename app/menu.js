@@ -10,9 +10,6 @@ export default class MenuBuilder {
       this.editor = event.sender;
     });
 
-    ipcMain.on('editor-drag', (event, arg) => {
-      event.sender.send('editor-draginsert', arg)
-    })
   }
 
   buildMenu() {
@@ -177,7 +174,6 @@ export default class MenuBuilder {
                   accelerator: 'Ctrl+P',
                   click: () => {
                     this.editor.send('preview-open',()=>{
-                      console.log("AAAA")
                     });
                     //this.mainWindow.webContents.reload();
                   }
@@ -298,8 +294,37 @@ export default class MenuBuilder {
           accelerator: 'Command+N',
           selector: 'new file',
           click: () => {
-            console.log("new file")
-          }
+            var newHTML_url = "/Users/clbeemac3/Documents/ReactElectron/app/resources/untitled.html"
+            this.editor.send('new-file', newHTML_url)
+            var htmlPathArray = newHTML_url.split("/")
+            for(let i=0; i<htmlPathArray.length; i++){
+              if (htmlPathArray[i].match(/(.html)$/)){
+                this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
+                var folderPath = newHTML_url.replace(htmlPathArray[i],'');
+              }
+              fs.readdir(folderPath+'css', (error, cssList) => {
+                this.editor.send('css-list', cssList);
+              })
+              fs.readdir(folderPath+'js', (error, jsList) => {
+                  this.editor.send('js-list', jsList);
+              })
+            }
+            
+
+
+            saveOk = true;
+
+            // fs.mkdir(folderPath+'css', (err) => {
+            //   if(err){
+            //     console.log(err)
+            //     return false;
+            //   } else {
+            //     console.log('make directory finished')
+            //     return true;
+            //   }
+            // })
+          },
+        
         },
         {
           label: 'Open...',
@@ -328,23 +353,21 @@ export default class MenuBuilder {
                         
                       }
                     }
-
                     fs.readdir(folderPath+'css', (error, cssList) => {
-                      this.editor.send('css-list', cssList);
-
+                        this.editor.send('css-list', cssList);
                     })
                     fs.readdir(folderPath+'js', (error, jsList) => {
-                      this.editor.send('js-list', jsList);
+                        this.editor.send('js-list', jsList);
                     })
                   }
                   
-                  if(files[0].match(/(.js)$/)){
-                    this.editor.send('js-open', files[0]);
-                  }
+                  // if(files[0].match(/(.js)$/)){
+                  //   this.editor.send('js-open', files[0]);
+                  // }
                  
-                  if(files[0].match(/(.css)$/)){
-                    this.editor.send('css-open', files[0]);
-                  }
+                  // if(files[0].match(/(.css)$/)){
+                  //   this.editor.send('css-open', files[0]);
+                  // }
                   
                   saveOk = false;
                   selectedFilePath = files;
@@ -365,15 +388,25 @@ export default class MenuBuilder {
                   title: 'PageBuilder 저장'
                 },
                 files => {
-                  this.editor.send('html-save', files);
+                  if(files == 'undefined'){
+                    alert('Please enter the contents')
+                  } else{
+                    this.editor.send('html-save', files);
+
+                  //저장한 title로 app title 설정하는 부분
+                  var htmlFiles = files + '.html'
+                  var pathArray = files.split("/")
+                  var filename = pathArray[pathArray.length-1]
+                  this.mainWindow.setTitle(`[ ${filename}.html ] - PageBuilder`)
+
                   saveOk = false;
                   selectedFilePath = files;
+                  }
                 }
               );
             } else {
               this.editor.send('html-save', selectedFilePath);
             }
-            console.log('저장되었습니다.')
           }
         },
         {
@@ -426,9 +459,19 @@ export default class MenuBuilder {
         }
       ]
     };
+    
     const subMenuViewDev = {
       label: 'View',
       submenu: [
+        {
+          label: 'Preview',
+          accelerator: 'Ctrl+Command+P',
+          click: () => {
+            this.editor.send('preview-open',()=>{
+            });
+            //this.mainWindow.webContents.reload();
+          }
+        },
         {
           label: 'Reload',
           accelerator: 'Command+R',
@@ -452,28 +495,7 @@ export default class MenuBuilder {
         }
       ]
     };
-    const subMenuViewProd = {
-      label: '보기',
-      submenu: [
-        {
-          label: 'Preview',
-          accelerator: 'Ctrl+Command+P',
-          click: () => {
-            this.editor.send('preview-open',()=>{
-              console.log("AAAA")
-            });
-            //this.mainWindow.webContents.reload();
-          }
-        },
-        {
-          label: 'Toggle Full Screen',
-          accelerator: 'Ctrl+Command+F',
-          click: () => {
-            this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
-          }
-        }
-      ]
-    };
+    
     const subMenuWindow = {
       label: 'Window',
       submenu: [

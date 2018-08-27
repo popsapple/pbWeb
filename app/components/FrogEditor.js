@@ -17,21 +17,19 @@ class FrogEditor extends React.Component {
     super();
 
     this.state = {
-      model: "<div class='default_box'></div>",
+      model: '',
       csslist: [],
       jslist: [],
       createFileOk: true
     };
 
     this.editor;
-    this.insert_html;
     this.config = {
       charCounterCount: false,
       reactIgnoreAttrs: ['class', 'id'],
       language: 'ko',
       codeMirror: window.CodeMirror,
       fullPage: true,
-      iframeDefaultStyle: ``,
       quickInsertButtons: ['image', 'table'],
       lineBreakerTags: [
         'table',
@@ -43,23 +41,17 @@ class FrogEditor extends React.Component {
         'td',
         'span'
       ],
-      height: 300,
-      iframeStyleFiles: [...this.state.csslist],
+      iframeStyleFiles: this.state.csslist,
       iframeScriptFiles: [],
       htmlAllowedEmptyTags: ['style', 'script'],
       htmlRemoveTags: ['base'],
       lineBreakerOffset: 50,
-      heightMax: 1600,
+      height: 600,
       theme: 'royal',
       events: {
         'froalaEditor.initialized': (e, editor) => {
           console.log('editor 초기화됨')
           this.editor = editor;
-
-
-          ipcRenderer.on('editor-draginsert', (e, arg) => {
-            this.insert_html = arg;
-          })
 
           editor.events.on('dragover',ev => {  
             ev.preventDefault();
@@ -72,26 +64,33 @@ class FrogEditor extends React.Component {
           })
 
           editor.events.on('drop', dropEvent => {
-            console.log("drop!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            const trtd = dropEvent.originalEvent.dataTransfer.getData('id')
+            if (!trtd) {
+              return
+            }
             // Focus at the current posisiton.
-            editor.markers.insertAtPoint(dropEvent.originalEvent);
-            var $marker = editor.$el.find('.fr-marker');
-            $marker.replaceWith($.FroalaEditor.MARKERS);
-            editor.selection.restore();
-
+            // console.log('drop event !')
+            editor.markers.insertAtPoint(dropEvent.originalEvent)
+            var $marker = editor.$el.find('.fr-marker')
+            $marker.replaceWith($.FroalaEditor.MARKERS)
+            editor.selection.restore()
+     
             // Save into undo stack the current position.
-            if (!editor.undo.canDo()) editor.undo.saveStep();
-
-            // Insert HTML.
-            editor.html.insert(this.insert_html);
-
+            if (!editor.undo.canDo()) {
+              editor.undo.saveStep()
+            }
+            // console.log(`dataTrasfer: ${trtd}::::`)
+            // Insert HTML.            
+            editor.html.insert(trtd)
+            
             // Save into undo stack the changes.
-            editor.undo.saveStep();
-
+            editor.undo.saveStep()
+     
             // Stop event propagation.
-            dropEvent.preventDefault();
-            dropEvent.stopPropagation();
-            return false;
+            dropEvent.preventDefault()
+            dropEvent.stopPropagation()
+
+            return false
           }, true)
         }
       }
@@ -103,6 +102,10 @@ class FrogEditor extends React.Component {
 
   componentWillMount() {
     ipcRenderer.send('editor-loaded', 'FrogEditor');
+
+    ipcRenderer.on('new-file', (event, filename) => {
+      this.makeFileIntoEditor(filename);
+    });
 
     ipcRenderer.on('file-open', (event, filename) => {
       this.readFileIntoEditor(filename);
@@ -123,6 +126,12 @@ class FrogEditor extends React.Component {
     ipcRenderer.on('html-saveAs', (event, filename) => {
       this.saveAsHTML(filename);
     });
+
+    
+    // ipcRenderer.on('asynchronous-message', (event, arg) => {
+    //   console.log(arg) // "pong"이 출력됩니다.
+    // });
+
   }
 
   handleModelChange(model) {
@@ -132,35 +141,75 @@ class FrogEditor extends React.Component {
   }
 
   handleManualController(item) {
-    this.config.iframeStyleFiles = [...this.state.csslist, `file://${__dirname}/resources/css/bootstrap.css`];
+    this.config.iframeStyleFiles = this.state.csslist; // ['C:/Users/clbee/Desktop/REACT WORK/electron/app/resources/css/bootstrap.css'];
     item.initialize(this.config);
   }
 
+  makeFileIntoEditor = theFileEntry => {
+    fs.readFile(theFileEntry.toString(), (err, data) => {
+      if (err) {
+        console.log(`Read failed: ${err}`);
+      } else {
+        var htmlCode = data.toString()
+        this.handleModelChange(String(data));
+        var start = htmlCode.indexOf('<!--[')
+        var end = htmlCode.indexOf(']-->')
+        var annotation = htmlCode.substring(start+6, end)
+        var toJson = JSON.parse(annotation)
+
+        for(var i=0; i<toJson.js.length; i++){
+          if(toJson.js[i].indexOf("&is_use='true'" != -1)){
+            toJson.js[i] = toJson.js[i].split("&")[0]; 
+            this.readJSIntoEditor(toJson.js[i])
+          }
+        }
+        for(var i=0; i<toJson.css.length; i++){
+          if(toJson.css[i].indexOf("&is_use='true'" != -1)){
+            toJson.css[i] = toJson.css[i].split("&")[0]; 
+            //console.log(toJson.css[i])
+            this.readCSSIntoEditor(toJson.css[i])
+          }
+        }
+      }
+    });
+  };
+
   readFileIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
-      var parsingData = data.toString()
+      var htmlCode = data.toString()
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
         this.handleModelChange(String(data));
-        if(parsingData.indexOf('<!--[') != -1){
-          var start = parsingData.indexOf('<!--[')
-          var end = parsingData.indexOf(']-->')
-          var parsing = parsingData.substring(start+6, end)
-          var json = JSON.parse(parsing)
-          for(var i=0; i<json.js.length; i++){
-            if(json.js[i].indexOf("&is_use='true'" != -1)){
-              json.js[i] = json.js[i].split("&")[0]; 
-              this.readCSSIntoEditor(json.js[i])
+        if(htmlCode.indexOf('<!--[') != -1){ //css, js 경로가 있을 경우
+          var start = htmlCode.indexOf('<!--[')
+          var end = htmlCode.indexOf(']-->')
+          var annotation = htmlCode.substring(start+6, end)
+          var toJson = JSON.parse(annotation)
+
+          // if()
+          for(var i=0; i<toJson.js.length; i++){
+            if(toJson.js[i].indexOf("&is_use='true'" != -1)){
+              toJson.js[i] = toJson.js[i].split("&")[0]; 
+              this.readJSIntoEditor(toJson.js[i])
             }
           }
-          for(var i=0; i<json.css.length; i++){
-            if(json.css[i].indexOf("&is_use='true'" != -1)){
-              json.css[i] = json.css[i].split("&")[0]; 
-              this.readCSSIntoEditor(json.css[i])
+          for(var i=0; i<toJson.css.length; i++){
+            if(toJson.css[i].indexOf("&is_use='true'" != -1)){
+              toJson.css[i] = toJson.css[i].split("&")[0]; 
+              this.readCSSIntoEditor(toJson.css[i])
             }
           }
-        }   
+        } 
+        else{ //css, js 경로가 없을 경우
+          console.log('no file')
+          
+          // var defaultCSSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
+          // this.readCSSIntoEditor(defaultCSSPath)
+
+          // var defaultJSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js'
+          // this.readJSIntoEditor(defaultJSPath)
+        }
       }
     });
   };
@@ -197,28 +246,35 @@ class FrogEditor extends React.Component {
   };
 
   saveHTML = theFileEntry => {
-    theFileEntry = theFileEntry.toString();
-    if (this.state.createFileOk) {
-      if (theFileEntry.indexOf('.html') == -1) {
-        fs.writeFile(theFileEntry + '.html', this.state.model, err => {
-          console.log(`Read failed: ${err}`);
-        });
-      } else {
-        fs.writeFile(theFileEntry, this.state.model, err => {
-          console.log(`Read failed: ${err}`);
-        });
-      }
-      this.setState({ createFileOk: false });
+    if(theFileEntry == null){
+      console.log('please write contents')
+
     } else {
-      if (theFileEntry.indexOf('.html') == -1) {
-        fs.writeFile(theFileEntry + '.html', this.state.model, err => {
-          console.log(`Read failed: ${err}`);
-        });
+      theFileEntry = theFileEntry.toString();
+      if (this.state.createFileOk) {
+        if (theFileEntry.indexOf('.html') == -1) { //html 확장자가 없을 경우
+          fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
+            if(err) console.log(`Read failed: ${err}`);
+          });
+        } else { //html 확장자가 있을 경우
+          fs.writeFile(theFileEntry, this.state.model, (err) => {
+            if(err) console.log(`Read failed: ${err}`);
+          });
+        }
+        this.setState({ createFileOk: false });
       } else {
-        fs.writeFile(theFileEntry, this.state.model, err => {
-          console.log(`Read failed: ${err}`);
-        });
+        if (theFileEntry.indexOf('.html') == -1) {
+          fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
+            if(err) console.log(`Read failed: ${err}`);
+          });
+        } else {
+          fs.writeFile(theFileEntry, this.state.model, (err) => {
+            if(err) console.log(`Read failed: ${err}`);
+          });
+        }
       }
+      // this.mainWindow.setTitle(`[ ${theFileEntry} ] - PageBuilder`)
+      console.log('저장되었습니다.')
     }
   };
 
