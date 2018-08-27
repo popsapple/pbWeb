@@ -14,6 +14,9 @@ export default class WorkingTree extends React.Component{
     }
     componentWillMount(){
         ipcRenderer.on('css-list', (event, csslist) => {
+            console.log('------csslist------')
+            console.log(csslist)
+
             if(csslist != null){
                 this.InputCSS(csslist)
                 // console.log(csslist)
@@ -26,6 +29,9 @@ export default class WorkingTree extends React.Component{
         });
 
         ipcRenderer.on('js-list', (event, jslist) => {
+            console.log('------jslist------')
+            console.log(jslist)
+
             if(jslist != null){
                 this.InputJS(jslist)
             } else {

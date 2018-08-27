@@ -393,24 +393,11 @@ export default class MenuBuilder {
                   } else{
                     this.editor.send('html-save', files);
 
-                  console.log('====files====')
-                  console.log(files)
-                  // theFileEntry + '.html'
-
                   //저장한 title로 app title 설정하는 부분
-                  this.mainWindow.setTitle(`[ ${files}.html ] - PageBuilder`)
-
-
-                  // if(files[0].match(/(.html)$/)){
-                  //   this.editor.send('file-open', files[0]);
-                  //   var htmlPathArray = files[0].split("/")
-                  //   for(let i=0; i<htmlPathArray.length; i++){
-                  //     if (htmlPathArray[i].match(/(.html)$/)){
-                  //       this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
-                  //       var folderPath = files[0].replace(htmlPathArray[i],'');
-                  //     }
-                  //   }
-                  // }
+                  var htmlFiles = files + '.html'
+                  var pathArray = files.split("/")
+                  var filename = pathArray[pathArray.length-1]
+                  this.mainWindow.setTitle(`[ ${filename}.html ] - PageBuilder`)
 
                   saveOk = false;
                   selectedFilePath = files;

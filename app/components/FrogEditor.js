@@ -156,6 +156,7 @@ class FrogEditor extends React.Component {
         var end = htmlCode.indexOf(']-->')
         var annotation = htmlCode.substring(start+6, end)
         var toJson = JSON.parse(annotation)
+
         for(var i=0; i<toJson.js.length; i++){
           if(toJson.js[i].indexOf("&is_use='true'" != -1)){
             toJson.js[i] = toJson.js[i].split("&")[0]; 
@@ -165,7 +166,7 @@ class FrogEditor extends React.Component {
         for(var i=0; i<toJson.css.length; i++){
           if(toJson.css[i].indexOf("&is_use='true'" != -1)){
             toJson.css[i] = toJson.css[i].split("&")[0]; 
-            console.log(toJson.css[i])
+            //console.log(toJson.css[i])
             this.readCSSIntoEditor(toJson.css[i])
           }
         }
@@ -250,16 +251,12 @@ class FrogEditor extends React.Component {
 
     } else {
       theFileEntry = theFileEntry.toString();
-      console.log('==========theFileEntry=============')
-      console.log(theFileEntry)
       if (this.state.createFileOk) {
-        console.log('------indexof------')
-        console.log(theFileEntry.indexOf('.html'))
-        if (theFileEntry.indexOf('.html') == -1) {
+        if (theFileEntry.indexOf('.html') == -1) { //html 확장자가 없을 경우
           fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
             if(err) console.log(`Read failed: ${err}`);
           });
-        } else {
+        } else { //html 확장자가 있을 경우
           fs.writeFile(theFileEntry, this.state.model, (err) => {
             if(err) console.log(`Read failed: ${err}`);
           });
