@@ -62,7 +62,7 @@ class FrogEditorView extends React.Component {
             <iframe id='preivew' src='' />
             {
               (() => {
-                document.querySelector("#preivew").src = document.querySelector(".fr-iframe").src;
+                // /document.querySelector("#preivew").src = document.querySelector(".fr-iframe").src;
               })()
             }
           </div>

@@ -364,6 +364,7 @@ export default class SideComponentList {
 			((index)=>{
 				document.getElementById("ComponentButton"+index).removeEventListener("dragstart",()=>{});
 				document.getElementById("ComponentButton"+index).addEventListener("dragstart",(event)=>{
+					console.log("dragstart");
 					this.InsertCompomentEditor(index);
 				},false);
 			})(index)

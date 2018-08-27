@@ -10,6 +10,9 @@ export default class MenuBuilder {
       this.editor = event.sender;
     });
 
+    ipcMain.on('editor-drag', (event, arg) => {
+      event.sender.send('editor-draginsert', arg)
+    })
   }
 
   buildMenu() {

@@ -24,12 +24,16 @@ class FrogEditor extends React.Component {
     };
 
     this.editor;
+    this.insert_html;
+
     this.config = {
       charCounterCount: false,
+      model: "<div class='default_box'></div>",
       reactIgnoreAttrs: ['class', 'id'],
       language: 'ko',
       codeMirror: window.CodeMirror,
       fullPage: true,
+      iframeDefaultStyle: ``,      
       quickInsertButtons: ['image', 'table'],
       lineBreakerTags: [
         'table',
@@ -53,6 +57,11 @@ class FrogEditor extends React.Component {
           console.log('editor 초기화됨')
           this.editor = editor;
 
+
+          ipcRenderer.on('editor-draginsert', (e, arg) => {
+            this.insert_html = arg;
+          })
+
           editor.events.on('dragover',ev => {  
             ev.preventDefault();
           })
@@ -64,37 +73,31 @@ class FrogEditor extends React.Component {
           })
 
           editor.events.on('drop', dropEvent => {
-            const trtd = dropEvent.originalEvent.dataTransfer.getData('id')
-            if (!trtd) {
-              return
-            }
+            console.log("drop!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             // Focus at the current posisiton.
-            // console.log('drop event !')
-            editor.markers.insertAtPoint(dropEvent.originalEvent)
-            var $marker = editor.$el.find('.fr-marker')
-            $marker.replaceWith($.FroalaEditor.MARKERS)
-            editor.selection.restore()
-     
-            // Save into undo stack the current position.
-            if (!editor.undo.canDo()) {
-              editor.undo.saveStep()
-            }
-            // console.log(`dataTrasfer: ${trtd}::::`)
-            // Insert HTML.            
-            editor.html.insert(trtd)
-            
-            // Save into undo stack the changes.
-            editor.undo.saveStep()
-     
-            // Stop event propagation.
-            dropEvent.preventDefault()
-            dropEvent.stopPropagation()
+            editor.markers.insertAtPoint(dropEvent.originalEvent);
+            var $marker = editor.$el.find('.fr-marker');
+            $marker.replaceWith($.FroalaEditor.MARKERS);
+            editor.selection.restore();
 
-            return false
+            // Save into undo stack the current position.
+            if (!editor.undo.canDo()) editor.undo.saveStep();
+
+            // Insert HTML.
+            editor.html.insert(this.insert_html);
+
+            // Save into undo stack the changes.
+            editor.undo.saveStep();
+
+            // Stop event propagation.
+            dropEvent.preventDefault();
+            dropEvent.stopPropagation();
+            return false;
           }, true)
         }
       }
     };
+    
     this.key_item = 0;
     this.handleManualController = this.handleManualController.bind(this);
     this.handleModelChange = this.handleModelChange.bind(this);
@@ -141,7 +144,7 @@ class FrogEditor extends React.Component {
   }
 
   handleManualController(item) {
-    this.config.iframeStyleFiles = this.state.csslist; // ['C:/Users/clbee/Desktop/REACT WORK/electron/app/resources/css/bootstrap.css'];
+    this.config.iframeStyleFiles = [...this.state.csslist, './resources/css/custom_bootstrap.css']; // ['C:/Users/clbee/Desktop/REACT WORK/electron/app/resources/css/bootstrap.css'];
     item.initialize(this.config);
   }
 
