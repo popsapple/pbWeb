@@ -28,7 +28,7 @@ class FrogEditor extends React.Component {
 
     this.config = {
       charCounterCount: false,
-      model: "<div class='default_box'></div>",
+      model: "<div class='default_box'>hello</div>",
       reactIgnoreAttrs: ['class', 'id'],
       language: 'ko',
       codeMirror: window.CodeMirror,
@@ -48,7 +48,6 @@ class FrogEditor extends React.Component {
       iframeStyleFiles: this.state.csslist,
       iframeScriptFiles: [],
       htmlAllowedEmptyTags: ['style', 'script'],
-      htmlRemoveTags: ['base'],
       lineBreakerOffset: 50,
       height: 600,
       theme: 'royal',
@@ -73,7 +72,6 @@ class FrogEditor extends React.Component {
           })
 
           editor.events.on('drop', dropEvent => {
-            console.log("drop!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             // Focus at the current posisiton.
             editor.markers.insertAtPoint(dropEvent.originalEvent);
             var $marker = editor.$el.find('.fr-marker');
@@ -97,7 +95,7 @@ class FrogEditor extends React.Component {
         }
       }
     };
-    
+
     this.key_item = 0;
     this.handleManualController = this.handleManualController.bind(this);
     this.handleModelChange = this.handleModelChange.bind(this);
@@ -144,7 +142,8 @@ class FrogEditor extends React.Component {
   }
 
   handleManualController(item) {
-    this.config.iframeStyleFiles = [...this.state.csslist, './resources/css/custom_bootstrap.css']; // ['C:/Users/clbee/Desktop/REACT WORK/electron/app/resources/css/bootstrap.css'];
+    this.config.iframeStyleFiles = [...this.state.csslist, `file://${__dirname}/resources/css/bootstrap.css`];
+    this.config.iframeScriptFiles = [...this.state.jslist, `file://${__dirname}/resources/js/jquery.js`, `file://${__dirname}/resources/js/bootstrap.js`];
     item.initialize(this.config);
   }
 
@@ -297,7 +296,7 @@ class FrogEditor extends React.Component {
           onModelChange={this.handleModelChange}
           onManualControllerReady={this.handleManualController}
         />
-        <FrogEditorView model={this.state.model} />
+        <FrogEditorView model={this.state.model} config={this.config} />
       </div>
     );
   }
