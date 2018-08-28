@@ -12,7 +12,10 @@ class FrogEditorView extends React.Component {
       labal_draging: false,
       size_draging: false,
       style_inside: {},
-      style: {}
+      style: {},
+      iframe_style: {
+        position: "absolute", width: "100%", height: "100vh", border: "0px"
+      }
     }
     this.parent_width = 0;
     this.view_width = 0;
@@ -20,11 +23,45 @@ class FrogEditorView extends React.Component {
     this.zoom_scale = 0;
 
     ipcRenderer.on('preview-open', (event, filename) => {
-      console.log("AA");
+                      console.log("open02");
+      console.log("preview event");
       if(document.getElementById("FrogEditorView").className.indexOf("active") != -1){
         document.getElementById("FrogEditorView").className = document.getElementById("FrogEditorView").className.replace(" active", "");
       }else{
         document.getElementById("FrogEditorView").className += " active";
+        document.getElementById('preivew').contentWindow.document.open();
+        document.getElementById('preivew').contentWindow.document.write("<br />");
+
+        const myFirstPromise = new Promise((resolve, reject) => {
+          try{
+            document.getElementById('preivew').contentWindow.document.write(this.props.model);
+            resolve(); // fulfilled 
+          }catch(err){
+            console.log(err);
+            reject("failure reason"); // rejected
+          }
+        });
+
+        myFirstPromise.then(()=>{
+          this.props.config.iframeStyleFiles.forEach((arr,idx)=>{
+            var cssLink = document.createElement("link") 
+            cssLink.href = arr; 
+            cssLink .rel = "stylesheet"; 
+            cssLink .type = "text/css"; 
+            document.getElementById('preivew').contentWindow.document.head.appendChild(cssLink);
+          });
+        }).then(()=>{
+          this.props.config.iframeScriptFiles.forEach((arr,idx)=>{
+            setTimeout(()=>{
+              var jsLink = document.createElement("script") 
+              jsLink.src = arr; 
+              jsLink .type = "text/javascript"; 
+              document.getElementById('preivew').contentWindow.document.head.appendChild(jsLink);
+            },100*idx);
+          });
+        });
+
+        document.getElementById('preivew').contentWindow.document.close();
       }
     });
   }
@@ -32,7 +69,6 @@ class FrogEditorView extends React.Component {
   InnerScale(zoom_type){
     this.view_width = this.input.parentElement.offsetWidth || 300;
     this.parent_width = this.input.parentElement.offsetWidth;
-
     let scale = `scale(${(this.view_width / this.parent_width)})`;
 
     if(zoom_type == 'in'){
@@ -46,7 +82,7 @@ class FrogEditorView extends React.Component {
     }
 
     this.setState({
-      style_inside: Object.assign({...this.state.style_inside}, {width: this.parent_width, transform: `${scale}`})
+      style_inside: Object.assign({...this.state.style_inside}, {transform: `${scale}`})
     });
 
     return (this.view_width / this.parent_width);
@@ -58,13 +94,8 @@ class FrogEditorView extends React.Component {
     return (
       <div draggable='false' style={this.state.style} className='editorview' id='FrogEditorView' ref={ref => {this.input = ref;}}>
         <div className="fr-view-inner">
-          <div style={this.state.style_inside}  className="fr-view-inside">
-            <iframe id='preivew' src='' />
-            {
-              (() => {
-                // /document.querySelector("#preivew").src = document.querySelector(".fr-iframe").src;
-              })()
-            }
+          <div style={this.state.style_inside} className="fr-view-inside">
+            <iframe id='preivew' style={this.state.iframe_style} />
           </div>
         </div>
         <button className="zoomin" onMouseDown={()=>{event.stopPropagation();this.setState({size_draging: false,labal_draging: false});this.InnerScale('in')}}>+</button>
