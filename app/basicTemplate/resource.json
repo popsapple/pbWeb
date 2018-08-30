@@ -1,0 +1,10 @@
+{
+    "js":[
+        "/js/bootstrap.js",
+        "/js/jquery.js"
+    ],
+    "css":[
+        "/css/bootstrap.css",
+        "/css/bootstrap-theme.css"
+    ]
+}

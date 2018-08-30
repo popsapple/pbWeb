@@ -128,11 +128,6 @@ class FrogEditor extends React.Component {
       this.saveAsHTML(filename);
     });
 
-    
-    // ipcRenderer.on('asynchronous-message', (event, arg) => {
-    //   console.log(arg) // "pong"이 출력됩니다.
-    // });
-
   }
 
   handleModelChange(model) {
@@ -153,25 +148,22 @@ class FrogEditor extends React.Component {
         console.log(`Read failed: ${err}`);
       } else {
         var htmlCode = data.toString()
-        this.handleModelChange(String(data));
-        var start = htmlCode.indexOf('<!--[')
-        var end = htmlCode.indexOf(']-->')
-        var annotation = htmlCode.substring(start+6, end)
-        var toJson = JSON.parse(annotation)
+        this.handleModelChange(htmlCode);
+        // var toJson = JSON.parse(annotation)
 
-        for(var i=0; i<toJson.js.length; i++){
-          if(toJson.js[i].indexOf("&is_use='true'" != -1)){
-            toJson.js[i] = toJson.js[i].split("&")[0]; 
-            this.readJSIntoEditor(toJson.js[i])
-          }
-        }
-        for(var i=0; i<toJson.css.length; i++){
-          if(toJson.css[i].indexOf("&is_use='true'" != -1)){
-            toJson.css[i] = toJson.css[i].split("&")[0]; 
-            //console.log(toJson.css[i])
-            this.readCSSIntoEditor(toJson.css[i])
-          }
-        }
+        // for(var i=0; i<toJson.js.length; i++){
+        //   if(toJson.js[i].indexOf("&is_use='true'" != -1)){
+        //     toJson.js[i] = toJson.js[i].split("&")[0]; 
+        //     this.readJSIntoEditor(toJson.js[i])
+        //   }
+        // }
+        // for(var i=0; i<toJson.css.length; i++){
+        //   if(toJson.css[i].indexOf("&is_use='true'" != -1)){
+        //     toJson.css[i] = toJson.css[i].split("&")[0]; 
+        //     //console.log(toJson.css[i])
+        //     this.readCSSIntoEditor(toJson.css[i])
+        //   }
+        // }
       }
     });
   };
@@ -183,40 +175,39 @@ class FrogEditor extends React.Component {
         console.log(`Read failed: ${err}`);
       } else {
         this.handleModelChange(String(data));
-        if(htmlCode.indexOf('<!--[') != -1){ //css, js 경로가 있을 경우
-          var start = htmlCode.indexOf('<!--[')
-          var end = htmlCode.indexOf(']-->')
-          var annotation = htmlCode.substring(start+6, end)
-          var toJson = JSON.parse(annotation)
 
-          // if()
-          for(var i=0; i<toJson.js.length; i++){
-            if(toJson.js[i].indexOf("&is_use='true'" != -1)){
-              toJson.js[i] = toJson.js[i].split("&")[0]; 
-              this.readJSIntoEditor(toJson.js[i])
-            }
-          }
-          for(var i=0; i<toJson.css.length; i++){
-            if(toJson.css[i].indexOf("&is_use='true'" != -1)){
-              toJson.css[i] = toJson.css[i].split("&")[0]; 
-              this.readCSSIntoEditor(toJson.css[i])
-            }
-          }
-        } 
-        else{ //css, js 경로가 없을 경우
-          console.log('no file')
+        // if(htmlCode.indexOf('<!--[') != -1){ //css, js 경로가 있을 경우
           
-          // var defaultCSSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
-          // this.readCSSIntoEditor(defaultCSSPath)
+        //   var toJson = JSON.parse(annotation)
 
-          // var defaultJSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js'
-          // this.readJSIntoEditor(defaultJSPath)
-        }
+        //   //if()
+        //   for(var i=0; i<toJson.js.length; i++){
+        //       toJson.js[i] = toJson.js[i].split("&")[0]; 
+        //       this.readJSIntoEditor(toJson.js[i])
+        //   }
+        //   for(var i=0; i<toJson.css.length; i++){
+        //       toJson.css[i] = toJson.css[i].split("&")[0]; 
+        //       this.readCSSIntoEditor(toJson.css[i])
+        //   }
+
+          
+        // } 
+        // else{ //css, js 경로가 없을 경우
+        //   console.log('no file')
+
+        //   // var defaultCSSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
+        //   // this.readCSSIntoEditor(defaultCSSPath)
+
+        //   // var defaultJSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js'
+        //   // this.readJSIntoEditor(defaultJSPath)
+        // }
       }
     });
   };
 
   readCSSIntoEditor = theFileEntry => {
+    console.log("=========theFileEntry=========")
+    console.log(theFileEntry)
     fs.readFile(theFileEntry.toString(), (err, data) => {
       if (err) {
         console.log(`Read failed: ${err}`);
@@ -224,12 +215,22 @@ class FrogEditor extends React.Component {
         this.setState({
           csslist: [...this.state.csslist, theFileEntry.toString()]
         });
+        console.log("===csslist===")
+        console.log(csslist)
         this.key_item += 1;
         this.config.iframeStyleFiles = this.state.csslist;
         this.props.pbUpdateHandler();
         
       }
     });
+
+    // this.setState({
+    //   csslist: [...this.state.csslist, theFileEntry.toString()]
+    // });
+    // this.key_item += 1;
+    // this.config.iframeStyleFiles = this.state.csslist;
+    // this.props.pbUpdateHandler();
+
   };
 
   readJSIntoEditor = theFileEntry => {
@@ -275,7 +276,6 @@ class FrogEditor extends React.Component {
           });
         }
       }
-      // this.mainWindow.setTitle(`[ ${theFileEntry} ] - PageBuilder`)
       console.log('저장되었습니다.')
     }
   };
