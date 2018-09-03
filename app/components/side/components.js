@@ -333,7 +333,6 @@ export default class SideComponentList {
 		if(this.list[idx].html.indexOf("layoutnone") == -1){
 			ipcRenderer.send('editor-drag', this.list[idx].html);
 		}
-		
 	}
 
 	ready(){

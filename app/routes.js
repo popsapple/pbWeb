@@ -3,12 +3,14 @@ import React from 'react';
 import { Switch, Route } from 'react-router';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
+import IntroPage from './containers/IntroPage';
 
 export default () => (
   <App>
-    <Switch>
-      <Route exact path="/" component={HomePage} />
+    <div>
+      {/* <Route exact path="/" component={IntroPage}/> */}
+      <Route path="/" component={HomePage} />
       {/* <Route path="/Error" component={ErrorPage} /> */}
-    </Switch>
+    </div>
   </App>
 );

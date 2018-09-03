@@ -2,7 +2,7 @@ import React from 'react';
 import { ipcRenderer } from 'electron';
 import { Link } from 'react-router-dom';
 
-import ErrorPage from '../ErrorPage';
+// import ErrorPage from '../ErrorPage';
 
 export default class WorkingTree extends React.Component{
     constructor(){
@@ -18,7 +18,7 @@ export default class WorkingTree extends React.Component{
                 this.InputCSS(csslist)
             } else {
                 console.log('no css file')
-                 this.ErrorControl()
+                //  this.ErrorControl()
             }
         });
 
@@ -27,7 +27,7 @@ export default class WorkingTree extends React.Component{
                 this.InputJS(jslist)
             } else {
                 console.log('no js file')
-                this.ErrorControl()
+                //this.ErrorControl()
             }
         });
     }

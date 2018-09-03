@@ -56,7 +56,6 @@ class FrogEditor extends React.Component {
           console.log('editor 초기화됨')
           this.editor = editor;
 
-
           ipcRenderer.on('editor-draginsert', (e, arg) => {
             this.insert_html = arg;
           })
@@ -206,8 +205,8 @@ class FrogEditor extends React.Component {
   };
 
   readCSSIntoEditor = theFileEntry => {
-    console.log("=========theFileEntry=========")
-    console.log(theFileEntry)
+    // console.log("=========theFileEntry=========")
+    // console.log(theFileEntry)
     fs.readFile(theFileEntry.toString(), (err, data) => {
       if (err) {
         console.log(`Read failed: ${err}`);
@@ -215,8 +214,8 @@ class FrogEditor extends React.Component {
         this.setState({
           csslist: [...this.state.csslist, theFileEntry.toString()]
         });
-        console.log("===csslist===")
-        console.log(csslist)
+        // console.log("===csslist===")
+        // console.log(csslist)
         this.key_item += 1;
         this.config.iframeStyleFiles = this.state.csslist;
         this.props.pbUpdateHandler();

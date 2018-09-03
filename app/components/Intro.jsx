@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import FrogEditor from './FrogEditor';
+import SideComponent from './SideComponent';
 import { SampleConsumer } from '../context';
 
-export default class Home extends Component {
+export default class Intro extends Component {
    constructor(){
     super();
     this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
@@ -17,7 +17,9 @@ export default class Home extends Component {
         <SampleConsumer>
           {
             (sample) => (
-              <div><FrogEditor storelist={sample} pbUpdateHandler={this.forceUpdateHandler} /></div>
+              <div>
+                <h1> Intro Page </h1>
+              </div>
             )
           }
         </SampleConsumer>

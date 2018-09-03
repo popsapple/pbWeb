@@ -1,6 +1,7 @@
 import { app, dialog, Menu, shell, ipcMain, ipcRenderer } from 'electron';
 import { buffer } from '../node_modules/rxjs/operators';
 const fs = require('fs-extra')
+import ErrorPage from './components/404Error'
 
 export default class MenuBuilder {
   constructor(mainWindow) {
@@ -54,6 +55,7 @@ export default class MenuBuilder {
   buildDefaultTemplate() {
     let saveOk = true;
     let selectedFilePath = '';
+    var count = 1;
     
     const templateDefault = [
       {
@@ -175,11 +177,11 @@ export default class MenuBuilder {
   
                         fs.readFile(selectedfolderPath+'/resource.json', (err, data) => {
                           var parseData = JSON.parse(data)
-                          console.log(parseData.css)
+                          // console.log(parseData.css)
     
                           for(var i=0; i<parseData.css.length; i++){
                             // var cssPath = selectedfolderPath+parseData.css[i]
-                            console.log(parseData.css[i])
+                            // console.log(parseData.css[i])
   
                             this.editor.send("css-open", parseData.css[i])
                           }
@@ -481,7 +483,7 @@ export default class MenuBuilder {
                         // console.log("Folder already exists"); 
                       })
                       .catch(()=>{ //폴더가 없을 경우
-                        fs.mkdirs(tempPath+"/PbWeb") 
+                        fs.mkdirs(tempPath+"/PbWeb")
                       })
                     
                     fs.copy(selectedfolderPath, tempPath+"/PbWeb/"+folderName, (err) => { 
@@ -492,31 +494,51 @@ export default class MenuBuilder {
                       }
                     }) 
 
+
+
+                    ////////////////////////////////
                     setTimeout(() => { //delay 주지 않을 시 생성한 폴더를 찾지 못함.
                       this.editor.send('file-open', files)
-                      fs.readdir(selectedfolderPath+'/css', (error, cssList) => {
-                        for(let i=0; i<cssList.length; i++){
-                          if(cssList[i].match(/(.map)$/)){
-                            cssList.splice(cssList.indexOf(cssList[i]), 1) 
+
+                      fs.access(selectedfolderPath+'/css' || selectedfolderPath+'/js')
+                      .then(()=>{ //폴더가 존재할경우
+                        fs.readdir(selectedfolderPath+'/css', (error, cssList) => {
+                          for(let i=0; i<cssList.length; i++){
+                            if(cssList[i].match(/(.map)$/)){
+                              cssList.splice(cssList.indexOf(cssList[i]), 1) 
+                            }
                           }
-                        }
-                        this.editor.send('css-list', cssList);
-                      })
-                      fs.readdir(selectedfolderPath+'/js', (error, jsList) => {
-                          this.editor.send('js-list', jsList);
-                      })
+                          this.editor.send('css-list', cssList);
+                        })
+                        fs.readdir(selectedfolderPath+'/js', (error, jsList) => {
+                            this.editor.send('js-list', jsList);
+                        })
 
-                      fs.readFile(selectedfolderPath+'/resource.json', (err, data) => {
-                        var parseData = JSON.parse(data)
-                        console.log(parseData.css)
+                        fs.readFile(selectedfolderPath+'/resource.json', (err, data) => {
+                          var parseData = JSON.parse(data)
+                          console.log(parseData.css)
+    
+                          for(var i=0; i<parseData.css.length; i++){
+                            // var cssPath = selectedfolderPath+parseData.css[i]
+                            console.log(parseData.css[i])
   
-                        for(var i=0; i<parseData.css.length; i++){
-                          // var cssPath = selectedfolderPath+parseData.css[i]
-                          console.log(parseData.css[i])
+                            this.editor.send("css-open", parseData.css[i])
+                          }
+                        })
 
-                          this.editor.send("css-open", parseData.css[i])
-                        }
                       })
+                      .catch(()=>{ //폴더가 없을 경우
+                        // <img src="https://i.stack.imgur.com/WOlr3.png"/>
+
+                          console.log("404 Error!!!!");
+                        //return <img src={require('./404_error.png')} />
+
+                      })
+
+                      
+
+
+                      
                     }, 200);
                   }
                   
