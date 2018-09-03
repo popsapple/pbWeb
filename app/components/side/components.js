@@ -56,12 +56,8 @@ export default class SideComponentList {
 			{
 				"type": "buttongroup",
 				"id": 'other02',
-				"iconhml": `<li><button draggable="true" id="ComponentButton2">버튼그룹</button></li>`,
-				"html": `<div class="btn-group" role="group" aria-label="...">
-				  <button type="button" class="btn btn-default">Left</button>
-				  <button type="button" class="btn btn-default">Middle</button>
-				  <button type="button" class="btn btn-default">Right</button>
-				</div>`
+				"iconhml": `<li><button draggable="true" id="ComponentButton2">버튼</button></li>`,
+				"html": `<button type="button" class="btn btn-default">Left</button>`
 			},
 			{
 				"type": "droupup",
@@ -222,6 +218,33 @@ export default class SideComponentList {
 				"type": "progress",
 				"id": 'other12',
 				"iconhml": `<li><button draggable="true" id="ComponentButton12">레이어팝업</button></li>`,
+				"html": `<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+				  Launch demo modal
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				      </div>
+				      <div class="modal-body">
+				        ...
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        <button type="button" class="btn btn-primary">Save changes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>`
+			},{
+				"type": "progress",
+				"id": 'other13',
+				"iconhml": `<li><button draggable="true" id="ComponentButton13">슬라이더</button></li>`,
 				"html": `<!-- Button trigger modal -->
 				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
 				  Launch demo modal

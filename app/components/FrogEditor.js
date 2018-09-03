@@ -64,6 +64,28 @@ class FrogEditor extends React.Component {
           editor.events.on('dragover',ev => {  
             ev.preventDefault();
           })
+          editor.events.on('keydown', (e, editor_, keydownEvent) => {
+            // Do something here.
+            console.log("keydown :: "+e.keyCode);
+            if(e.keyCode == 13 && e.ctrlKey){
+              // Focus at the current posisiton.
+            var $marker = editor.$el.find('.fr-marker');
+            $marker.replaceWith($.FroalaEditor.MARKERS);
+            editor.selection.restore();
+
+            // Save into undo stack the current position.
+            if (!editor.undo.canDo()) editor.undo.saveStep();
+
+            // Insert HTML.
+            //editor.html.insert("<div>break!!</div>");
+            editor.markers.insertAtPoint($marker.closest(".container"));
+            editor.html.insert("<div>break!!</div>", true);
+
+            // Save into undo stack the changes.
+            editor.undo.saveStep();
+
+            }
+          });
           editor.events.on('dragstart',(ev,id) => {  
             console.log('dragstart',id)
             if(id) { 
