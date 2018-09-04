@@ -627,6 +627,12 @@ export default class MenuBuilder {
     const subMenuEdit = {
       label: 'Edit',
       submenu: [
+        { label: 'ToCSS', selector: 'convertcss:',
+          click: () => {
+            console.log("=== convertCSS ===")
+
+          } 
+        },
         { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' },
         { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' },
         { type: 'separator' },
