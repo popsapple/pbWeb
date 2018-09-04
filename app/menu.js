@@ -1,6 +1,5 @@
 import { app, dialog, Menu, shell, ipcMain, ipcRenderer } from 'electron';
 const fs = require('fs')
-
 export default class MenuBuilder {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
