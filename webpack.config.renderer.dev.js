@@ -26,7 +26,7 @@ const manifest = path.resolve(dll, 'renderer.json');
 const requiredByDLLConfig = module.parent.filename.includes(
   'webpack.config.renderer.dev.dll'
 );
-
+console.log(`http://localhost:${port}/dist/`);
 /**
  * Warn if the DLL is not built
  */
@@ -38,7 +38,6 @@ if (!requiredByDLLConfig && !(fs.existsSync(dll) && fs.existsSync(manifest))) {
   );
   execSync('npm run build-dll');
 }
-
 export default merge.smart(baseConfig, {
   devtool: 'inline-source-map',
 
