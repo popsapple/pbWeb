@@ -1,10 +1,10 @@
 {
-    "js":[
-        "/js/bootstrap.js",
-        "/js/jquery.js"
+    "js": [
+        "./js/bootstrap.js",
+        "./js/bootstrap.min.js"
     ],
-    "css":[
-        "/css/bootstrap.css",
-        "/css/bootstrap-theme.css"
+    "css": [
+        "./css/bootstrap.css",
+        "./css/bootstrap.min.css"
     ]
 }

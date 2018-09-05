@@ -36,7 +36,6 @@ export default class MakeThemeUsingSass extends React.Component{
         }
         var accordion_list = document.querySelectorAll("ul.accordion > li");
         var index = parseInt(target.getAttribute("data-index"));
-            console.log("index :: "+index);
        
         accordion_list.forEach(function(arr, idx){
             if(index != idx){
@@ -60,52 +59,48 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-graybase" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-graybase">@gray-base</label>
+                                    <input type="color" id="sass-gray-base" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-gray-base">@gray-base</label>
                                 </li>
                                 <li>
                                     <input type="color" id="sass-graydarker" onChange={this.setJsonData.bind(this)} />
                                     <label for="sass-graydarker">@gray-darker</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-graydark" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-graydark">@gray-dark</label>
+                                    <input type="color" id="sass-gray-dark" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-gray-dark">@gray-dark</label>
                                 </li>
                                 <li>
                                     <input type="color" id="sass-gray" onChange={this.setJsonData.bind(this)} />
                                     <label for="sass-gray">@gray</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-graylight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-graylight">@gray-light</label>
+                                    <input type="color" id="sass-gray-light" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-gray-light">@gray-light</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-graylighter" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-graylighter">@gray-lighter</label>
+                                    <input type="color" id="sass-gray-lighter" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-gray-lighter">@gray-lighter</label>
                                 </li>
                                 <li>
                                     <input type="color" id="sass-brandprimary" onChange={this.setJsonData.bind(this)} />
                                     <label for="sass-brandprimary">@brand-primary</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-brandsuccess" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-brandsuccess">@brand-success</label>
+                                    <input type="color" id="sass-brand-success" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-brand-success">@brand-success</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-brandsuccess" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-brandsuccess">@brand-success</label>
+                                    <input type="color" id="sass-brand-info" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-brand-info">@brand-info</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-brandinfo" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-brandinfo">@brand-info</label>
+                                    <input type="color" id="sass-brand-warning" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-brand-warning">@brand-warning</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-brandwarning" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-brandwarning">@brand-warning</label>
-                                </li>
-                                <li>
-                                    <input type="color" id="sass-branddanger" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-branddanger">@brand-danger</label>
+                                    <input type="color" id="sass-brand-danger" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-brand-danger">@brand-danger</label>
                                 </li>
                             </ul>
                         </li>
@@ -116,24 +111,24 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-graybase" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-bodybg">@body-bg</label>
+                                    <input type="color" id="sass-body-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-body-bg">@body-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-graydarker" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-textcolor">@text-color</label>
+                                    <input type="color" id="sass-text-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-text-color">@text-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-linkcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-linkcolor">@link-color</label>
+                                    <input type="color" id="sass-link-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-link-color">@link-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-linkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-linkhovercolor">@link-hover-color</label>
+                                    <input type="color" id="sass-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-link-hover-color">@link-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-linkhoverdecoration" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-linkhoverdecoration">@link-hover-decoration</label>
+                                    <input type="text" id="sass-link-hover-decoration" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-link-hover-decoration">@link-hover-decoration</label>
                                 </li>
                             </ul>
                         </li>
@@ -144,80 +139,80 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="text" id="sass-fontfamilysansserif" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontfamilysansserif">@font-family-sans-serif</label>
+                                    <input type="text" id="sass-font-family-sans-serif" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-family-sans-serif">@font-family-sans-serif</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-fontfamilyserif" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontfamilyserif">@font-family-serif</label>
+                                    <input type="text" id="sass-font-family-serif" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-family-serif">@font-family-serif</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-fontfamilymonospace" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontfamilymonospace">@font-family-monospace</label>
+                                    <input type="text" id="sass-font-family-monospace" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-family-monospace">@font-family-monospace</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-fontfamilybase" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontfamilybase">@font-family-base</label>
+                                    <input type="text" id="sass-font-family-base" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-family-base">@font-family-base</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizebase" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizebase">@font-size-base</label>
+                                    <input type="number" id="sass-font-size-base" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-base">@font-size-base</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizelarge" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizelarge">@font-size-large</label>
+                                    <input type="number" id="sass-font-size-large" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-large">@font-size-large</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizesmall" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizesmall">@font-size-small</label>
+                                    <input type="number" id="sass-font-size-small" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-small">@font-size-small</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizeh1" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizeh1">@font-size-h1</label>
+                                    <input type="number" id="sass-font-size-h1" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-h1">@font-size-h1</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizeh2" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizeh2">@font-size-h2</label>
+                                    <input type="number" id="sass-font-size-h2" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-h2">@font-size-h2</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizeh3" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizeh3">@font-size-h3</label>
+                                    <input type="number" id="sass-font-size-h3" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-h3">@font-size-h3</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizeh4" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizeh4">@font-size-h4</label>
+                                    <input type="number" id="sass-font-size-h4" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-h4">@font-size-h4</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizeh5" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizeh5">@font-size-h5</label>
+                                    <input type="number" id="sass-font-size-h5" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-h5">@font-size-h5</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-fontsizeh6" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-fontsizeh6">@font-size-h6</label>
+                                    <input type="number" id="sass-font-size-h6" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-font-size-h6">@font-size-h6</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-lineheightbase" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-lineheightbase">@line-height-base</label>
+                                    <input type="number" id="sass-line-height-base" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-line-height-base">@line-height-base</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-lineheightcomputed" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-lineheightcomputed">@line-height-computed</label>
+                                    <input type="number" id="sass-line-height-computed" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-line-height-computed">@line-height-computed</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-headingsfontfamily" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-headingsfontfamily">@headings-font-family</label>
+                                    <input type="number" id="sass-headings-font-family" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-headings-font-family">@headings-font-family</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-headingsfontweight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-headingsfontweight">@headings-font-weight</label>
+                                    <input type="number" id="sass-headings-font-weight" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-headings-font-weight">@headings-font-weight</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-headingslineheight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-headingslineheight">@headings-line-height</label>
+                                    <input type="number" id="sass-headings-line-height" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-headings-line-height">@headings-line-height</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-headingscolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-headingscolor">@headings-color</label>
+                                    <input type="color" id="sass-headings-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-headings-color">@headings-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -228,16 +223,16 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="text" id="sass-iconfontpath" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-iconfontpath">@icon-font-path</label>
+                                    <input type="text" id="sass-icon-font-path" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-icon-fon-tpath">@icon-font-path</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-iconfontname" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-iconfontname">@icon-font-name</label>
+                                    <input type="text" id="sass-icon-font-name" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-icon-font-name">@icon-font-name</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-iconfontsvgid" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-iconfontsvgid">@icon-font-svg-id</label>
+                                    <input type="text" id="sass-icon-font-svg-id" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-icon-font-svg-id">@icon-font-svg-id</label>
                                 </li>
                             </ul>
                         </li>
@@ -248,72 +243,72 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-paddingbasevertical" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paddingbasevertical">@padding-base-vertical</label>
+                                    <input type="number" id="sass-padding-base-vertical" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-padding-base-vertical">@padding-base-vertical</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-paddingbasehorizontal" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paddingbasehorizontal">@padding-base-horizontal</label>
+                                    <input type="number" id="sass-padding-base-horizontal" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-padding-base-horizontal">@padding-base-horizontal</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-paddinglargevertical" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paddinglargevertical">@padding-large-vertical</label>
+                                    <input type="number" id="sass-padding-large-vertical" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-padding-large-vertical">@padding-large-vertical</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-paddinglargehorizontal" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paddinglargehorizontal">@padding-large-horizontal</label>
+                                    <input type="number" id="sass-padding-large-horizontal" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-padding-large-horizontal">@padding-large-horizontal</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-paddingsmallvertical" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paddingsmallvertical">@padding-small-vertical</label>
+                                    <input type="number" id="sass-padding-small-vertical" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-padding-small-vertical">@padding-small-vertical</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-paddingsmallhorizontal" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paddingsmallhorizontal">@padding-small-horizontal</label>
+                                    <input type="number" id="sass-padding-small-horizontal" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-padding-small-horizontal">@padding-small-horizontal</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-paddingxsvertical" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paddingxsvertical">@padding-xs-vertical</label>
+                                    <input type="number" id="sass-padding-xs-vertical" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-padding-xs-vertical">@padding-xs-vertical</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-paddingxshorizontal" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paddingxshorizontal">@padding-xs-horizontal</label>
+                                    <input type="number" id="sass-padding-xs-horizontal" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-padding-xs-horizontal">@padding-xs-horizontal</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-lineheightlarge" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-lineheightlarge">@line-height-large</label>
+                                    <input type="number" id="sass-line-height-large" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-line-height-large">@line-height-large</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-lineheightsmall" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-lineheightsmall">@line-height-small</label>
+                                    <input type="number" id="sass-line-height-small" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-line-height-small">@line-height-small</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-borderradiusbase" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-borderradiusbase">@border-radius-base</label>
+                                    <input type="number" id="sass-border-radius-base" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-border-radius-base">@border-radius-base</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-borderradiuslarge" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-borderradiuslarge">@border-radius-large</label>
+                                    <input type="number" id="sass-border-radius-large" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-border-radius-large">@border-radius-large</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-borderradiussmall" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-borderradiussmall">@border-radius-small</label>
+                                    <input type="number" id="sass-border-radius-small" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-border-radius-small">@border-radius-small</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-componentactivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-componentactivecolor">@component-active-color</label>
+                                    <input type="color" id="sass-component-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-component-active-color">@component-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-componentactivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-componentactivebg">@component-active-bg</label>
+                                    <input type="color" id="sass-component-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-component-active-bg">@component-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-caretwidthbase" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-caretwidthbase">@caret-width-base</label>
+                                    <input type="number" id="sass-caret-width-base" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-caret-width-base">@caret-width-base</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-caretwidthlarge" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-caretwidthlarge">@caret-width-large</label>
+                                    <input type="number" id="sass-caret-width-large" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-caret-width-large">@caret-width-large</label>
                                 </li>
                             </ul>
                         </li>
@@ -324,32 +319,32 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-tablecellpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tablecellpadding">@table-cell-padding</label>
+                                    <input type="number" id="sass-table-cell-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-table-cell-padding">@table-cell-padding</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-tablecondensedcellpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tablecondensedcellpadding">@table-condensed-cell-padding</label>
+                                    <input type="number" id="sass-table-condensed-cell-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-table-condensed-cell-padding">@table-condensed-cell-padding</label>
                                 </li>
                                 <li>
                                     <input type="color" id="sass-table-bg" onChange={this.setJsonData.bind(this)} />
                                     <label for="sass-table-bg">@table-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-tablebgaccent" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tablebgaccent">@table-bg-accent</label>
+                                    <input type="color" id="sass-table-bg-accent" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-table-bg-accent">@table-bg-accent</label>
                                 </li>
                                 <li>
                                     <input type="color" id="sass-table-bg-hover" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tablebghover">@table-bg-hover</label>
+                                    <label for="sass-table-bg-hover">@table-bg-hover</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-tablebgactive" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tablebgactive">@table-bg-active</label>
+                                    <input type="color" id="sass-table-bg-active" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-table-bg-active">@table-bg-active</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-tablebordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tablebordercolor">@table-border-color</label>
+                                    <input type="color" id="sass-table-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-table-border-color">@table-border-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -360,84 +355,84 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-btnfontweight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnfontweight">@btn-font-weight</label>
+                                    <input type="color" id="sass-btn-font-weight" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-font-weight">@btn-font-weight</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btndefaultcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btndefaultcolor">@btn-default-color</label>
+                                    <input type="color" id="sass-btn-default-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-default-color">@btn-default-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btndefaultbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btndefaultbg">@btn-default-bg</label>
+                                    <input type="color" id="sass-btn-default-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-default-bg">@btn-default-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btndefaultborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btndefaultborder">@btn-default-border</label>
+                                    <input type="color" id="sass-btn-default-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-default-border">@btn-default-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnprimarycolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnprimarycolor">@btn-primary-color</label>
+                                    <input type="color" id="sass-btn-primary-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-primary-color">@btn-primary-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnprimarybg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnprimarybg">@btn-primary-bg</label>
+                                    <input type="color" id="sass-btn-primary-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-primary-bg">@btn-primary-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnprimaryborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="color-btnprimaryborder">@btn-primary-border</label>
+                                    <input type="color" id="sass-btn-primary-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="color-btn-primary-border">@btn-primary-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnsuccesscolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnsuccesscolor">@btn-success-color</label>
+                                    <input type="color" id="sass-btn-success-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-success-color">@btn-success-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnsuccessbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnsuccessbg">@btn-success-bg</label>
+                                    <input type="color" id="sass-btn-success-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-success-bg">@btn-success-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnsuccessborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnsuccessborder">@btn-success-border</label>
+                                    <input type="color" id="sass-btn-success-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-success-border">@btn-success-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btninfocolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btninfocolor">@btn-info-color</label>
+                                    <input type="color" id="sass-btn-info-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-info-color">@btn-info-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btninfobg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btninfobg">@btn-info-bg</label>
+                                    <input type="color" id="sass-btn-info-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-info-bg">@btn-info-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btninfoborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btninfoborder">@btn-info-border</label>
+                                    <input type="color" id="sass-btn-info-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-info-border">@btn-info-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnwarningcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnwarningcolor">@btn-warning-color</label>
+                                    <input type="color" id="sass-btn-warning-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-warning-color">@btn-warning-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnwarningbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnwarningbg">@btn-warning-bg</label>
+                                    <input type="color" id="sass-btn-warning-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-warning-bg">@btn-warning-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnwarningborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnwarningborder">@btn-warning-border</label>
+                                    <input type="color" id="sass-btn-warning-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-warning-border">@btn-warning-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btndangercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btndangercolor">@btn-danger-color</label>
+                                    <input type="color" id="sass-btn-danger-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-danger-color">@btn-danger-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btndangerbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btndangerbg">@btn-danger-bg</label>
+                                    <input type="color" id="sass-btn-danger-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-danger-bg">@btn-danger-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btndangerborder" onChange={this.setJsonData.bind(this)} />
+                                    <input type="color" id="sass-btn-danger-border" onChange={this.setJsonData.bind(this)} />
                                     <label for="sass-btndangerborder">@btn-danger-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-btnlinkdisabledcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-btnlinkdisabledcolor">@btn-link-disabled-color</label>
+                                    <input type="color" id="sass-btn-link-disabled-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-btn-link-disabled-color">@btn-link-disabled-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -448,76 +443,76 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-inputbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputbg">@input-bg</label>
+                                    <input type="color" id="sass-input-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-bg">@input-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-inputcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputcolor">@input-color</label>
+                                    <input type="color" id="sass-input-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-color">@input-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-inputbgdisabled" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputbgdisabled">@input-bg-disabled</label>
+                                    <input type="color" id="sass-input-bg-disabled" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-bg-disabled">@input-bg-disabled</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-inputborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputborder">@input-border</label>
+                                    <input type="color" id="sass-input-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-border">@input-border</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-inputborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputborderradius">@input-border-radius</label>
+                                    <input type="number" id="sass-input-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-border-radius">@input-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-inputborderradiuslarge" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputborderradiuslarge">@input-border-radius-large</label>
+                                    <input type="number" id="sass-input-border-radius-large" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-border-radius-large">@input-border-radius-large</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-inputborderradiussmall" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputborderradiussmall">@input-border-radius-small</label>
+                                    <input type="number" id="sass-input-border-radius-small" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-border-radius-small">@input-border-radius-small</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-inputborderfocus" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputborderfocus">@input-border-focus</label>
+                                    <input type="color" id="sass-input-border-focus" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-border-focus">@input-border-focus</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-inputcolorplaceholder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputcolorplaceholder">@input-color-placeholder</label>
+                                    <input type="color" id="sass-input-color-placeholder" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-color-placeholder">@input-color-placeholder</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-inputheightbase" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputheightbase">@input-height-base</label>
+                                    <input type="number" id="sass-input-height-base" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-height-base">@input-height-base</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-inputheightlarge" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputheightlarge">@input-height-large</label>
+                                    <input type="number" id="sass-input-height-large" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-height-large">@input-height-large</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-inputheightsmall" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputheightsmall">@input-height-small</label>
+                                    <input type="number" id="sass-input-height-small" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-height-small">@input-height-small</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-formgroupmarginbottom" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-formgroupmarginbottom">@form-group-margin-bottom</label>
+                                    <input type="number" id="sass-form-group-margin-bottom" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-form-group-margin-bottom">@form-group-margin-bottom</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-legendcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-colorlegendcolor">@legend-color</label>
+                                    <input type="color" id="sass-legend-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-colorlegend-color">@legend-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-legendbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-legendbordercolor">@legend-border-color</label>
+                                    <input type="color" id="sass-legend-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-legend-border-color">@legend-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-inputgroupaddonbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputgroupaddonbg">@input-group-addon-bg</label>
+                                    <input type="color" id="sass-input-group-addon-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-group-addon-bg">@input-group-addon-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-inputgroupaddonbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-inputgroupaddonbordercolor">@input-group-addon-border-color</label>
+                                    <input type="color" id="sass-input-group-addon-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-input-group-addon-border-color">@input-group-addon-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-cursordisabled" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-cursordisabled">@cursor-disabled</label>
+                                    <input type="text" id="sass-cursor-disabled" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-cursor-disabled">@cursor-disabled</label>
                                 </li>
                             </ul>
                         </li>
@@ -528,52 +523,52 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-dropdownbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownbg">@dropdown-bg</label>
+                                    <input type="color" id="sass-dropdown-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-bg">@dropdown-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownborder">@dropdown-border</label>
+                                    <input type="color" id="sass-drop-down-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-drop-down-border">@dropdown-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownfallbackborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownfallbackborder">@dropdown-fallback-border</label>
+                                    <input type="color" id="sass-drop-down-fallback-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-drop-down-fallback-border">@dropdown-fallback-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdowndividerbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdowndividerbg">@dropdown-divider-bg</label>
+                                    <input type="color" id="sass-dropdown-divider-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-divider-bg">@dropdown-divider-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownlinkcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownlinkcolor">@dropdown-link-color</label>
+                                    <input type="color" id="sass-dropdown-link-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-link-color">@dropdown-link-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownlinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownlinkhovercolor">@dropdown-link-hover-color</label>
+                                    <input type="color" id="sass-dropdown-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-link-hover-color">@dropdown-link-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownlinkhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownlinkhoverbg">@dropdown-link-hover-bg</label>
+                                    <input type="color" id="sass-dropdown-link-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-link-hover-bg">@dropdown-link-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownlinkactivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownlinkactivecolor">@dropdown-link-active-color</label>
+                                    <input type="color" id="sass-dropdown-link-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-link-active-color">@dropdown-link-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownlinkactivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownlinkactivebg">@dropdown-link-active-bg</label>
+                                    <input type="color" id="sass-dropdown-link-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-link-active-bg">@dropdown-link-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownlinkdisabledcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownlinkdisabledcolor">@dropdown-link-disabled-color</label>
+                                    <input type="color" id="sass-dropdown-link-disabled-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-link-disabled-color">@dropdown-link-disabled-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdownheadercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdownheadercolor">@dropdown-header-color</label>
+                                    <input type="color" id="sass-dropdown-header-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-header-color">@dropdown-header-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-dropdowncaretcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dropdowncaretcolor">@dropdown-caret-color</label>
+                                    <input type="color" id="sass-dropdown-caret-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dropdown-caret-color">@dropdown-caret-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -584,60 +579,60 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-screenxs" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenxs">@screen-xs</label>
+                                    <input type="number" id="sass-screen-xs" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-xs">@screen-xs</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screenxsmin" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenxsmin">@screen-xs-min</label>
+                                    <input type="number" id="sass-screen-xs-min" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-xs-min">@screen-xs-min</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screensm" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screensm">@screen-sm</label>
+                                    <input type="number" id="sass-screen-sm" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-sm">@screen-sm</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screensmmin" onChange={this.setJsonData.bind(this)} />
+                                    <input type="number" id="sass-screen-sm-min" onChange={this.setJsonData.bind(this)} />
                                     <label for="sass-screensmmin">@screen-sm-min</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screentablet" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screentablet">@screen-tablet</label>
+                                    <input type="number" id="sass-screen-tablet" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-tablet">@screen-tablet</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screenmd" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenmd">@screen-md</label>
+                                    <input type="number" id="sass-screen-md" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-md">@screen-md</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screenmdmin" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenmdmin">@screen-md-min</label>
+                                    <input type="number" id="sass-screen-md-min" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-md-min">@screen-md-min</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screendesktop" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screendesktop">@screen-desktop</label>
+                                    <input type="number" id="sass-screen-desktop" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-desktop">@screen-desktop</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screenlg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenlg">@screen-lg</label>
+                                    <input type="number" id="sass-screen-lg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-lg">@screen-lg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screenlgmin" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenlgmin">@screen-lg-min</label>
+                                    <input type="number" id="sass-screen-lg-min" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-lg-min">@screen-lg-min</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screenlgdesktop" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenlgdesktop">@screen-lg-desktop</label>
+                                    <input type="number" id="sass-screen-lg-desktop" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-lg-desktop">@screen-lg-desktop</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screenxsmax" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenxsmax">@screen-xs-max</label>
+                                    <input type="number" id="sass-screen-xs-max" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-xs-max">@screen-xs-max</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screensmmax" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screensmmax">@screen-sm-max</label>
+                                    <input type="number" id="sass-screen-sm-max" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-sm-max">@screen-sm-max</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-screenmdmax" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-screenmdmax">@screen-md-max</label>
+                                    <input type="number" id="sass-screen-md-max" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-screen-md-max">@screen-md-max</label>
                                 </li>
                             </ul>
                         </li>
@@ -648,20 +643,20 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-gridcolumns" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-gridcolumns">@grid-columns</label>
+                                    <input type="number" id="sass-grid-columns" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-grid-columns">@grid-columns</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-gridgutterwidth" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-gridgutterwidth">@grid-gutter-width</label>
+                                    <input type="number" id="sass-grid-gutter-width" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-grid-gutter-width">@grid-gutter-width</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-gridfloatbreakpoint" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-gridfloatbreakpoint">@grid-float-breakpoint</label>
+                                    <input type="number" id="sass-grid-float-breakpoint" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-grid-float-breakpoint">@grid-float-breakpoint</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-gridfloatbreakpointmax" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-gridfloatbreakpointmax">@grid-float-breakpoint-max</label>
+                                    <input type="number" id="sass-grid-float-breakpoint-max" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-grid-float-breakpoint-max">@grid-float-breakpoint-max</label>
                                 </li>
                             </ul>
                         </li>
@@ -672,28 +667,28 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-containertablet" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-containertablet">@container-tablet</label>
+                                    <input type="number" id="sass-container-tablet" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-container-tablet">@container-tablet</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-containersm" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-containersm">@container-sm</label>
+                                    <input type="number" id="sass-container-sm" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-container-sm">@container-sm</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-containerdesktop" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-containerdesktop">@container-desktop</label>
+                                    <input type="number" id="sass-container-desktop" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-container-desktop">@container-desktop</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-containermd" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-containermd">@container-md</label>
+                                    <input type="number" id="sass-container-md" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-container-md">@container-md</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-containerlargedesktop" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-containerlargedesktop">@container-large-desktop</label>
+                                    <input type="number" id="sass-container-large-desktop" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-container-large-desktop">@container-large-desktop</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-containerlg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-containerlg">@container-lg</label>
+                                    <input type="number" id="sass-container-lg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-container-lg">@container-lg</label>
                                 </li>
                             </ul>
                         </li>
@@ -704,161 +699,161 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-navbarheight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarheight">@navbar-height</label>
+                                    <input type="number" id="sass-navbar-height" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-height">@navbar-height</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-navbarmarginbottom" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarmarginbottom">@navbar-margin-bottom</label>
+                                    <input type="number" id="sass-navbar-margin-bottom" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-margin-bottom">@navbar-margin-bottom</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-navbarborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarborderradius">@navbar-border-radius</label>
+                                    <input type="number" id="sass-navbar-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-border-radius">@navbar-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-navbarpaddinghorizontal" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarpaddinghorizontal">@navbar-padding-horizontal</label>
+                                    <input type="number" id="sass-navbar-padding-horizontal" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-padding-horizontal">@navbar-padding-horizontal</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-navbarpaddingvertical" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarpaddingvertical">@navbar-padding-vertical</label>
+                                    <input type="number" id="sass-navbar-padding-vertical" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-padding-vertical">@navbar-padding-vertical</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-navbarcollapsemaxheight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarcollapsemaxheight">@navbar-collapse-max-height</label>
+                                    <input type="number" id="sass-navbar-collapse-max-height" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-collapse-max-height">@navbar-collapse-max-height</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultcolor">@navbar-default-color</label>
+                                    <input type="color" id="sass-navbar-default-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-color">@navbar-default-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultbg">@navbar-default-bg</label>
+                                    <input type="color" id="sass-navbar-default-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-bg">@navbar-default-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultborder">@navbar-default-border</label>
+                                    <input type="color" id="sass-navbar-default-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-border">@navbar-default-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultlinkcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultlinkcolor">@navbar-default-link-color</label>
+                                    <input type="color" id="sass-navbar-default-link-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-link-color">@navbar-default-link-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultlinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultlinkhovercolor">@navbar-default-link-hover-color</label>
+                                    <input type="color" id="sass-navbar-default-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-link-hover-color">@navbar-default-link-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultlinkhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultlinkhoverbg">@navbar-default-link-hover-bg</label>
+                                    <input type="color" id="sass-navbar-default-link-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-link-hover-bg">@navbar-default-link-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultlinkactivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultlinkactivecolor">@navbar-default-link-active-color</label>
+                                    <input type="color" id="sass-navbar-default-link-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-link-active-color">@navbar-default-link-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultbg">@navbar-default-bg</label>
+                                    <input type="color" id="sass-navbar-default-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-bg">@navbar-default-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultlinkactivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultlinkactivebg">@navbar-default-link-active-bg</label>
+                                    <input type="color" id="sass-navbar-default-link-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-link-active-bg">@navbar-default-link-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-defaultlinkdisabledcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-defaultlinkdisabledcolor">@navbar-default-link-disabled-color></label>
+                                    <input type="color" id="sass-default-link-disabled-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-default-link-disabled-color">@navbar-default-link-disabled-color></label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultlinkdisabledbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultlinkdisabledbg">@navbar-default-link-disabled-bg</label>
+                                    <input type="color" id="sass-navbar-default-link-disabled-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-link-disabled-bg">@navbar-default-link-disabled-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultbrandcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultbrandcolor">@navbar-default-brand-color</label>
+                                    <input type="color" id="sass-navbar-default-brand-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-brand-color">@navbar-default-brand-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultbrandhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultbrandhovercolor">@navbar-default-brand-hover-color</label>
+                                    <input type="color" id="sass-navbar-default-brand-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-brand-hover-color">@navbar-default-brand-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaultbrandhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaultbrandhoverbg">@navbar-default-brand-hover-bg</label>
+                                    <input type="color" id="sass-navbar-default-brand-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-brand-hover-bg">@navbar-default-brand-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaulttogglehoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaulttogglehoverbg">@navbar-default-toggle-hover-bg</label>
+                                    <input type="color" id="sass-navbar-default-toggle-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-toggle-hover-bg">@navbar-default-toggle-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaulttoggleiconbarbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaulttoggleiconbarbg">@navbar-default-toggle-icon-bar-bg</label>
+                                    <input type="color" id="sass-navbar-default-toggle-icon-bar-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-toggle-icon-bar-bg">@navbar-default-toggle-icon-bar-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbardefaulttogglebordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbardefaulttogglebordercolor">@navbar-default-toggle-border-color</label>
+                                    <input type="color" id="sass-navbar-default-toggle-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-default-toggle-border-color">@navbar-default-toggle-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinversecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinversecolor">@navbar-inverse-color</label>
+                                    <input type="color" id="sass-navbar-inverse-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-color">@navbar-inverse-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinversebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinversebg">@navbar-inverse-bg</label>
+                                    <input type="color" id="sass-navbar-inverse-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-bg">@navbar-inverse-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinverseborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinverseborder">@navbar-inverse-border</label>
+                                    <input type="color" id="sass-navbar-inverse-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-border">@navbar-inverse-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinverselinkcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinverselinkcolor">@navbar-inverse-link-color</label>
+                                    <input type="color" id="sass-navbar-inverse-link-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inver-selink-color">@navbar-inverse-link-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinverselinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinverselinkhovercolor">@navbar-inverse-link-hover-color</label>
+                                    <input type="color" id="sass-navbar-inverse-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-link-hover-color">@navbar-inverse-link-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinverselinkhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinverselinkhoverbg">@navbar-inverse-link-hover-bg</label>
+                                    <input type="color" id="sass-navbar-inverse-link-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-link-hover-bg">@navbar-inverse-link-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinverselinkactivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinverselinkactivecolor">@navbar-inverse-link-active-color</label>
+                                    <input type="color" id="sass-navbar-inverse-link-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-link-active-color">@navbar-inverse-link-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinverselinkactivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinverselinkactivebg">@navbar-inverse-link-active-bg</label>
+                                    <input type="color" id="sass-navbar-inverse-link-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-link-active-bg">@navbar-inverse-link-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinverselinkdisabledcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinverselinkdisabledcolor">@navbar-inverse-link-disabled-color</label>
+                                    <input type="color" id="sass-navbar-inverse-link-disabled-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-link-disabled-color">@navbar-inverse-link-disabled-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinverselinkdisabledbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinverselinkdisabledbg">@navbar-inverse-link-disabled-bg</label>
+                                    <input type="color" id="sass-navbar-inverse-link-disabled-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-link-disabled-bg">@navbar-inverse-link-disabled-bg</label>
                                 </li>
 
                                 <li>
-                                    <input type="color" id="sass-navbarinversebrandcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinversebrandcolor">@navbar-inverse-brand-color</label>
+                                    <input type="color" id="sass-navbar-inverse-brand-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-brand-color">@navbar-inverse-brand-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinversebrandhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinversebrandhovercolor">@navbar-inverse-brand-hover-color</label>
+                                    <input type="color" id="sass-navbar-inverse-brand-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-brand-hover-color">@navbar-inverse-brand-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinversebrandhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinversebrandhoverbg">@navbar-inverse-brand-hover-bg</label>
+                                    <input type="color" id="sass-navbar-inverse-brand-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-brand-hover-bg">@navbar-inverse-brand-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinversetogglehoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinversetogglehoverbg">@navbar-inverse-toggle-hover-bg</label>
+                                    <input type="color" id="sass-navbar-inverse-toggle-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-toggle-hover-bg">@navbar-inverse-toggle-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinversetoggleiconbarbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinversetoggleiconbarbg">@navbar-inverse-toggle-icon-bar-bg</label>
+                                    <input type="color" id="sass-navbar-inverse-toggle-icon-bar-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-toggle-icon-bar-bg">@navbar-inverse-toggle-icon-bar-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navbarinversetogglebordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navbarinversetogglebordercolor">@navbar-inverse-toggle-border-color</label>
+                                    <input type="color" id="sass-navbar-inverse-toggle-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navbar-inverse-toggle-border-color">@navbar-inverse-toggle-border-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -869,20 +864,20 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-navlinkpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navlinkpadding">@nav-link-padding</label>
+                                    <input type="number" id="sass-nav-link-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-link-padding">@nav-link-padding</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navlinkhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navlinkhoverbg">@nav-link-hover-bg</label>
+                                    <input type="color" id="sass-nav-link-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-link-hover-bg">@nav-link-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navdisabledlinkcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navdisabledlinkcolor">@nav-disabled-link-color</label>
+                                    <input type="color" id="sass-nav-disabled-linkc-olor" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-disabled-link-color">@nav-disabled-link-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navdisabledlinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navdisabledlinkhovercolor">@nav-disabled-link-hover-color</label>
+                                    <input type="color" id="sass-nav-disabled-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-disabled-link-hover-color">@nav-disabled-link-hover-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -893,32 +888,32 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-navtabsbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navtabsbordercolor">@nav-tabs-border-color</label>
+                                    <input type="color" id="sass-nav-tabs-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-tabs-border-color">@nav-tabs-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navtabslinkhoverbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navtabslinkhoverbordercolor">@nav-tabs-link-hover-border-color</label>
+                                    <input type="color" id="sass-nav-tabs-link-hover-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-navtabs-link-hover-border-color">@nav-tabs-link-hover-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navtabsactivelinkhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navtabsactivelinkhoverbg">@nav-tabs-active-link-hover-bg</label>
+                                    <input type="color" id="sass-nav-tabs-active-link-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-tabs-active-link-hove-rbg">@nav-tabs-active-link-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navtabsactivelinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navtabsactivelinkhovercolor">@nav-tabs-active-link-hover-color</label>
+                                    <input type="color" id="sass-nav-tabs-active-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-tabs-active-link-hover-color">@nav-tabs-active-link-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navtabsactivelinkhoverbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navtabsactivelinkhoverbordercolor">@nav-tabs-active-link-hover-border-color</label>
+                                    <input type="color" id="sass-nav-tabs-active-link-hover-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-tabs-active-link-hover-border-color">@nav-tabs-active-link-hover-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navtabsjustifiedlinkbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navtabsjustifiedlinkbordercolor">@nav-tabs-justified-link-border-color</label>
+                                    <input type="color" id="sass-nav-tabs-justified-link-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-tabs-justified-link-border-color">@nav-tabs-justified-link-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navtabsjustifiedactivelinkbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navtabsjustifiedactivelinkbordercolor">@nav-tabs-justified-active-link-border-color</label>
+                                    <input type="color" id="sass-nav-tabs-justified-active-link-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-tabs-justified-active-link-border-color">@nav-tabs-justified-active-link-border-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -929,16 +924,16 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-navpillsborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navpillsborderradius">@nav-pills-border-radius</label>
+                                    <input type="number" id="sass-nav-pills-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-pills-border-radius">@nav-pills-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navpillsactivelinkhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navpillsactivelinkhoverbg">@nav-pills-active-link-hover-bg</label>
+                                    <input type="color" id="sass-nav-pills-active-link-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-pills-active-link-hover-bg">@nav-pills-active-link-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-navpillsactivelinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-navpillsactivelinkhovercolor">@nav-pills-active-link-hover-color</label>
+                                    <input type="color" id="sass-nav-pills-active-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-nav-pills-active-link-hover-color">@nav-pills-active-link-hover-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -949,48 +944,48 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-paginationcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationcolor">@pagination-color</label>
+                                    <input type="color" id="sass-pagination-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-color">@pagination-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationbg">@pagination-bg</label>
+                                    <input type="color" id="sass-pagination-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-bg">@pagination-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationborder">@pagination-border</label>
+                                    <input type="color" id="sass-pagination-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-border">@pagination-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationhovercolor">@pagination-hover-color</label>
+                                    <input type="color" id="sass-pagination-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-hover-color">@pagination-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationhoverborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationhoverborder">@pagination-hover-border</label>
+                                    <input type="color" id="sass-pagination-hover-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-hover-border">@pagination-hover-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationactivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationactivecolor">@pagination-active-color</label>
+                                    <input type="color" id="sass-pagination-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-active-color">@pagination-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationactivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationactivebg">@pagination-active-bg</label>
+                                    <input type="color" id="sass-pagination-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-active-bg">@pagination-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationactiveborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationactiveborder">@pagination-active-border</label>
+                                    <input type="color" id="sass-pagination-active-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-active-border">@pagination-active-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationdisabledcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationdisabledcolor">@pagination-disabled-color</label>
+                                    <input type="color" id="sass-pagination-disabled-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-disabled-color">@pagination-disabled-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationdisabledbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationdisabledbg">@pagination-disabled-bg</label>
+                                    <input type="color" id="sass-pagination-disabled-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-disabled-bg">@pagination-disabled-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paginationdisabledborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paginationdisabledborder">@pagination-disabled-border</label>
+                                    <input type="color" id="sass-pagination-disabled-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pagination-disabled-border">@pagination-disabled-border</label>
                                 </li>
                             </ul>
                         </li>
@@ -1001,32 +996,32 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-pagerbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-pagerbg">@pager-bg</label>
+                                    <input type="color" id="sass-pager-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pager-bg">@pager-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-pagerborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-pagerborder">@pager-border</label>
+                                    <input type="color" id="sass-pager-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pager-border">@pager-border</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-pagerborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-pagerborderradius">@pager-border-radius</label>
+                                    <input type="number" id="sass-pager-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pager-border-radius">@pager-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-pagerhoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-pagerhoverbg">@pager-hover-bg</label>
+                                    <input type="color" id="sass-pager-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pager-hover-bg">@pager-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-pageractivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-pageractivebg">@pager-active-bg</label>
+                                    <input type="color" id="sass-pager-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pager-active-bg">@pager-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-pageractivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-pageractivecolor">@pager-active-color</label>
+                                    <input type="color" id="sass-pager-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pager-active-color">@pager-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-pagerdisabledcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-pagerdisabledcolor">@pager-disabled-color</label>
+                                    <input type="color" id="sass-pager-disabled-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pager-disabled-color">@pager-disabled-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -1037,24 +1032,24 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-jumbotronpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-jumbotronpadding">@jumbotron-padding</label>
+                                    <input type="number" id="sass-jumbotron-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-jumbotron-padding">@jumbotron-padding</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-jumbotroncolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-jumbotroncolor">@jumbotron-color</label>
+                                    <input type="color" id="sass-jumbotron-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-jumbotron-color">@jumbotron-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-jumbotronbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-jumbotronbg">@jumbotron-bg</label>
+                                    <input type="color" id="sass-jumbotron-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-jumbotron-bg">@jumbotron-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-jumbotronheadingcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-jumbotronheadingcolor">@jumbotron-heading-color</label>
+                                    <input type="color" id="sass-jumbotron-heading-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-jumbotron-heading-color">@jumbotron-heading-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-jumbotronfontsize" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-jumbotronfontsize">@jumbotron-font-size</label>
+                                    <input type="number" id="sass-jumbotron-font-size" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-jumbotron-font-size">@jumbotron-font-size</label>
                                 </li>
                             </ul>
                         </li>
@@ -1065,48 +1060,48 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="text" id="sass-statesuccesstext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statesuccesstext">@state-success-text</label>
+                                    <input type="text" id="sass-state-success-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-success-text">@state-success-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-statesuccessbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statesuccessbg">@state-success-bg</label>
+                                    <input type="color" id="sass-state-success-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-success-bg">@state-success-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-statesuccessborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statesuccessborder">@state-success-border</label>
+                                    <input type="color" id="sass-state-success-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-success-border">@state-success-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-stateinfobg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-stateinfobg">@state-info-bg</label>
+                                    <input type="color" id="sass-state-info-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-info-bg">@state-info-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-stateinfoborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-stateinfoborder">@state-info-border</label>
+                                    <input type="color" id="sass-state-info-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-info-border">@state-info-border</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-statewarningtext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statewarningtext">@state-warning-text</label>
+                                    <input type="text" id="sass-state-warning-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-warning-text">@state-warning-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-statewarningbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statewarningbg">@state-warning-bg</label>
+                                    <input type="color" id="sass-state-warning-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-warning-bg">@state-warning-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-statewarningborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statewarningborder">@state-warning-border</label>
+                                    <input type="color" id="sass-state-warning-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-warning-border">@state-warning-border</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-statedangertext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statedangertext">@state-danger-text</label>
+                                    <input type="text" id="sass-state-danger-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-danger-text">@state-danger-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-statedangerbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statedangerbg">@state-danger-bg</label>
+                                    <input type="color" id="sass-state-danger-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-danger-bg">@state-danger-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-statedangerborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-statedangerborder">@state-danger-border</label>
+                                    <input type="color" id="sass-state-danger-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-state-danger-border">@state-danger-border</label>
                                 </li>
                             </ul>
                         </li>
@@ -1117,28 +1112,28 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-tooltipmaxwidth" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tooltipmaxwidth">@tooltip-max-width</label>
+                                    <input type="number" id="sass-tooltip-max-width" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-tooltip-max-width">@tooltip-max-width</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-tooltipcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tooltipcolor">@tooltip-color</label>
+                                    <input type="color" id="sass-tooltip-colo" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-tooltip-colo">@tooltip-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-tooltipbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tooltipbg">@tooltip-bg</label>
+                                    <input type="color" id="sass-tooltip-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-tooltip-bg">@tooltip-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" step="0.01" id="sass-tooltipopacity" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tooltipopacity">@tooltip-opacity</label>
+                                    <input type="number" step="0.01" id="sass-tooltip-opacity" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-tooltip-opacity">@tooltip-opacity</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-tooltiparrowwidth" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tooltiparrowwidth">@tooltip-arrow-width</label>
+                                    <input type="number" id="sass-tooltip-arrow-width" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-tooltip-arrow-width">@tooltip-arrow-width</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-tooltiparrowcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-tooltiparrowcolor">@tooltip-arrow-color</label>
+                                    <input type="color" id="sass-tooltip-arrow-colo" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-tooltip-arrow-colo">@tooltip-arrow-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -1149,44 +1144,44 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-popoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popoverbg">@popover-bg</label>
+                                    <input type="color" id="sass-popover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-bg">@popover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-popovermaxwidth" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popovermaxwidth">@popover-max-width</label>
+                                    <input type="number" id="sass-popover-max-width" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-max-width">@popover-max-width</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-popoverbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popoverbordercolor">@popover-border-color</label>
+                                    <input type="color" id="sass-popover-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-border-color">@popover-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-popoverfallbackbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popoverfallbackbordercolor">@popover-fallback-border-color</label>
+                                    <input type="color" id="sass-popover-fallback-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-fallback-border-color">@popover-fallback-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-popovertitlebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popovertitlebg">@popover-title-bg</label>
+                                    <input type="color" id="sass-popover-title-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-title-bg">@popover-title-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-popoverarrowwidth" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popoverarrowwidth">@popover-arrow-width</label>
+                                    <input type="number" id="sass-popover-arrow-width" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-arrow-width">@popover-arrow-width</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-popoverarrowcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popoverarrowcolor">@popover-arrow-color</label>
+                                    <input type="color" id="sass-popover-arrow-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-arrow-color">@popover-arrow-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-popoverarrowouterwidth" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popoverarrowouterwidth">@popover-arrow-outer-width</label>
+                                    <input type="number" id="sass-popover-arrow-outer-width" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-arrow-outer-width">@popover-arrow-outer-width</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-popoverarrowoutercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popoverarrowoutercolor">@popover-arrow-outer-color</label>
+                                    <input type="color" id="sass-popover-arrow-outer-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-arrow-outer-color">@popover-arrow-outer-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-popoverarrowouterfallbackcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-popoverarrowouterfallbackcolor">@popover-arrow-outer-fallback-color</label>
+                                    <input type="color" id="sass-popover-arrow-outer-fallback-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-popover-arrow-outer-fallback-color">@popover-arrow-outer-fallback-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -1197,36 +1192,36 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-labeldefaultbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-labeldefaultbg">@label-default-bg</label>
+                                    <input type="color" id="sass-label-default-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-label-default-bg">@label-default-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-labelprimarybg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-labelprimarybg">@label-primary-bg</label>
+                                    <input type="color" id="sass-label-primary-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-label-primary-bg">@label-primary-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-labelsuccessbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-labelsuccessbg">@label-success-bg</label>
+                                    <input type="color" id="sass-label-success-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-label-success-bg">@label-success-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-labelinfobg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-labelinfobg">@label-info-bg</label>
+                                    <input type="color" id="sass-label-info-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-label-info-bg">@label-info-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-labelwarningbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-labelwarningbg">@label-warning-bg</label>
+                                    <input type="color" id="sass-label-warning-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-label-warning-bg">@label-warning-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-labeldangerbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-labeldangerbg">@label-danger-bg</label>
+                                    <input type="color" id="sass-label-danger-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-label-danger-bg">@label-danger-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-labelcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-labelcolor">@label-color</label>
+                                    <input type="color" id="sass-label-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-label-color">@label-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-labellinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-labellinkhovercolor">@label-link-hover-color</label>
+                                    <input type="color" id="sass-label-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-label-link-hover-color">@label-link-hover-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -1237,56 +1232,56 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-modalinnerpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalinnerpadding">@modal-inner-padding</label>
+                                    <input type="number" id="sass-modal-inner-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-inner-padding">@modal-inner-padding</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-modaltitlepadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modaltitlepadding">@modal-title-padding</label>
+                                    <input type="number" id="sass-modal-title-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-title-padding">@modal-title-padding</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-modaltitlelineheight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modaltitlelineheight">@modal-title-line-height</label>
+                                    <input type="number" id="sass-modal-title-line-height" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-title-line-height">@modal-title-line-height</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-modalcontentbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalcontentbg">@modal-content-bg</label>
+                                    <input type="color" id="sass-modal-content-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-content-bg">@modal-content-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-modalcontentbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalcontentbordercolor">@modal-content-border-color</label>
+                                    <input type="color" id="sass-modal-content-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-content-border-color">@modal-content-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-modalcontentfallbackbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalcontentfallbackbordercolor">@modal-content-fallback-border-color</label>
+                                    <input type="color" id="sass-modal-content-fallback-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-content-fallback-border-color">@modal-content-fallback-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-modalbackdropbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalbackdropbg">@modal-backdrop-bg</label>
+                                    <input type="color" id="sass-modal-backdrop-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-backdrop-bg">@modal-backdrop-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" stop="0.01" id="sass-modalbackdropopacity" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalbackdropopacity">@modal-backdrop-opacity</label>
+                                    <input type="number" stop="0.01" id="sass-modal-backdrop-opacity" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-backdrop-opacity">@modal-backdrop-opacity</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-modalheaderbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalheaderbordercolor">@modal-header-border-color</label>
+                                    <input type="color" id="sass-modal-header-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-header-border-color">@modal-header-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-modalfooterbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalfooterbordercolor">@modal-footer-border-color</label>
+                                    <input type="color" id="sass-modal-footer-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-footer-border-color">@modal-footer-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-modallg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modallg">@modal-lg</label>
+                                    <input type="number" id="sass-modal-lg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-lg">@modal-lg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-modalmd" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalmd">@modal-md</label>
+                                    <input type="number" id="sass-modal-md" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-md">@modal-md</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-modalsm" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-modalsm">@modal-sm</label>
+                                    <input type="number" id="sass-modal-sm" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-modal-sm">@modal-sm</label>
                                 </li>
                             </ul>
                         </li>
@@ -1297,64 +1292,64 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-alertpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertpadding">@alert-padding</label>
+                                    <input type="number" id="sass-alert-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-padding">@alert-padding</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-alertborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertborderradius">@alert-border-radius</label>
+                                    <input type="number" id="sass-alert-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-border-radius">@alert-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-alertlinkfontweight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertlinkfontweight">@alert-link-font-weight</label>
+                                    <input type="number" id="sass-alert-link-font-weight" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-link-font-weight">@alert-link-font-weight</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-alertsuccessbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertsuccessbg">@alert-success-bg</label>
+                                    <input type="color" id="sass-alert-success-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-success-bg">@alert-success-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-alertsuccesstext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertsuccesstext">@alert-success-text</label>
+                                    <input type="text" id="sass-alert-success-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-success-text">@alert-success-text</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-alertsuccessborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertsuccessborder">@alert-success-border</label>
+                                    <input type="number" id="sass-alert-success-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-success-border">@alert-success-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-alertinfobg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertinfobg">@alert-info-bg</label>
+                                    <input type="color" id="sass-alert-info-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-info-bg">@alert-info-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-alertinfotext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertinfotext">@alert-info-text</label>
+                                    <input type="text" id="sass-alert-info-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-info-text">@alert-info-text</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-alertinfoborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertinfoborder">@alert-info-border</label>
+                                    <input type="number" id="sass-alert-info-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-info-border">@alert-info-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-alertwarningbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertwarningbg">@alert-warning-bg</label>
+                                    <input type="color" id="sass-alert-warning-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-warning-bg">@alert-warning-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-alertwarningtext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertwarningtext">@alert-warning-text</label>
+                                    <input type="text" id="sass-alert-warning-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-warning-text">@alert-warning-text</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-alertwarningborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertwarningborder">@alert-warning-border</label>
+                                    <input type="number" id="sass-alert-warning-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-warning-border">@alert-warning-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-alertdangerbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertdangerbg">@alert-danger-bg</label>
+                                    <input type="color" id="sass-alert-danger-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-danger-bg">@alert-danger-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-alertdangertext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertdangertext">@alert-danger-text</label>
+                                    <input type="text" id="sass-alert-danger-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-danger-text">@alert-danger-text</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-alertdangerborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-alertdangerborder">@alert-danger-border</label>
+                                    <input type="number" id="sass-alert-danger-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-alert-danger-border">@alert-danger-border</label>
                                 </li>
                             </ul>
                         </li>
@@ -1365,36 +1360,36 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-progressbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-progressbg">@progress-bg</label>
+                                    <input type="color" id="sass-progress-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-progress-bg">@progress-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-progressbarcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-progressbarcolor">@progress-bar-color</label>
+                                    <input type="color" id="sass-progress-bar-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-progress-bar-color">@progress-bar-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-progressborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-progressborderradius">@progress-border-radius</label>
+                                    <input type="number" id="sass-progress-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-progress-border-radius">@progress-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-progressbarbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-progressbarbg">@progress-bar-bg</label>
+                                    <input type="color" id="sass-progress-bar-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-progress-bar-bg">@progress-bar-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-progressbarsuccessbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-progressbarsuccessbg">@progress-bar-success-bg</label>
+                                    <input type="color" id="sass-progress-bar-success-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-progress-bar-success-bg">@progress-bar-success-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-progressbarwarningbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-progressbarwarningbg">@progress-bar-warning-bg</label>
+                                    <input type="color" id="sass-progress-bar-warning-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-progress-bar-warning-bg">@progress-bar-warning-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-progressbardangerbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-progressbardangerbg">@progress-bar-danger-bg</label>
+                                    <input type="color" id="sass-progress-bar-danger-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-progress-bar-danger-bg">@progress-bar-danger-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-progressbarinfobg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-progressbarinfobg">@progress-bar-info-bg</label>
+                                    <input type="color" id="sass-progress-bar-info-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-progress-bar-info-bg">@progress-bar-info-bg</label>
                                 </li>
                             </ul>
                         </li>
@@ -1405,60 +1400,60 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-listgroupbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupbg">@list-group-bg</label>
+                                    <input type="color" id="sass-list-group-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-bg">@list-group-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-listgroupborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupborder">@list-group-border</label>
+                                    <input type="number" id="sass-list-group-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-border">@list-group-border</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-listgroupborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupborderradius">@list-group-border-radius</label>
+                                    <input type="number" id="sass-list-group-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-border-radius">@list-group-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgrouphoverbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgrouphoverbg">@list-group-hover-bg</label>
+                                    <input type="color" id="sass-list-group-hover-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-hover-bg">@list-group-hover-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgroupactivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupactivecolor">@list-group-active-color</label>
+                                    <input type="color" id="sass-list-group-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-active-color">@list-group-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgroupactivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupactivebg">@list-group-active-bg</label>
+                                    <input type="color" id="sass-list-group-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-active-bg">@list-group-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-listgroupactiveborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupactiveborder">@list-group-active-border</label>
+                                    <input type="number" id="sass-list-group-active-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-active-border">@list-group-active-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgroupactivetextcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupactivetextcolor">@list-group-active-text-color</label>
+                                    <input type="color" id="sass-list-group-active-text-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-active-text-color">@list-group-active-text-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgroupdisabledcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupdisabledcolor">@list-group-disabled-color</label>
+                                    <input type="color" id="sass-list-group-disabled-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-disabled-color">@list-group-disabled-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgroupdisabledbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupdisabledbg">@list-group-disabled-bg</label>
+                                    <input type="color" id="sass-list-group-disabled-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-disabled-bg">@list-group-disabled-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgroupdisabledtextcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgroupdisabledtextcolor">@list-group-disabled-text-color</label>
+                                    <input type="color" id="sass-list-group-disabled-text-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-disabled-text-color">@list-group-disabled-text-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgrouplinkcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgrouplinkcolor">@list-group-link-color</label>
+                                    <input type="color" id="sass-list-group-link-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-link-color">@list-group-link-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgrouplinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgrouplinkhovercolor">@list-group-link-hover-color</label>
+                                    <input type="color" id="sass-list-group-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-link-hover-color">@list-group-link-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-listgrouplinkheadingcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-listgrouplinkheadingcolor">@list-group-link-heading-color</label>
+                                    <input type="color" id="sass-list-group-link-heading-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-list-group-link-heading-color">@list-group-link-heading-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -1469,110 +1464,110 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-panelbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelbg">@panel-bg</label>
+                                    <input type="color" id="sass-panel-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-bg">@panel-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-panelbodypadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelbodypadding">@panel-body-padding</label>
+                                    <input type="number" id="sass-panel-body-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-body-padding">@panel-body-padding</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-panelheadingpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelheadingpadding">@panel-heading-padding</label>
+                                    <input type="number" id="sass-panel-heading-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-heading-padding">@panel-heading-padding</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-panelfooterpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelfooterpadding">@panel-footer-padding</label>
+                                    <input type="number" id="sass-panel-footer-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-footer-padding">@panel-footer-padding</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-panelborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelborderradius">@panel-border-radius</label>
+                                    <input type="number" id="sass-panel-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-border-radius">@panel-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelinnerborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelinnerborder">@panel-inner-border</label>
+                                    <input type="color" id="sass-panel-inner-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-inner-border">@panel-inner-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelfooterbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelfooterbg">@panel-footer-bg</label>
+                                    <input type="color" id="sass-panel-footer-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-footer-bg">@panel-footer-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-paneldefaulttext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paneldefaulttext">@panel-default-text</label>
+                                    <input type="text" id="sass-panel-default-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-default-text">@panel-default-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paneldefaultborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paneldefaultborder">@panel-default-border</label>
+                                    <input type="color" id="sass-panel-default-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-default-border">@panel-default-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paneldefaultheadingbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paneldefaultheadingbg">@panel-default-heading-bg</label>
+                                    <input type="color" id="sass-panel-default-heading-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-default-heading-bg">@panel-default-heading-bg</label>
                                 </li>
 
 
                                 <li>
-                                    <input type="text" id="sass-panelprimarytext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelprimarytext">@panel-primary-text</label>
+                                    <input type="text" id="sass-panel-primary-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-primary-text">@panel-primary-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelprimaryborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelprimaryborder">@panel-primary-border</label>
+                                    <input type="color" id="sass-panel-primary-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-primary-border">@panel-primary-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelprimaryheadingbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelprimaryheadingbg">@panel-primary-heading-bg</label>
+                                    <input type="color" id="sass-panel-primary-heading-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-primary-heading-bg">@panel-primary-heading-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-panelsuccesstext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelsuccesstext">@panel-success-text</label>
+                                    <input type="text" id="sass-panel-success-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-success-text">@panel-success-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelsuccessborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelsuccessborder">@panel-primary-text</label>
+                                    <input type="color" id="sass-panel-primary-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-primary-text">@panel-primary-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelprimaryborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelprimaryborder">@panel-success-border</label>
+                                    <input type="color" id="sass-panel-success-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-success-border">@panel-success-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelsuccessheadingbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelsuccessheadingbg">@panel-success-heading-bg</label>
+                                    <input type="color" id="sass-panel-success-heading-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-success-heading-bg">@panel-success-heading-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-panelinfotext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelinfotext">@panel-info-text</label>
+                                    <input type="text" id="sass-panel-info-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-info-text">@panel-info-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelinfoborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelinfoborder">@panel-info-border</label>
+                                    <input type="color" id="sass-panel-info-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-info-border">@panel-info-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelinfoheadingbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelinfoheadingbg">@panel-info-heading-bg</label>
+                                    <input type="color" id="sass-panel-info-heading-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-info-heading-bg">@panel-info-heading-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-panelwarningtext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelwarningtext">@panel-warning-text</label>
+                                    <input type="text" id="sass-panel-warning-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-warning-text">@panel-warning-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelwarningborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelwarningborder">@panel-warning-border</label>
+                                    <input type="color" id="sass-panel-warning-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-warning-border">@panel-warning-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-panelwarningheadingbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-panelwarningheadingbg">@panel-warning-heading-bg</label>
+                                    <input type="color" id="sass-panel-warning-heading-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-warning-heading-bg">@panel-warning-heading-bg</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-paneldangertext" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paneldangertext">@panel-danger-text</label>
+                                    <input type="text" id="sass-panel-danger-text" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-danger-text">@panel-danger-text</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paneldangerborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paneldangerborder">@panel-danger-border</label>
+                                    <input type="color" id="sass-panel-danger-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-danger-border">@panel-danger-border</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-paneldangerheadingbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-paneldangerheadingbg">@panel-danger-heading-bg</label>
+                                    <input type="color" id="sass-panel-danger-heading-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-panel-danger-heading-bg">@panel-danger-heading-bg</label>
                                 </li>
                             </ul>
                         </li>
@@ -1583,28 +1578,28 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-thumbnailpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-thumbnailpadding">@thumbnail-padding</label>
+                                    <input type="number" id="sass-thumbnail-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-thumbnail-padding">@thumbnail-padding</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-thumbnailbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-thumbnailbg">@thumbnail-bg</label>
+                                    <input type="color" id="sass-thumbnail-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-thumbnail-bg">@thumbnail-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-thumbnailborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-thumbnailborder">@thumbnail-border</label>
+                                    <input type="color" id="sass-thumbnail-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-thumbnail-border">@thumbnail-border</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-thumbnailborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-thumbnailborderradius">@thumbnail-border-radius</label>
+                                    <input type="number" id="sass-thumbnail-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-thumbnail-border-radius">@thumbnail-border-radius</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-thumbnailcaptioncolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-thumbnailcaptioncolor">@thumbnail-caption-color</label>
+                                    <input type="color" id="sass-thumbnail-caption-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-thumbnail-caption-color">@thumbnail-caption-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-thumbnailcaptionpadding" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-thumbnailcaptionpadding">@thumbnail-caption-padding</label>
+                                    <input type="number" id="sass-thumbnail-caption-padding" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-thumbnail-caption-padding">@thumbnail-caption-padding</label>
                                 </li>
                             </ul>
                         </li>
@@ -1615,12 +1610,12 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-wellbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-wellbg">@well-bg</label>
+                                    <input type="color" id="sass-well-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-well-bg">@well-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-wellborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-wellborder">@well-border</label>
+                                    <input type="number" id="sass-well-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-well-border">@well-border</label>
                                 </li>
                             </ul>
                         </li>
@@ -1631,36 +1626,36 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-badgecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-badgecolor">@badge-color</label>
+                                    <input type="color" id="sass-badge-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-badge-color">@badge-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-badgelinkhovercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-badgelinkhovercolor">@badge-link-hover-color</label>
+                                    <input type="color" id="sass-badge-link-hover-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-badge-link-hover-color">@badge-link-hover-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-badgebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-badgebg">@badge-bg</label>
+                                    <input type="color" id="sass-badge-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-badge-bg">@badge-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-badgeactivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-badgeactivecolor">@badge-active-color</label>
+                                    <input type="color" id="sass-badge-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-badge-active-color">@badge-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-badgeactivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-badgeactivebg">@badge-active-bg</label>
+                                    <input type="color" id="sass-badge-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-badge-active-bg">@badge-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-badgefontweight" onChange={this.setJsonData.bind(this)} />
+                                    <input type="number" id="sass-badge-font-weight" onChange={this.setJsonData.bind(this)} />
                                     <label for="sass-badgefontweight">@badge-font-weight</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-badgelineheight" onChange={this.setJsonData.bind(this)} />
+                                    <input type="number" id="sass-badge-line-height" onChange={this.setJsonData.bind(this)} />
                                     <label for="sass-badgelineheight">@badge-line-height</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-badgeborderradius" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-badgeborderradius">@badge-border-radius</label>
+                                    <input type="number" id="sass-badge-border-radius" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-badge-border-radius">@badge-border-radius</label>
                                 </li>
                             </ul>
                         </li>
@@ -1671,28 +1666,28 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-breadcrumbpaddingvertical" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-breadcrumbpaddingvertical">@breadcrumb-padding-vertical</label>
+                                    <input type="number" id="sass-breadcrumb-padding-vertical" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-breadcrumb-padding-vertical">@breadcrumb-padding-vertical</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-breadcrumbpaddinghorizontal" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-breadcrumbpaddinghorizontal">@breadcrumb-padding-horizontal</label>
+                                    <input type="number" id="sass-breadcrumb-padding-horizontal" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-breadcrumb-padding-horizontal">@breadcrumb-padding-horizontal</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-breadcrumbbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-breadcrumbbg">@breadcrumb-bg</label>
+                                    <input type="color" id="sass-breadcrumb-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-breadcrumb-bg">@breadcrumb-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-breadcrumbcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-breadcrumbcolor">@breadcrumb-color</label>
+                                    <input type="color" id="sass-breadcrumb-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-breadcrumb-color">@breadcrumb-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-breadcrumbactivecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-breadcrumbactivecolor">@breadcrumb-active-color</label>
+                                    <input type="color" id="sass-breadcrumb-active-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-breadcrumb-active-color">@breadcrumb-active-color</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-breadcrumbseparator" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-breadcrumbseparator">@breadcrumb-separator</label>
+                                    <input type="text" id="sass-breadcrumb-separator" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-breadcrumb-separator">@breadcrumb-separator</label>
                                 </li>
                             </ul>
                         </li>
@@ -1703,36 +1698,36 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="text" id="sass-carouseltextshadow" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-carouseltextshadow">@carousel-text-shadow</label>
+                                    <input type="text" id="sass-carousel-text-shadow" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-carousel-text-shadow">@carousel-text-shadow</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-carouselcontrolcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-breadcrumbpaddinghorizontal">@carousel-control-color</label>
+                                    <input type="color" id="sass-carousel-control-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-carousel-control-color">@carousel-control-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-carouselcontrolwidth" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-breadcrumbbg">@carousel-control-width</label>
+                                    <input type="number" id="sass-carousel-control-width" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-carousel-control-width">@carousel-control-width</label>
                                 </li>
                                 <li>
-                                    <input type="number" step="0.01" id="sass-carouselcontrolopacity" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-carouselcontrolopacity">@carousel-control-opacity</label>
+                                    <input type="number" step="0.01" id="sass-carousel-control-opacit" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-carousel-control-opacit">@carousel-control-opacity</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-carouselcontrolfontsize" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-carouselcontrolfontsize">@carousel-control-font-size</label>
+                                    <input type="number" id="sass-carousel-control-font-size" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-carousel-control-font-size">@carousel-control-font-size</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-carouselindicatoractivebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-carouselindicatoractivebg">@carousel-indicator-active-bg</label>
+                                    <input type="number" id="sass-carousel-indicator-active-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-carousel-indicator-active-bg">@carousel-indicator-active-bg</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-carouselindicatorbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-carouselindicatorbordercolor">@carouselindicatorbordercolor</label>
+                                    <input type="number" id="sass-carousel-indicator-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-carousel-indicator-border-color">@carousel-indicator-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-carouselcaptioncolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-carouselcaptioncolor">@carousel-caption-color</label>
+                                    <input type="number" id="sass-carousel-caption-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-carousel-caption-color">@carousel-caption-color</label>
                                 </li>
                             </ul>
                         </li>
@@ -1743,16 +1738,16 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-closefontweight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-closefontweight">@close-font-weight</label>
+                                    <input type="number" id="sass-close-font-weigh" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-close-font-weigh">@close-font-weight</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-closecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-closecolor">@close-color</label>
+                                    <input type="number" id="sass-close-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-close-color">@close-color</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-closetextshadow" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-closetextshadow">@close-text-shadow</label>
+                                    <input type="text" id="sass-close-text-shadow" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-close-text-shadow">@close-text-shadow</label>
                                 </li>
                             </ul>
                         </li>
@@ -1763,36 +1758,36 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="color" id="sass-codecolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-codecolor">@code-color</label>
+                                    <input type="color" id="sass-code-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-code-color">@code-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-codebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-codebg">@code-bg</label>
+                                    <input type="color" id="sass-code-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-code-bg">@code-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-kbdcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-kbdcolor">@kbd-color</label>
+                                    <input type="color" id="sass-kbd-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-kbd-color">@kbd-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-kbdbg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-kbdbg">@kbd-bg</label>
+                                    <input type="color" id="sass-kbd-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-kbd-bg">@kbd-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-prebg" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-prebg">@pre-bg</label>
+                                    <input type="color" id="sass-pre-bg" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pre-bg">@pre-bg</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-precolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-precolor">@pre-color</label>
+                                    <input type="color" id="sass-pre-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pre-color">@pre-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-prebordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-prebordercolor">@pre-border-color</label>
+                                    <input type="color" id="sass-pre-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pre-border-color">@pre-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-prescrollablemaxheight" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-prescrollablemaxheight">@pre-scrollable-max-height</label>
+                                    <input type="number" id="sass-pre-scrollable-max-height" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-pre-scrollable-max-height">@pre-scrollable-max-height</label>
                                 </li>
                             </ul>
                         </li>
@@ -1803,44 +1798,44 @@ export default class MakeThemeUsingSass extends React.Component{
                             </h3>
                             <ul>
                                 <li>
-                                    <input type="number" id="sass-componentoffsethorizontal" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-componentoffsethorizontal">@component-offset-horizontal</label>
+                                    <input type="number" id="sass-component-offset-horizontal" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-component-offset-horizontal">@component-offset-horizontal</label>
                                 </li>
                                 <li>
-                                    <input type="text" id="sass-textmuted" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-textmuted">@text-muted</label>
+                                    <input type="text" id="sass-text-muted" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-text-muted">@text-muted</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-abbrbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-abbrbordercolor">@abbr-border-color</label>
+                                    <input type="color" id="sass-abbr-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-abbr-border-color">@abbr-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-headingssmallcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-headingssmallcolor">@headings-small-color</label>
+                                    <input type="color" id="sass-headings-small-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-headings-small-color">@headings-small-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-blockquotesmallcolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-blockquotesmallcolor">@blockquote-small-color</label>
+                                    <input type="color" id="sass-blockquote-small-colo" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-blockquote-small-colo">@blockquote-small-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-blockquotefontsize" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-blockquotefontsize">@blockquote-font-size</label>
+                                    <input type="number" id="sass-blockquote-font-size" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-blockquote-font-size">@blockquote-font-size</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-blockquotebordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-blockquotebordercolor">@blockquote-border-color</label>
+                                    <input type="color" id="sass-blockquote-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-blockquote-border-color">@blockquote-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-pageheaderbordercolor" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-pageheaderbordercolor">@page-header-border-color</label>
+                                    <input type="color" id="sass-page-header-border-color" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-page-header-border-color">@page-header-border-color</label>
                                 </li>
                                 <li>
-                                    <input type="number" id="sass-dlhorizontaloffset" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-dlhorizontaloffset">@dl-horizontal-offset</label>
+                                    <input type="number" id="sass-dl-horizontal-offset" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-dl-horizontal-offset">@dl-horizontal-offset</label>
                                 </li>
                                 <li>
-                                    <input type="color" id="sass-hrborder" onChange={this.setJsonData.bind(this)} />
-                                    <label for="sass-hrborder">@hr-border</label>
+                                    <input type="color" id="sass-hr-border" onChange={this.setJsonData.bind(this)} />
+                                    <label for="sass-hr-border">@hr-border</label>
                                 </li>
                             </ul>
                         </li>
