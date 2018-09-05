@@ -20,7 +20,8 @@ class FrogEditor extends React.Component {
       model: '',
       csslist: [],
       jslist: [],
-      createFileOk: true
+      createFileOk: true,
+      dirname: __dirname.replace("/app","").replace("\app","")
     };
 
     this.editor;
@@ -158,8 +159,8 @@ class FrogEditor extends React.Component {
   }
 
   handleManualController(item) {
-    this.config.iframeStyleFiles = [...this.state.csslist, `file://${__dirname}/resources/css/bootstrap.css`, `file://${__dirname}/resources/css/custom_bootstrap.css`];
-    this.config.iframeScriptFiles = [...this.state.jslist, `file://${__dirname}/resources/js/jquery.js`, `file://${__dirname}/resources/js/bootstrap.js`];
+    this.config.iframeStyleFiles = [...this.state.csslist, `file://${this.state.dirname}/resources/css/bootstrap.css`, `file://${this.state.dirname}/resources/css/custom_bootstrap.css`];
+    this.config.iframeScriptFiles = [...this.state.jslist, `file://${this.state.dirname}/resources/js/jquery.js`, `file://${this.state.dirname}/resources/js/bootstrap.js`];
     item.initialize(this.config);
   }
 

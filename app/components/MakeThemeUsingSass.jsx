@@ -36,7 +36,6 @@ export default class MakeThemeUsingSass extends React.Component{
         }
         var accordion_list = document.querySelectorAll("ul.accordion > li");
         var index = parseInt(target.getAttribute("data-index"));
-            console.log("index :: "+index);
        
         accordion_list.forEach(function(arr, idx){
             if(index != idx){
