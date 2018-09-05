@@ -56,7 +56,8 @@ export default class MenuBuilder {
     let saveOk = true;
     let selectedFilePath = '';
     var count = 1;
-    
+    var tempPath = "/private/tmp"
+
     const templateDefault = [
       {
         label: '&파일',
@@ -66,9 +67,8 @@ export default class MenuBuilder {
             accelerator: 'Ctrl+N',
             selector: 'new file',
             click: () => {
-              var tempPath = "/private/tmp"
-              //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app/basicTemplate
-              var basicTemplatePath = __dirname+"/basicTemplate" 
+              //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app/basicTheme
+              var basicThemePath = __dirname+"/basicTheme" 
               var folderName = "untitled-"+count
               count++;
   
@@ -80,7 +80,7 @@ export default class MenuBuilder {
                   fs.mkdirs(tempPath+"/PbWeb") 
                 })
               
-              fs.copy(basicTemplatePath, tempPath+"/PbWeb/"+folderName, (err) => { 
+              fs.copy(basicThemePath, tempPath+"/PbWeb/"+folderName, (err) => { 
                 if(err){
                   console.log("copy error")
                 } else{
@@ -88,17 +88,17 @@ export default class MenuBuilder {
                 }
               }) 
   
-              var indexPath = "/private/tmp/PbWeb/"+folderName+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
-              var htmlPathArray = indexPath.split("/")
+              var htmlPath = "/private/tmp/PbWeb/"+folderName+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
+              var htmlPathArray = htmlPath.split("/")
               for(let i=0; i<htmlPathArray.length; i++){
                 if (htmlPathArray[i].match(/(.html)$/)){
                   this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`) //app title 설정
-                  var folderPath = indexPath.replace(htmlPathArray[i],'');
+                  var folderPath = htmlPath.replace(htmlPathArray[i],'');
                 }
               }    
   
               setTimeout(() => { //delay 주지 않을 시 생성한 폴더를 찾지 못함.
-                this.editor.send('new-file', indexPath)
+                this.editor.send('new-file', htmlPath)
                 fs.readdir(folderPath+'css', (error, cssList) => {
                   for(let i=0; i<cssList.length; i++){
                     if(cssList[i].match(/(.map)$/)){
@@ -141,7 +141,6 @@ export default class MenuBuilder {
                         }
                       }
   
-                      var tempPath = "/private/tmp"
                       var folderName = "untitled-"+count
                       count++;
   
@@ -354,10 +353,37 @@ export default class MenuBuilder {
     return templateDefault;
   }
 
+
+  pbWebCheck = (tempPath) => {
+    fs.access(tempPath+"/PbWeb")
+      .then(()=>{ //이미 폴더가 존재할경우
+        // console.log("Folder already exists"); 
+      })
+      .catch(()=>{ //폴더가 없을 경우
+        fs.mkdirs(tempPath+"/PbWeb") 
+      })
+  }
+
+  makeWorkingDir = (tempPath, folderName) => {
+    //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
+    var basicThemePath = __dirname+"/basicTheme" 
+    
+    fs.copy(basicThemePath, tempPath+"/PbWeb/"+folderName, (err) => { 
+      if(err){
+        console.log("copy error")
+      } else{
+        // console.log("copy finished")
+      }
+    }) 
+
+
+  }
+
   buildDarwinTemplate() {
     let saveOk = true;
     let selectedFilePath = '';
     var count = 1;
+    var tempPath = "/private/tmp"
 
     const subMenuAbout = {
       label: 'PageBuilder',
@@ -399,39 +425,23 @@ export default class MenuBuilder {
           accelerator: 'Command+N',
           selector: 'new file',
           click: () => {
-            var tempPath = "/private/tmp"
-            //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app/basicTemplate
-            var basicTemplatePath = __dirname+"/basicTemplate" 
             var folderName = "untitled-"+count
             count++;
 
-            fs.access(tempPath+"/PbWeb")
-              .then(()=>{ //이미 폴더가 존재할경우
-                // console.log("Folder already exists"); 
-              })
-              .catch(()=>{ //폴더가 없을 경우
-                fs.mkdirs(tempPath+"/PbWeb") 
-              })
-            
-            fs.copy(basicTemplatePath, tempPath+"/PbWeb/"+folderName, (err) => { 
-              if(err){
-                console.log("copy error")
-              } else{
-                // console.log("copy finished")
-              }
-            }) 
+            this.pbWebCheck(tempPath);
+            this.makeWorkingDir(tempPath, folderName);
 
-            var indexPath = "/private/tmp/PbWeb/"+folderName+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
-            var htmlPathArray = indexPath.split("/")
+            var htmlPath = "/private/tmp/PbWeb/"+folderName+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
+            var htmlPathArray = htmlPath.split("/")
             for(let i=0; i<htmlPathArray.length; i++){
               if (htmlPathArray[i].match(/(.html)$/)){
                 this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`) //app title 설정
-                var folderPath = indexPath.replace(htmlPathArray[i],'');
+                var folderPath = htmlPath.replace(htmlPathArray[i],'');
               }
             }    
 
             setTimeout(() => { //delay 주지 않을 시 생성한 폴더를 찾지 못함.
-              this.editor.send('new-file', indexPath)
+              this.editor.send('new-file', htmlPath)
               fs.readdir(folderPath+'css', (error, cssList) => {
                 for(let i=0; i<cssList.length; i++){
                   if(cssList[i].match(/(.map)$/)){
@@ -474,7 +484,6 @@ export default class MenuBuilder {
                       }
                     }
 
-                    var tempPath = "/private/tmp"
                     var folderName = "untitled-"+count
                     count++;
 
