@@ -13,7 +13,7 @@
 import { app, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
 
-import fs from 'fs'
+import fs from 'fs-extra'
 import path from 'path'
 let mainWindow = null;
 
@@ -84,6 +84,27 @@ app.on('ready', async () => {
     mainWindow = null;
   });
 
+  var count = parseInt(BrowserWindow.getAllWindows().length)
+  if(count == 1){
+    console.log("=====visible true=======")
+    console.log("count : "+count)
+
+    if(process.platform == "darwin"){
+      console.log("mac")
+      fs.remove('/private/tmp/PbWeb', err => {
+        if(err){
+          return console.log(err)
+        } else{
+          console.log("remove success!")
+        }
+      })
+    } else {
+      console.log("window") // %USERPROFILE%\AppData\Local\
+    }
+  }
+
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+
 });

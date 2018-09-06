@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 import 'froala-editor/js/froala_editor.pkgd.min';
 import 'froala-editor/js/languages/ko';
 
-import fs from 'fs';
+import fs from 'fs-extra';
 
 import ReactFroalaWysiwyg from 'react-froala-wysiwyg';
 import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
@@ -170,12 +170,12 @@ class FrogEditor extends React.Component {
       this.readCSSIntoEditor(filename);
     });
 
-    ipcRenderer.on('html-save', (event, filename) => {
-      this.saveHTML(filename);
+    ipcRenderer.on('html-save', (event, filename, workingPath) => {
+      this.saveHTML(filename, workingPath);
     });
 
-    ipcRenderer.on('html-saveAs', (event, filename) => {
-      this.saveAsHTML(filename);
+    ipcRenderer.on('html-saveAs', (event, filename, workingPath) => {
+      this.saveAsHTML(filename, workingPath);
     });
 
   }
@@ -247,42 +247,25 @@ class FrogEditor extends React.Component {
     });
   };
 
-  saveHTML = theFileEntry => {
+  saveHTML = (theFileEntry, workingPath) => {
     if(theFileEntry == null){
       console.log('please write contents')
-
     } else {
-      theFileEntry = theFileEntry.toString();
-      if (this.state.createFileOk) {
-        if (theFileEntry.indexOf('.html') == -1) { //html 확장자가 없을 경우
-          fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
-            if(err) console.log(`Read failed: ${err}`);
-          });
-        } else { //html 확장자가 있을 경우
-          fs.writeFile(theFileEntry, this.state.model, (err) => {
-            if(err) console.log(`Read failed: ${err}`);
-          });
-        }
-        this.setState({ createFileOk: false });
-      } else {
-        if (theFileEntry.indexOf('.html') == -1) {
-          fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
-            if(err) console.log(`Read failed: ${err}`);
-          });
-        } else {
-          fs.writeFile(theFileEntry, this.state.model, (err) => {
-            if(err) console.log(`Read failed: ${err}`);
-          });
-        }
-      }
-      console.log('저장되었습니다.')
+      setTimeout(()=>{
+        fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
+          if(err) console.log(`Read failed: ${err}`);
+        });
+      },500)
     }
   };
 
-  saveAsHTML = theFileEntry => {
-    fs.writeFile(theFileEntry + '.html', this.state.model, err => {
-      console.log(`Read failed: ${err}`);
-    });
+  saveAsHTML = (theFileEntry, workingPath) => {
+    if(theFileEntry != null){
+      setTimeout(()=>{
+        fs.writeFile(theFileEntry+ '/index.html', this.state.model, (err) => {
+          if(err) console.log(`Read failed: ${err}`);
+        });
+      },500)    
   };
 
   render() {
