@@ -27,7 +27,7 @@ export default class SideComponentList {
 			{
 				"type": "layout",
 				"id": 'other11',
-				"iconhml": `<li>
+				"iconhml": `<li style="display:none;">
 					<input type="text" id="${this.state.layout_input_xs}" value="6 6" />
 					<input type="text" id="${this.state.layout_input_sm}" value="4 4 4" />
 					<input type="text" id="${this.state.layout_input_md}" value="6 6" />
@@ -51,222 +51,6 @@ export default class SideComponentList {
 				    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
 				    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
 				  </ul>
-				</div>`
-			},
-			{
-				"type": "buttongroup",
-				"id": 'other02',
-				"iconhml": `<li><button draggable="true" id="ComponentButton2">버튼</button></li>`,
-				"html": `<button type="button" class="btn btn-default">Left</button>`
-			},
-			{
-				"type": "droupup",
-				"id": 'other03',
-				"iconhml": `<li><button draggable="true" id="ComponentButton3">드롭업</button></li>`,
-				"html": `<div class="btn-group dropup">
-				  <button type="button" class="btn btn-default">Dropup</button>
-				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				    <span class="caret"></span>
-				    <span class="sr-only">Toggle Dropdown</span>
-				  </button>
-				  <ul class="dropdown-menu" role="menu">
-				    <!-- Dropdown menu links -->
-				  </ul>
-				</div>`
-			},
-			{
-				"type": "inputstyle",
-				"id": 'other04',
-				"iconhml": `<li><button draggable="true" id="ComponentButton4">인풋</button></li>`,
-				"html": `<div class="input-group">
-				  <span class="input-group-addon" id="basic-addon1">@</span>
-				  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-				</div>`
-			},
-			{
-				"type": "tabstyle",
-				"id": 'other05',
-				"iconhml": `<li><button draggable="true" id="ComponentButton5">탭</button></li>`,
-				"html": `<ul class="nav nav-tabs">
-				  <li role="presentation" class="active"><a href="#">Home</a></li>
-				  <li role="presentation"><a href="#">Profile</a></li>
-				  <li role="presentation"><a href="#">Messages</a></li>
-				</ul>`
-			},
-			{
-				"type": "tabstyle02",
-				"id": 'other06',
-				"iconhml": `<li><button draggable="true" id="ComponentButton6">탭(알약형)</button></li>`,
-				"html": `<ul class="nav nav-pills">
-				  <li role="presentation" class="active"><a href="#">Home</a></li>
-				  <li role="presentation"><a href="#">Profile</a></li>
-				  <li role="presentation"><a href="#">Messages</a></li>
-				</ul>`
-			},
-			{
-				"type": "navigation",
-				"id": 'other07',
-				"iconhml": `<li><button draggable="true" id="ComponentButton7">네비게이션</button></li>`,
-				"html": `<nav class="navbar navbar-default">
-				  <div class="container-fluid">
-				    <!-- Brand and toggle get grouped for better mobile display -->
-				    <div class="navbar-header">
-				      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				        <span class="sr-only">Toggle navigation</span>
-				        <span class="icon-bar"></span>
-				        <span class="icon-bar"></span>
-				        <span class="icon-bar"></span>
-				      </button>
-				      <a class="navbar-brand" href="#">Brand</a>
-				    </div>
-				    <!-- Collect the nav links, forms, and other content for toggling -->
-				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				      <ul class="nav navbar-nav">
-				        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-				        <li><a href="#">Link</a></li>
-				        <li class="dropdown">
-				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-				          <ul class="dropdown-menu" role="menu">
-				            <li><a href="#">Action</a></li>
-				            <li><a href="#">Another action</a></li>
-				            <li><a href="#">Something else here</a></li>
-				            <li class="divider"></li>
-				            <li><a href="#">Separated link</a></li>
-				            <li class="divider"></li>
-				            <li><a href="#">One more separated link</a></li>
-				          </ul>
-				        </li>
-				      </ul>
-				      <form class="navbar-form navbar-left" role="search">
-				        <div class="form-group">
-				          <input type="text" class="form-control" placeholder="Search">
-				        </div>
-				        <button type="submit" class="btn btn-default">Submit</button>
-				      </form>
-				      <ul class="nav navbar-nav navbar-right">
-				        <li><a href="#">Link</a></li>
-				        <li class="dropdown">
-				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-				          <ul class="dropdown-menu" role="menu">
-				            <li><a href="#">Action</a></li>
-				            <li><a href="#">Another action</a></li>
-				            <li><a href="#">Something else here</a></li>
-				            <li class="divider"></li>
-				            <li><a href="#">Separated link</a></li>
-				          </ul>
-				        </li>
-				      </ul>
-				    </div><!-- /.navbar-collapse -->
-				  </div><!-- /.container-fluid -->
-				</nav>`
-			},
-			{
-				"type": "pagination",
-				"id": 'other07',
-				"iconhml": `<li><button draggable="true" id="ComponentButton8">페이지네이션</button></li>`,
-				"html": `<nav>
-				  <ul class="pagination">
-				    <li>
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
-				    <li>
-				      <a href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
-				</nav>`
-			},
-			{
-				"type": "label",
-				"id": 'other08',
-				"iconhml": `<li><button draggable="true" id="ComponentButton9">라벨</button></li>`,
-				"html": `<span class="label label-default">Default</span>
-				<span class="label label-primary">Primary</span>
-				<span class="label label-success">Success</span>
-				<span class="label label-info">Info</span>
-				<span class="label label-warning">Warning</span>
-				<span class="label label-danger">Danger</span>`
-			},
-			{
-				"type": "jumbotron",
-				"id": 'other09',
-				"iconhml": `<li><button draggable="true" id="ComponentButton10">점보트론</button></li>`,
-				"html": `<div class="jumbotron">
-				  <h1>Hello, world!</h1>
-				  <p>...</p>
-				  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-				</div>`
-			},
-			{
-				"type": "progress",
-				"id": 'other10',
-				"iconhml": `<li><button draggable="true" id="ComponentButton11">진행바</button></li>`,
-				"html": `<div class="progress">
-				  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-				    60%
-				  </div>
-				</div>`
-			},{
-				"type": "progress",
-				"id": 'other12',
-				"iconhml": `<li><button draggable="true" id="ComponentButton12">레이어팝업</button></li>`,
-				"html": `<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-				  Launch demo modal
-				</button>
-
-				<!-- Modal -->
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				  <div class="modal-dialog">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-				      </div>
-				      <div class="modal-body">
-				        ...
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Save changes</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>`
-			},{
-				"type": "progress",
-				"id": 'other13',
-				"iconhml": `<li><button draggable="true" id="ComponentButton13">슬라이더</button></li>`,
-				"html": `<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-				  Launch demo modal
-				</button>
-
-				<!-- Modal -->
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				  <div class="modal-dialog">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-				      </div>
-				      <div class="modal-body">
-				        ...
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Save changes</button>
-				      </div>
-				    </div>
-				  </div>
 				</div>`
 			}
 		]
@@ -352,7 +136,6 @@ export default class SideComponentList {
 	}
 
 	InsertCompomentEditor(idx){
-		console.log("evented!!! "+this.list[idx].html.indexOf("layoutnone"));
 		if(this.list[idx].html.indexOf("layoutnone") == -1){
 			ipcRenderer.send('editor-drag', this.list[idx].html);
 		}
@@ -388,6 +171,13 @@ export default class SideComponentList {
 				document.getElementById("ComponentButton"+index).addEventListener("dragstart",(event)=>{
 					console.log("dragstart");
 					this.InsertCompomentEditor(index);
+					var img = document.createElement("img");
+				    img.src = "";
+				    event.dataTransfer.setDragImage(img, 0, 0);
+				},false);
+				document.getElementById("ComponentButton"+index).addEventListener("dragend",(event)=>{
+					event.preventDefault();
+              		event.stopPropagation();
 				},false);
 			})(index)
 		}

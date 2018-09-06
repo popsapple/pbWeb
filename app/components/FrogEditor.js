@@ -56,13 +56,40 @@ class FrogEditor extends React.Component {
         'froalaEditor.initialized': (e, editor) => {
           console.log('editor 초기화됨')
           this.editor = editor;
+          this.mouse_x = "";
+          this.mouse_y = "";
+          this.darg_point = "";
 
           ipcRenderer.on('editor-draginsert', (e, arg) => {
             this.insert_html = arg;
           })
 
-          editor.events.on('dragover',ev => {  
-            ev.preventDefault();
+          editor.events.on('dragover',dragEvent => {  
+              this.mouse_x = dragEvent.offsetX;
+              this.mouse_y = dragEvent.offsetY;
+              // Focus at the current posisiton.
+              editor.markers.insertAtPoint(dragEvent.originalEvent);
+              var $marker = editor.$el.find('.fr-marker');
+              var $drag_point = editor.$el.find('.fr_drag_point');
+              $marker.replaceWith($.FroalaEditor.MARKERS);
+              editor.selection.restore();
+
+              // Save into undo stack the current position.
+              if (!editor.undo.canDo()) editor.undo.saveStep();
+
+              // Insert HTML.
+              if($drag_point) {
+                $drag_point.remove();
+              }
+              editor.html.insert("<span class='fr_drag_point'>drop here</span>");
+
+              // Save into undo stack the changes.
+              editor.undo.saveStep();
+
+              // Stop event propagation.
+              dragEvent.preventDefault();
+              dragEvent.stopPropagation();
+              return false;
           })
           editor.events.on('keydown', (e, editor_, keydownEvent) => {
             // Do something here.
@@ -73,8 +100,8 @@ class FrogEditor extends React.Component {
             $marker.replaceWith($.FroalaEditor.MARKERS);
             editor.selection.restore();
 
-            // Save into undo stack the current position.
             if (!editor.undo.canDo()) editor.undo.saveStep();
+            // Save into undo stack the current position.
 
             // Insert HTML.
             //editor.html.insert("<div>break!!</div>");
@@ -87,7 +114,6 @@ class FrogEditor extends React.Component {
             }
           });
           editor.events.on('dragstart',(ev,id) => {  
-            console.log('dragstart',id)
             if(id) { 
               ev.nativeEvent.dataTransfer.setData('id', id)
             }
@@ -102,13 +128,15 @@ class FrogEditor extends React.Component {
 
             // Save into undo stack the current position.
             if (!editor.undo.canDo()) editor.undo.saveStep();
-
             // Insert HTML.
-            editor.html.insert(this.insert_html);
 
+            var $drag_point = editor.$el.find('.fr_drag_point');
+            if($drag_point) {
+              $drag_point.remove();
+            }
+            editor.html.insert(this.insert_html);
             // Save into undo stack the changes.
             editor.undo.saveStep();
-
             // Stop event propagation.
             dropEvent.preventDefault();
             dropEvent.stopPropagation();

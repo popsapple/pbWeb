@@ -23,8 +23,6 @@ class FrogEditorView extends React.Component {
     this.zoom_scale = 0;
 
     ipcRenderer.on('preview-open', (event, filename) => {
-                      console.log("open02");
-      console.log("preview event");
       if(document.getElementById("FrogEditorView").className.indexOf("active") != -1){
         document.getElementById("FrogEditorView").className = document.getElementById("FrogEditorView").className.replace(" active", "");
       }else{
