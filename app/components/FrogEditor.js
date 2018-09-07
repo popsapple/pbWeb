@@ -26,7 +26,7 @@ class FrogEditor extends React.Component {
 
     this.editor;
     this.insert_html;
-
+    
     this.config = {
       charCounterCount: false,
       model: "<div class='default_box'>hello</div>",
@@ -187,8 +187,8 @@ class FrogEditor extends React.Component {
   }
 
   handleManualController(item) {
-    this.config.iframeStyleFiles = [...this.state.csslist, `file://${this.state.dirname}/resources/css/bootstrap.css`, `file://${this.state.dirname}/resources/css/custom_bootstrap.css`];
-    this.config.iframeScriptFiles = [...this.state.jslist, `file://${this.state.dirname}/resources/js/jquery.js`, `file://${this.state.dirname}/resources/js/bootstrap.js`];
+    this.config.iframeStyleFiles = [...this.state.csslist, `file://${this.state.dirname}/resources/css/bootstrap.css`];
+    this.config.iframeScriptFiles = [...this.state.jslist, `file://${this.state.dirname}/resources/js/jquery.js`];
     item.initialize(this.config);
   }
 
@@ -203,6 +203,7 @@ class FrogEditor extends React.Component {
     });
   };
 
+  
   readFileIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
       var htmlCode = data.toString()
@@ -217,6 +218,8 @@ class FrogEditor extends React.Component {
 
   readCSSIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
+      console.log("read css : "+theFileEntry.toString())
+
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
@@ -226,10 +229,8 @@ class FrogEditor extends React.Component {
         this.key_item += 1;
         this.config.iframeStyleFiles = this.state.csslist;
         this.props.pbUpdateHandler();
-        
       }
     });
-
   };
 
   readJSIntoEditor = theFileEntry => {

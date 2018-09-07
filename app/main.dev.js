@@ -86,7 +86,6 @@ app.on('ready', async () => {
 
   var count = parseInt(BrowserWindow.getAllWindows().length)
   if(count == 1){
-    console.log("=====visible true=======")
     console.log("count : "+count)
 
     if(process.platform == "darwin"){

@@ -409,6 +409,7 @@ export default class MenuBuilder {
 
     setTimeout(() => { //delay 주지 않을 시 생성한 폴더를 찾지 못함.
       this.editor.send('new-file', htmlPath)
+      console.log("folderPath : "+folderPath)
       this.inspectorList(folderPath)
     },500)
   }
@@ -440,9 +441,23 @@ export default class MenuBuilder {
       }
       this.editor.send('js-list', pureJsArray);
     })
+
+    fs.readFile(dirPath+"/resources.json", (err, data)=>{
+      if(err) console.log(err)
+
+      var parseData = JSON.parse(data)
+      for(var i=0; i<parseData.css.length; i++){
+        console.log(parseData.css[i])
+        var cssPath = dirPath+parseData.css[i]
+        this.editor.send("css-open", cssPath)
+      }
+      for(var i=0; i<parseData.js.length; i++){
+        console.log(parseData.js[i])
+        var jsPath = dirPath+parseData.js[i]
+        this.editor.send("js-open", jsPath)
+      }
+    })
   }
-
-
 
   buildDarwinTemplate() {
     let saveOk = true;
@@ -494,7 +509,7 @@ export default class MenuBuilder {
           selector: 'new file',
           click: () => {
             newOk = true;
-            this.pbWebCheck(tempPath, count, newOk);            
+            this.pbWebCheck(tempPath, count, newOk);  
             saveOk = true;
           }        
         },
@@ -532,6 +547,8 @@ export default class MenuBuilder {
                       this.editor.send('file-open', files[0])
                       this.inspectorList(selectedfolderPath)
                     },500)
+
+                    
                     
                   } 
                 }
