@@ -170,13 +170,13 @@ class FrogEditor extends React.Component {
       this.readCSSIntoEditor(filename);
     });
 
-    ipcRenderer.on('html-save', (event, filename, workingPath) => {
-      this.saveHTML(filename, workingPath);
+    ipcRenderer.on('html-save', (event, filename) => {
+      this.saveHTML(filename);
     });
 
-    ipcRenderer.on('html-saveAs', (event, filename, workingPath) => {
-      this.saveAsHTML(filename, workingPath);
-    });
+    // ipcRenderer.on('html-saveAs', (event, filename) => {
+    //   this.saveAsHTML(filename);
+    // });
 
   }
 
@@ -247,26 +247,21 @@ class FrogEditor extends React.Component {
     });
   };
 
-  saveHTML = (theFileEntry, workingPath) => {
-    if(theFileEntry == null){
-      console.log('please write contents')
-    } else {
-      setTimeout(()=>{
-        fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
-          if(err) console.log(`Read failed: ${err}`);
-        });
-      },500)
-    }
+  saveHTML = (theFileEntry) => {
+    setTimeout(()=>{
+      fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
+        if(err) console.log(`Read failed: ${err}`);
+      });
+    },500)
   };
 
-  saveAsHTML = (theFileEntry, workingPath) => {
-    if(theFileEntry != null){
-      setTimeout(()=>{
-        fs.writeFile(theFileEntry+ '/index.html', this.state.model, (err) => {
-          if(err) console.log(`Read failed: ${err}`);
-        });
-      },500)    
-  };
+  // saveAsHTML = (theFileEntry) => {
+  //   setTimeout(()=>{
+  //     fs.writeFile(theFileEntry+ '/index.html', this.state.model, (err) => {
+  //       if(err) console.log(`Read failed: ${err}`);
+  //     });
+  //   },500)
+  // }
 
   render() {
     return (

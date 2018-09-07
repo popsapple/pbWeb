@@ -354,7 +354,7 @@ export default class MenuBuilder {
   }
 
 
-  pbWebCheck = (tempPath, count) => {
+  pbWebCheck = (tempPath, count, newOk) => {
     fs.access(tempPath+"/PbWeb")
       .then(()=>{ //이미 폴더가 존재할경우
         // console.log("Folder already exists"); 
@@ -365,9 +365,7 @@ export default class MenuBuilder {
 
     setTimeout(() => {
       fs.readdir(tempPath+"/PbWeb", (err, dirList) => {
-        console.log("dir length "+dirList.length)
         if(!err && dirList.length != 0){
-          console.log(dirList)
           for(var i=0; i<dirList.length; i++){
             if(dirList[i].includes("untitled-")){
               var untitled = dirList[i].split("-")
@@ -377,7 +375,12 @@ export default class MenuBuilder {
         } else{
           count = 1;
         }
-        this.makeWorkingDir(tempPath, count);
+        if(newOk){ //new
+          this.makeWorkingDir(tempPath, count);
+        } 
+        // else{ //open
+        //   this.makeWorkingDir_open(tempPath, count);
+        // }
       })
     }, 500)
     
@@ -387,14 +390,11 @@ export default class MenuBuilder {
     //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
     var basicThemePath = __dirname+"/basicTheme" 
     var appName = "untitled-"+cnt
+
     this.mainWindow.setTitle(`[ ${appName} ] - PageBuilder`) //app title 설정
 
     fs.copy(basicThemePath, tempPath+"/PbWeb/"+appName, (err) => { 
-      if(err){
-        console.log("copy error")
-      } else{
-        console.log("copy finished "+cnt)
-      }
+      if(err) console.log(err)
     })
     
     this.workingDirPath = tempPath+"/PbWeb/"+appName
@@ -403,26 +403,45 @@ export default class MenuBuilder {
     var htmlPathArray = htmlPath.split("/")
     for(let i=0; i<htmlPathArray.length; i++){
       if (htmlPathArray[i].match(/(.html)$/)){
-        var folderPath = htmlPath.replace(htmlPathArray[i],'');
+        var folderPath = htmlPath.replace("/"+htmlPathArray[i],'');
       }
     }    
 
     setTimeout(() => { //delay 주지 않을 시 생성한 폴더를 찾지 못함.
       this.editor.send('new-file', htmlPath)
-      fs.readdir(folderPath+'css', (error, cssList) => {
-        for(let i=0; i<cssList.length; i++){
-          if(cssList[i].match(/(.map)$/)){
-            cssList.splice(cssList.indexOf(cssList[i]), 1) 
-          }
-        }
-        this.editor.send('css-list', cssList);
-      })
-      fs.readdir(folderPath+'js', (error, jsList) => {
-          this.editor.send('js-list', jsList);
-      })
-    }, 200);
-    
+      this.inspectorList(folderPath)
+    },500)
   }
+
+  makeWorkingDir_open = (tempPath, count) => {
+    console.log("=== Let's make openDir ===")
+    
+
+  }
+
+  inspectorList = (dirPath) => {
+    var pureCssArray = []
+    var pureJsArray = []
+
+    fs.readdir(dirPath+'/css', (error, cssList) => {
+      for(let i=0; i<cssList.length; i++){
+        if(cssList[i].match(/(.css)$/)){
+          pureCssArray = pureCssArray.concat(cssList[i])
+        }
+      }
+      this.editor.send('css-list', pureCssArray);
+    })
+
+    fs.readdir(dirPath+'/js', (error, jsList) => {
+      for(let i=0; i<jsList.length; i++){
+        if(jsList[i].match(/(.js)$/)){
+          pureJsArray = pureJsArray.concat(jsList[i])
+        }
+      }
+      this.editor.send('js-list', pureJsArray);
+    })
+  }
+
 
 
   buildDarwinTemplate() {
@@ -432,8 +451,7 @@ export default class MenuBuilder {
     var count = 1;
     var folderName = "untitled-"+count;
     var workingDirPath = "";
-
-    // console.log(`===== darwin ${count} =====`)
+    var newOk = true;
 
     const subMenuAbout = {
       label: 'PageBuilder',
@@ -475,7 +493,8 @@ export default class MenuBuilder {
           accelerator: 'Command+N',
           selector: 'new file',
           click: () => {
-            this.pbWebCheck(tempPath, count);            
+            newOk = true;
+            this.pbWebCheck(tempPath, count, newOk);            
             saveOk = true;
           }        
         },
@@ -497,92 +516,26 @@ export default class MenuBuilder {
               files => {
                 if (files.length === 1) {
                   if(files[0].match(/(.html)$/)){
-                    var htmlPathArray = files[0].split("/")
-                    for(let i=0; i<htmlPathArray.length; i++){
-                      if (htmlPathArray[i].match(/(.html)$/)){
-                        this.mainWindow.setTitle(`[ ${htmlPathArray[i]} ] - PageBuilder`)
-                        var selectedfolderPath = files[0].replace("/"+htmlPathArray[i],'');
+                    newOk = false;
+                    this.pbWebCheck(tempPath, count, newOk)
+                    var pathArray = files[0].split("/")
+                    for(let i=0; i<pathArray.length; i++){
+                      if (pathArray[i].match(/(.html)$/)){
+                        var selectedfolderPath = files[0].replace("/"+pathArray[i],'');
+                        var folderName = pathArray[pathArray.length-2]
                       }
                     }
+                    this.mainWindow.setTitle(`${folderName} - PageBuilder`)
+                    selectedFilePath = selectedfolderPath 
 
-                    var folderName = "untitled-"+count
-                    count++;
-
-                    fs.access(tempPath+"/PbWeb")
-                      .then(()=>{ //이미 폴더가 존재할경우
-                        // console.log("Folder already exists"); 
-                      })
-                      .catch(()=>{ //폴더가 없을 경우
-                        fs.mkdirs(tempPath+"/PbWeb")
-                      })
+                    setTimeout(()=>{
+                      this.editor.send('file-open', files[0])
+                      this.inspectorList(selectedfolderPath)
+                    },500)
                     
-                    fs.copy(selectedfolderPath, tempPath+"/PbWeb/"+folderName, (err) => { 
-                      if(err){
-                        console.log("copy error")
-                      } else{
-                        // console.log("copy finished")
-                      }
-                    }) 
-
-
-
-                    ////////////////////////////////
-                    setTimeout(() => { //delay 주지 않을 시 생성한 폴더를 찾지 못함.
-                      this.editor.send('file-open', files)
-
-                      fs.access(selectedfolderPath+'/css' || selectedfolderPath+'/js')
-                      .then(()=>{ //폴더가 존재할경우
-                        fs.readdir(selectedfolderPath+'/css', (error, cssList) => {
-                          for(let i=0; i<cssList.length; i++){
-                            if(cssList[i].match(/(.map)$/)){
-                              cssList.splice(cssList.indexOf(cssList[i]), 1) 
-                            }
-                          }
-                          this.editor.send('css-list', cssList);
-                        })
-                        fs.readdir(selectedfolderPath+'/js', (error, jsList) => {
-                            this.editor.send('js-list', jsList);
-                        })
-
-                        fs.readFile(selectedfolderPath+'/resource.json', (err, data) => {
-                          var parseData = JSON.parse(data)
-                          console.log(parseData.css)
-    
-                          for(var i=0; i<parseData.css.length; i++){
-                            // var cssPath = selectedfolderPath+parseData.css[i]
-                            console.log(parseData.css[i])
-  
-                            this.editor.send("css-open", parseData.css[i])
-                          }
-                        })
-
-                      })
-                      .catch(()=>{ //폴더가 없을 경우
-                        // <img src="https://i.stack.imgur.com/WOlr3.png"/>
-
-                          console.log("404 Error!!!!");
-                        //return <img src={require('./404_error.png')} />
-
-                      })
-
-                      
-
-
-                      
-                    }, 200);
-                  }
-                  
-                  // if(files[0].match(/(.js)$/)){
-                  //   this.editor.send('js-open', files[0]);
-                  // }
-                 
-                  // if(files[0].match(/(.css)$/)){
-                  //   this.editor.send('css-open', files[0]);
-                  // }
-                  
-                  saveOk = false;
-                  // selectedFilePath = files;
+                  } 
                 }
+                saveOk = false;
               }
             );
           }
@@ -592,39 +545,28 @@ export default class MenuBuilder {
           label: 'Save',
           accelerator: 'Command+S',
           click: () => {
-            if (saveOk) {
+            if (saveOk) { //새로운 파일을 저장할 경우
               dialog.showSaveDialog(
                 {
                   properties: ['saveFile'],
                   title: 'PageBuilder 저장'
                 },
                 files => {
-                  if(files == 'undefined'){
-                    alert('Please enter the contents')
-                  } else{
-                    fs.copy(this.workingDirPath, files, (err) => {
-                      if(err){
-                        console.log(err)
-                      }
-                    })
+                  fs.move(this.workingDirPath, files, (err) => {
+                    if(err) console.log(err)
+                  })
+                  this.editor.send('html-save', files);
 
-                    setTimeout(()=>{
-                      this.editor.send('html-save', files, this.workingDirPath);
-                    })
+                  //저장한 title로 app title 설정하는 부분
+                  var pathArray = files.split("/")
+                  var filename = pathArray[pathArray.length-1]
+                  this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
-                    //저장한 title로 app title 설정하는 부분
-                    var pathArray = files.split("/")
-                    var filename = pathArray[pathArray.length-1]
-                    this.mainWindow.setTitle(`${filename} - PageBuilder`)
-
-                    saveOk = false;
-                    selectedFilePath = files;                    
-                    console.log("===selectedFilePath===")
-                    console.log(selectedFilePath)
-                  }
+                  saveOk = false;
+                  selectedFilePath = files;     
                 }
               );
-            } else {
+            } else { //존재하는 파일에 덮어쓰기할 경우
               var pathArray1 = selectedFilePath.split("/")
               var text = ""
               for(var i=0; i<pathArray1.length-1; i++){
@@ -632,8 +574,7 @@ export default class MenuBuilder {
               }
               var titleArray = this.mainWindow.getTitle().split(" -")
               selectedFilePath = text+titleArray[0]
-              console.log("selectedFilePath : "+selectedFilePath)
-              this.editor.send('html-save', selectedFilePath, this.workingDirPath);
+              this.editor.send('html-save', selectedFilePath);
             }
           }
         },
@@ -647,13 +588,25 @@ export default class MenuBuilder {
                 title: 'PageBuilder 다른이름으로 저장'
               },
               files => {
-                fs.copy(this.workingDirPath, files, (err) => {
-                  if(err){
-                    console.log(err)
-                  }
-                })
+                fs.access(this.workingDirPath)
+                  .then(()=>{ //저장하지 않은 파일일 경우(처음부터 saveAs 눌렀을 때)
+                    fs.copy(this.workingDirPath, files, (err) => {
+                      if(err) console.log(err)
+                    })
+                    setTimeout(()=>{
+                      fs.remove(this.workingDirPath, (err)=>{
+                        if(err) console.log(err)
+                      })
+                    },500)
+                    selectedFilePath = files
+                  })
+                  .catch(()=>{ //이미 저장되어있는 파일일 경우(save한 상태에서 saveAs를 눌렀을 경우)
+                    fs.copy(selectedFilePath, files, (err) => {
+                      if(err) console.log(err)
+                    })
+                  })
 
-                this.editor.send('html-saveAs', files, this.workingDirPath);
+                this.editor.send('html-save', files, this.workingDirPath);
 
                 //저장한 title로 app title 설정하는 부분
                 var pathArray = files.split("/")
