@@ -50,6 +50,7 @@ class FrogEditorView extends React.Component {
           });
         }).then(()=>{
           this.props.config.iframeScriptFiles.forEach((arr,idx)=>{
+            console.log("props");
             setTimeout(()=>{
               var jsLink = document.createElement("script") 
               jsLink.src = arr; 

@@ -1,3 +1,0 @@
-css 관리는 -> 중앙관리가 기본이고 거기서 쓸지 안 쓸지 체크.
-
-resources 자원관리는 각 운영체제의 temp에서 관리되도록 함. -> 지금 window pagebuilder의 temp 처럼.

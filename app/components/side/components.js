@@ -10,7 +10,6 @@ export default class SideComponentList extends React.Component {
     constructor(props) {
         super(props);
     }
-	
 	render(){
         return (
             <ul>
