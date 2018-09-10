@@ -1,6 +1,7 @@
 import { Component } from 'react';
+import Error from '../components/404Error'
 
-export default class ErrorPage extends Component {
+export default class ErrorPage1 extends Component {
     constructor(){
       super();
     };
@@ -8,7 +9,7 @@ export default class ErrorPage extends Component {
     render() {
       return (
           <div>
-              404 Error Page
+              <Error/>
           </div>
       );
     }

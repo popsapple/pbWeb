@@ -9,7 +9,7 @@ import 'froala-editor/js/plugins/link.min';
 
 import 'froala-editor/js/languages/ko';
 
-import fs from 'fs';
+import fs from 'fs-extra';
 
 import ReactFroalaWysiwyg from 'react-froala-wysiwyg';
 import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
@@ -171,9 +171,9 @@ class FrogEditor extends React.Component {
       this.saveHTML(filename);
     });
 
-    ipcRenderer.on('html-saveAs', (event, filename) => {
-      this.saveAsHTML(filename);
-    });
+    // ipcRenderer.on('html-saveAs', (event, filename) => {
+    //   this.saveAsHTML(filename);
+    // });
 
   }
 
@@ -184,8 +184,8 @@ class FrogEditor extends React.Component {
   }
 
   handleManualController(item) {
-    this.config.iframeStyleFiles = [...this.state.csslist, `file://${this.state.dirname}/resources/css/bootstrap.css`, `file://${this.state.dirname}/resources/css/custom_bootstrap.css`];
-    this.config.iframeScriptFiles = [...this.state.jslist, `file://${this.state.dirname}/resources/js/jquery.js`, `file://${this.state.dirname}/resources/js/bootstrap.js`];
+    this.config.iframeStyleFiles = [...this.state.csslist, `file://${this.state.dirname}/resources/css/bootstrap.css`];
+    this.config.iframeScriptFiles = [...this.state.jslist, `file://${this.state.dirname}/resources/js/jquery.js`];
     item.initialize(this.config);
   }
 
@@ -196,25 +196,11 @@ class FrogEditor extends React.Component {
       } else {
         var htmlCode = data.toString()
         this.handleModelChange(htmlCode);
-        // var toJson = JSON.parse(annotation)
-
-        // for(var i=0; i<toJson.js.length; i++){
-        //   if(toJson.js[i].indexOf("&is_use='true'" != -1)){
-        //     toJson.js[i] = toJson.js[i].split("&")[0]; 
-        //     this.readJSIntoEditor(toJson.js[i])
-        //   }
-        // }
-        // for(var i=0; i<toJson.css.length; i++){
-        //   if(toJson.css[i].indexOf("&is_use='true'" != -1)){
-        //     toJson.css[i] = toJson.css[i].split("&")[0]; 
-        //     //console.log(toJson.css[i])
-        //     this.readCSSIntoEditor(toJson.css[i])
-        //   }
-        // }
       }
     });
   };
 
+  
   readFileIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
       var htmlCode = data.toString()
@@ -223,61 +209,25 @@ class FrogEditor extends React.Component {
       } else {
         this.handleModelChange(String(data));
 
-        // if(htmlCode.indexOf('<!--[') != -1){ //css, js 경로가 있을 경우
-          
-        //   var toJson = JSON.parse(annotation)
-
-        //   //if()
-        //   for(var i=0; i<toJson.js.length; i++){
-        //       toJson.js[i] = toJson.js[i].split("&")[0]; 
-        //       this.readJSIntoEditor(toJson.js[i])
-        //   }
-        //   for(var i=0; i<toJson.css.length; i++){
-        //       toJson.css[i] = toJson.css[i].split("&")[0]; 
-        //       this.readCSSIntoEditor(toJson.css[i])
-        //   }
-
-          
-        // } 
-        // else{ //css, js 경로가 없을 경우
-        //   console.log('no file')
-
-        //   // var defaultCSSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/css/bootstrap.css'
-        //   // this.readCSSIntoEditor(defaultCSSPath)
-
-        //   // var defaultJSPath = '/Users/clbeemac3/Documents/ReactElectron/app/resources/js/bootstrap.js'
-        //   // this.readJSIntoEditor(defaultJSPath)
-        // }
       }
     });
   };
 
   readCSSIntoEditor = theFileEntry => {
-    // console.log("=========theFileEntry=========")
-    // console.log(theFileEntry)
     fs.readFile(theFileEntry.toString(), (err, data) => {
+      console.log("read css : "+theFileEntry.toString())
+
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
         this.setState({
           csslist: [...this.state.csslist, theFileEntry.toString()]
         });
-        // console.log("===csslist===")
-        // console.log(csslist)
         this.key_item += 1;
         this.config.iframeStyleFiles = this.state.csslist;
         this.props.pbUpdateHandler();
-        
       }
     });
-
-    // this.setState({
-    //   csslist: [...this.state.csslist, theFileEntry.toString()]
-    // });
-    // this.key_item += 1;
-    // this.config.iframeStyleFiles = this.state.csslist;
-    // this.props.pbUpdateHandler();
-
   };
 
   readJSIntoEditor = theFileEntry => {
@@ -295,43 +245,21 @@ class FrogEditor extends React.Component {
     });
   };
 
-  saveHTML = theFileEntry => {
-    if(theFileEntry == null){
-      console.log('please write contents')
-
-    } else {
-      theFileEntry = theFileEntry.toString();
-      if (this.state.createFileOk) {
-        if (theFileEntry.indexOf('.html') == -1) { //html 확장자가 없을 경우
-          fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
-            if(err) console.log(`Read failed: ${err}`);
-          });
-        } else { //html 확장자가 있을 경우
-          fs.writeFile(theFileEntry, this.state.model, (err) => {
-            if(err) console.log(`Read failed: ${err}`);
-          });
-        }
-        this.setState({ createFileOk: false });
-      } else {
-        if (theFileEntry.indexOf('.html') == -1) {
-          fs.writeFile(theFileEntry + '.html', this.state.model, (err) => {
-            if(err) console.log(`Read failed: ${err}`);
-          });
-        } else {
-          fs.writeFile(theFileEntry, this.state.model, (err) => {
-            if(err) console.log(`Read failed: ${err}`);
-          });
-        }
-      }
-      console.log('저장되었습니다.')
-    }
+  saveHTML = (theFileEntry) => {
+    setTimeout(()=>{
+      fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
+        if(err) console.log(`Read failed: ${err}`);
+      });
+    },500)
   };
 
-  saveAsHTML = theFileEntry => {
-    fs.writeFile(theFileEntry + '.html', this.state.model, err => {
-      console.log(`Read failed: ${err}`);
-    });
-  };
+  // saveAsHTML = (theFileEntry) => {
+  //   setTimeout(()=>{
+  //     fs.writeFile(theFileEntry+ '/index.html', this.state.model, (err) => {
+  //       if(err) console.log(`Read failed: ${err}`);
+  //     });
+  //   },500)
+  // }
 
   render() {
     return (

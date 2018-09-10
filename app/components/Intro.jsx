@@ -17,8 +17,8 @@ export default class Intro extends Component {
         <SampleConsumer>
           {
             (sample) => (
-              <div>
-                <h1> Intro Page </h1>
+              <div align="center">
+                <h2> INTRO PAGE </h2>
               </div>
             )
           }
