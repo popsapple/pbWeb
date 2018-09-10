@@ -63,7 +63,7 @@ export default class MenuBuilder {
   buildDefaultTemplate() {
     let saveOk = true;
     let selectedFilePath = '';
-    var tempPath = "/private/tmp"
+    var tempPath = "%Temp%" // \AppData\Local\Temp
     var count = 1;
     var workingDirPath = "";
     var newOk = true;
@@ -146,6 +146,9 @@ export default class MenuBuilder {
   
                     saveOk = false;
                     selectedFilePath = files;     
+                  }, 
+                  (err) => {
+                    alert("저장실패")
                   }
                 );
               } else { //존재하는 파일에 덮어쓰기할 경우
@@ -314,8 +317,6 @@ export default class MenuBuilder {
       })
 
     setTimeout(() => {
-      console.log("====== PBWEB : setTimeout IN ======")
-
       fs.readdir(tempPath+"/PbWeb", (err, dirList) => {
         if(!err && dirList.length != 0){
           for(var i=0; i<dirList.length; i++){
@@ -409,6 +410,7 @@ export default class MenuBuilder {
      .catch(()=>{ //css 폴더, js 폴더, resources.json 파일 중 하나라도 없을 경우 에러 처리
       console.log("404 Error!!") 
 
+      this.editor.send('error-control', '404Error');
 
      })
   }
@@ -567,6 +569,7 @@ export default class MenuBuilder {
               selectedFilePath = text+titleArray[0]
               this.editor.send('html-save', selectedFilePath);
             }
+             alert("저장되었습니다.")
           }
         },
         {
