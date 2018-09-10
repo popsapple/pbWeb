@@ -56,7 +56,7 @@ export default class WorkingTree extends React.Component{
 
     render() {
         return(
-            <div>
+            <div style={this.props.DataStyle}>
                 <div>CSS</div>
                 <ul dangerouslySetInnerHTML={
                     (() => {

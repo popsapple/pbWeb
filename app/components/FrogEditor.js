@@ -252,15 +252,7 @@ class FrogEditor extends React.Component {
       });
     },500)
   };
-
-  // saveAsHTML = (theFileEntry) => {
-  //   setTimeout(()=>{
-  //     fs.writeFile(theFileEntry+ '/index.html', this.state.model, (err) => {
-  //       if(err) console.log(`Read failed: ${err}`);
-  //     });
-  //   },500)
-  // }
-
+  
   render() {
     return (
       <div>
