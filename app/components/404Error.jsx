@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { SampleConsumer } from '../context';
 
-export default class ErrorPage extends Component {
+export default class Error extends Component {
    constructor(){
     super();
     this.forceUpdateHandler = this.forceUpdateHandler.bind(this);

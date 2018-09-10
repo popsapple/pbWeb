@@ -26,7 +26,7 @@ class FrogEditor extends React.Component {
 
     this.editor;
     this.insert_html;
-    
+
     this.config = {
       charCounterCount: false,
       model: "<div class='default_box'>hello</div>",
