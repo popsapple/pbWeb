@@ -1,66 +1,130 @@
-Glyphicons -- 프라울라
+Glyphicons -- 프라울라 icons에 넣기.
+
+
+/************ 일반 *******************/
+
+정렬 텍스트 - (text-left, text-center, text-right, text-justify, text-nowarp)
+대소문자 - (text-lowercase, text-uppercase, text-capitalize)
+리스트(스타일없는 UL OL) - list-unstyled
+가로정렬(인라인) - list-inline
+수평설명(dl태그) - dl-horizontal
+유효 상태(input) - has-success, has-warning, has-error
+폼 높이 조절(input) - input-lg, input-md, input-sm, input-xs
+가로사이즈 조절(input) - col-xs-2 ......
+스크린리더에서만 읽을 수 있게 - sr-only, sr-only-focusable
+버튼클래스(a, button) - btn, btn-link, btn-default, btn-primary, btn-success, btn-info, btn-warning, btn-danger, btn-lg, btn-md, btn-sm, btn-xs, btn-block, active, close
+이미지 - img-responsive, center-block, img-rounded, img-circle, img-thumbnail
+글자색상 - text-muted, text-primary, text-success, text-info, text-warning, text-danger
+배경 - bg-primary, bg-success, bg-info, bg-warning, bg-danger
+캐럿 - caret
+보이기 안보이기 - show, hidden
+프린트모드 보이기 - visible-print-block, hidden-print
+화면사이즈별 보이기 - hidden-xs, hidden-sm, hidden-md, hidden-lg, visible-xs-block, visible-sm-block, visible-md-block, visible-lg-block
 
 
 
-드롭다운,
-버튼 툴바,
-크기 조절,
-중첩하기,
-수직형,
-양쪽정렬된 버튼 그룹,
-버튼 드롭다운,
-단버튼 드롭다운,
-크기조절,
-드롭업형,
-입력 그룹,
-크기 조절,
-체크박스와 라디오 에드온,
-버튼 에드온,
-드롭다운 버튼,
-분할된 버튼,
-네비게이션,
-탭형,
-알약형(Pills),
-양쪽정렬된 (Justified),
-비활성화된 링크,
-드롭다운 사용하기,
-알약형에서의 드롭다운,
-브랜드 이미지,
-폼,
-버튼,
-텍스트,
-일반 링크,
-목록 그룹(List group),
-배지
-콤포넌트 정렬 (Component alignment),
-상단에 고정된,
-하단에 고정된(Fixed to bottom),
-정적 상단,
-경로(Breadcrumbs),
-페이지네이션(Pagination),
-기본 페이지네이션(Default pagination),
-페이저(Pager),
-라벨(labels),
-점보트론(Jumbotron),
-페이지 제목(Page header),
-썸네일(Thumbnails),
-맞춤 콘텐츠,
-경보(Alerts),
-없앨 수 있는 경보,
-경보 내 링크,
-진행바(Progress bars),
-맥락적인 대안
-진행바는 일관된 스타일을 위해 버튼과 경보 클래스와 같은 것들을 사용합니다.,
-미디어 목록(Media list),
-목록 그룹(List group),
-비활성화된 항목,
-맥락적인 클래스,
-패널,
-상단이 있는 패널,
-하단이 있는 패널,
-맥락적인 대안(클래스),
-테이블,
-목록 그룹,
-반응형 임베드,
-Wells,
-옵션 클래스(Optional classes)
+※ input 계열 "disabled" 전부 disabled 속성으로. (a 태그는 예외로 class에다가 disabled 추가)
+
+
+
+
+/************** 콤포넌트 ********************/
+
+드롭다운 - (div => dropdown, dropup | button => btn, btn-default, dropdown-toggle | span => caret | ul => dropdown-menu | li => dropdown-header, divider),
+버튼 툴바 - (div => btn-toolbar, btn-group | button => btn, btn-default),
+크기 조절 - (div => btn-group-lg, btn-group-sm, btn-group-md, btn-group-xs),
+수직형 - (div => btn-group-vertical),
+양쪽정렬된 버튼 그룹 - (div => btn-group-justified),
+
+
+버튼 드롭다운 - (button => dropdown-toggle),
+드롭업형 - (button => dropup | span => sr-only),
+
+
+입력 그룹 - (div => input-group | span => input-group-addon | input => form-control),
+크기 조절 - (div => input-group, input-group-lg, input-group-sm, input-group-md, input-group-xs),
+
+체크박스와 라디오 에드온 - (div => input-group | span => input-group-addon | input => form-control),
+버튼 에드온 - (div => row | span => input-group-addon | input => form-control),
+
+드롭다운 버튼 - (div => input-group, input-group-btn | ul => dropdown-menu-right, dropdown-menu-left | button => btn, btn-default, dropdown-toggle | input => form-control | li => divider),
+
+
+네비게이션 - (ul => nav, nav-tabs | li => active),
+탭형 - (ul => nav, nav-tabs | li => active),
+
+
+알약형(Pills) - (ul => nav, nav-pillss, nav-stacked | li => active),
+양쪽정렬된 (Justified) - (ul => nav, nav-pills, nav-justified | li => active),
+
+
+비활성화된 링크 - (ul => nav, nav-pills | li => disabled
+
+
+드롭다운 사용하기 - (ul => nav, nav-pills, nav-justified | li => active),
+
+
+네비게이션 바 - (nav => navbar, navbar-default | div => navbar-header, container-fluid, collapse, navbar-collapse | button => navbar-toggle, collapsed | span => sr-only, icon-bar | a => navbar-brand, dropdown-toggle | li => dropdown),
+
+
+폼 - (div => form-control | button => btn, btn-default),
+
+
+텍스트 - (p => navbar-text),
+일반 링크 - (p => navbar-right, navbar-text | a => navbar-link),
+상단에 고정된 - (nav => navbar, navbar-default, navbar-fixed-top),
+하단에 고정된(Fixed to bottom) - (nav => navbar, navbar-default, navbar-fixed-bottom),
+정적 상단 - (nav => navbar, navbar-default, navbar-static-top),
+
+
+경로(Breadcrumbs) - (ol => breadcrumb | li => active),
+페이지네이션(Pagination) - (ul => pagination, pagination-lg, pagination-sm, pagination-md, pagination-xs | li => disabled, active | a => sr-only),
+
+
+페이저(Pager) - (span => label, label-default),
+
+
+라벨(labels - (span => label, label-default, label-primary, label-success, label-info, label-warning, label-danger),
+
+배지  - (span => badge);
+
+점보트론(Jumbotron) - (div => jumbotron),
+페이지 제목(Page header - (div => page-header),
+썸네일(Thumbnails) - (div => thumbnail, caption),
+
+
+경보(Alerts) - (div => alert, alert-success, alert-danger alert-warning, alert-info, alert-dismissible | button => close | a => alert-link),
+
+
+
+진행바(Progress bars) - (div => progress, progress-bar | span => sr-only),
+
+
+
+맥락적인 대안 - (div => progress-bar-success, progress-bar-info, progress-bar-warning, progress-bar-danger, progress-bar-striped, active),
+목록 그룹(List group) - (ul => list-group | li => list-group-item, active, disabled),
+
+
+맥락적인 클래스 - (ul => list-group | li => list-group-item-success, list-group-item-info, list-group-item-warning, list-group-item-danger),
+
+
+맞춤 콘텐츠 - (a => list-group-item, active | h1~6 => list-group-item-heading | p,div => list-group-item-text),
+
+
+패널 - (div => panel, panel-default, panel-body, panel-heading, panel-title, panel-footer),
+
+
+
+맥락적인 대안(클래스) - (div => panel, panel-primary, panel-success, panel-info, panel-warning, panel-danger),
+
+
+테이블 - (table => table, table-striped, table-bordered, table-hover, table-responsive | tr,th => active, success, info, warning, danger),
+
+
+목록 그룹 - (ul => list-group, list-group-item),
+반응형 임베드 - (div => embed-responsive, embed-responsive-16by9, embed-responsive-4by3 | iframe => embed-responsive-item),
+Wells - (div => well, well-lg, well-sm, well-md, well-xs)
+
+
+
+-- 다 붙임

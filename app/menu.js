@@ -14,7 +14,11 @@ export default class MenuBuilder {
 
     ipcMain.on('editor-drag', (event, arg) => {
       event.sender.send('editor-draginsert', arg)
-    })
+    });
+
+    ipcMain.on('componentlist-drag', (event, arg) => {
+      event.sender.send('componentlist-draginsert', arg);
+    });    
   }
 
   buildMenu() {

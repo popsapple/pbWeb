@@ -1,6 +1,12 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
 import 'froala-editor/js/froala_editor.pkgd.min';
+import 'froala-editor/js/plugins/inline_style.min';
+import 'froala-editor/js/plugins/image.min';
+import 'froala-editor/js/plugins/paragraph_style.min';
+import 'froala-editor/js/plugins/forms.min';
+import 'froala-editor/js/plugins/link.min';
+
 import 'froala-editor/js/languages/ko';
 
 import fs from 'fs';
@@ -11,13 +17,15 @@ import FrogEditorView from './FrogEditorView';
 
 import { connect } from 'react-redux';
 import { showEditorView, setEditorView } from '../actions/actions';
+import { FrogEditorStyles } from './FrogEditorStyles';
+
 
 class FrogEditor extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      model: '',
+      model: '<div><br /></div>',
       csslist: [],
       jslist: [],
       createFileOk: true,
@@ -28,13 +36,13 @@ class FrogEditor extends React.Component {
     this.insert_html;
 
     this.config = {
-      charCounterCount: false,
       model: "<div class='default_box'>hello</div>",
       reactIgnoreAttrs: ['class', 'id'],
       language: 'ko',
+      dragInline : true,
+      htmlUntouched : true,
       codeMirror: window.CodeMirror,
-      fullPage: true,
-      iframeDefaultStyle: ``,      
+      fullPage: true,     
       quickInsertButtons: ['image', 'table'],
       lineBreakerTags: [
         'table',
@@ -44,29 +52,28 @@ class FrogEditor extends React.Component {
         'img',
         'tr',
         'td',
-        'span'
+        'span' //a
       ],
-      iframeStyleFiles: this.state.csslist,
+      paragraphStyles: FrogEditorStyles,
       iframeScriptFiles: [],
+      iframeStyleFiles: this.state.csslist,
+      htmlDoNotWrapTags: ['input', 'style', 'script', 'img'],
       htmlAllowedEmptyTags: ['style', 'script'],
       lineBreakerOffset: 50,
       height: 600,
-      theme: 'royal',
+      toolbarVisibleWithoutSelection: true,
+      pluginsEnabled: ['align', 'codeBeautifier', 'codeView', 'colors', 'emoticons', 'fontFamily', 'fontSize', 'image', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'table', 'url', 'video', 'wordPaste'],
       events: {
         'froalaEditor.initialized': (e, editor) => {
-          console.log('editor 초기화됨')
           this.editor = editor;
-          this.mouse_x = "";
-          this.mouse_y = "";
           this.darg_point = "";
+          this.editor.selected_item = "";
 
           ipcRenderer.on('editor-draginsert', (e, arg) => {
             this.insert_html = arg;
-          })
+          });
 
-          editor.events.on('dragover',dragEvent => {  
-              this.mouse_x = dragEvent.offsetX;
-              this.mouse_y = dragEvent.offsetY;
+          editor.events.on('dragover',dragEvent => { 
               // Focus at the current posisiton.
               editor.markers.insertAtPoint(dragEvent.originalEvent);
               var $marker = editor.$el.find('.fr-marker');
@@ -74,49 +81,41 @@ class FrogEditor extends React.Component {
               $marker.replaceWith($.FroalaEditor.MARKERS);
               editor.selection.restore();
 
-              // Save into undo stack the current position.
-              if (!editor.undo.canDo()) editor.undo.saveStep();
-
               // Insert HTML.
               if($drag_point) {
                 $drag_point.remove();
               }
               editor.html.insert("<span class='fr_drag_point'>drop here</span>");
 
-              // Save into undo stack the changes.
-              editor.undo.saveStep();
 
               // Stop event propagation.
               dragEvent.preventDefault();
               dragEvent.stopPropagation();
               return false;
-          })
-          editor.events.on('keydown', (e, editor_, keydownEvent) => {
-            // Do something here.
-            console.log("keydown :: "+e.keyCode);
-            if(e.keyCode == 13 && e.ctrlKey){
-              // Focus at the current posisiton.
+          });
+          editor.events.on('mouseup', (e, editor_, keydownEvent) => {
+            try {pb_selected_img ? pb_selected_img = false : '';}catch(err){}
+            editor.$el.find('.fr-selected') ?  editor.$el.find('.fr-selected').removeClass("fr-selected") : "";
             var $marker = editor.$el.find('.fr-marker');
             $marker.replaceWith($.FroalaEditor.MARKERS);
+            this.editor.selected_item = editor.selection.element();
             editor.selection.restore();
-
-            if (!editor.undo.canDo()) editor.undo.saveStep();
-            // Save into undo stack the current position.
-
-            // Insert HTML.
-            //editor.html.insert("<div>break!!</div>");
-            editor.markers.insertAtPoint($marker.closest(".container"));
+            this.editor.selected_item ?  $(this.editor.selected_item).addClass("fr-selected") : "";
+          });
+          editor.events.on('keydown', (e, editor_, keydownEvent) => {
+            // Do something here.
+            if(e.keyCode == 13 && e.ctrlKey){
             editor.html.insert("<div>break!!</div>", true);
 
             // Save into undo stack the changes.
+
             editor.undo.saveStep();
+            return false;
 
             }
           });
           editor.events.on('dragstart',(ev,id) => {  
-            if(id) { 
-              ev.nativeEvent.dataTransfer.setData('id', id)
-            }
+            return false;
           })
 
           editor.events.on('drop', dropEvent => {
@@ -125,9 +124,6 @@ class FrogEditor extends React.Component {
             var $marker = editor.$el.find('.fr-marker');
             $marker.replaceWith($.FroalaEditor.MARKERS);
             editor.selection.restore();
-
-            // Save into undo stack the current position.
-            if (!editor.undo.canDo()) editor.undo.saveStep();
             // Insert HTML.
 
             var $drag_point = editor.$el.find('.fr_drag_point');
@@ -135,7 +131,8 @@ class FrogEditor extends React.Component {
               $drag_point.remove();
             }
             editor.html.insert(this.insert_html);
-            // Save into undo stack the changes.
+
+            if (!editor.undo.canDo()) editor.undo.saveStep();
             editor.undo.saveStep();
             // Stop event propagation.
             dropEvent.preventDefault();
