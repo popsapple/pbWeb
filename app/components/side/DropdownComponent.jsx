@@ -25,7 +25,7 @@ export default class DropdownComponent extends React.Component implements Compon
 
         this.id = "sample";
         this.type = "dropdown";
-        this.iconhml = <li><button draggable="true" className="ComponentButton" onDragStart={this.DragEvent.bind(this, 'start')}
+        this.iconhml = <li><button draggable="true" className="ComponentButton" onClick={this.ToggleActiveComponent.bind(this)} onDragStart={this.DragEvent.bind(this, 'start')}
         onDragEnd={this.DragEvent.bind(this, 'end')}>드롭다운</button></li>;
         this.html = "yes";
         this.style = {
@@ -36,6 +36,14 @@ export default class DropdownComponent extends React.Component implements Compon
 	InsertCompomentEditor(){
 		return ipcRenderer.send('editor-drag', ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()));
 	}
+
+    ToggleActiveComponent(event){
+        if(this.props.selectComponent){
+            this.props.selectComponent();
+        }
+        event.stopPropagation();
+        event.preventDefault();
+    }
 
 	DragEvent(type, event){
 		if(type == 'start'){
@@ -54,7 +62,7 @@ export default class DropdownComponent extends React.Component implements Compon
 
     getComponentHtml(){
     	return(
-        	<div className="dropdown" data-component="dropdown">
+        	<div className="dropdown component-wrap" data-component="dropdown">
 			  <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
 			    Dropdown
 			    <span className="caret"></span>

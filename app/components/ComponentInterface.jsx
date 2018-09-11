@@ -1,13 +1,14 @@
 interface ComponentInterface {
   id: string;
   type: string;
-  iconhml: ani;
+  iconhml: any;
   html: any;
   style: object;
   InsertCompomentEditor: undefined;
+  ToggleActiveComponent: any;
   DragEvent: object;
-  getComponentHtml: ani;
-  getIconHtml: ani;
+  getComponentHtml: any;
+  getIconHtml: any;
 }
 
 export default ComponentInterface;

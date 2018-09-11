@@ -30,32 +30,40 @@ export default class SideComponent extends React.Component {
         event.preventDefault();
         event.stopPropagation();
     }
+    SelectEditCompoment() {
+        console.log("SelectEditCompoment");
+        ipcRenderer.send('SelectEditCompoment', () => {console.log('bbb')});
+    }
     DroppedComponent(event) {
+        ipcRenderer.on('SelectEditCompoment', (event) => {
+      console.log("DroppedComponentDroppedComponent");
+    });
         let component_type = this.component_type;
         let components_list;
         switch(component_type){
             case "DropdownComponent": 
                 this.setState(() => {
                     return {
-                        components: [<DropdownComponent/>, ...this.state.components]
+                        components: [<DropdownComponent selectComponent={this.SelectEditCompoment} />, ...this.state.components]
                     }
                 });
                 break;
             case "ButtonToolbarComponent": 
                 this.setState(() => {
                     return {
-                        components: [<ButtonToolbarComponent/>, ...this.state.components]
+                        components: [<ButtonToolbarComponent selectComponent={this.SelectEditCompoment} />, ...this.state.components]
                     }
                 });
                 break;
             default :
                 this.setState(() => {
                     return {
-                        components: [<DropdownComponent/>, ...this.state.components]
+                        components: [<DropdownComponent selectComponent={this.SelectEditCompoment} />, ...this.state.components]
                     }
                 });
                 break;
         }
+        event.preventDefault();
         event.stopPropagation();
     }
     render(){

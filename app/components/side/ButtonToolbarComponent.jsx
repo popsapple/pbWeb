@@ -31,7 +31,7 @@ export default class ButtonToolbarComponent extends React.Component implements C
         this.id = "sample";
         this.type = "buttontoolbar";
         this.iconhml = <li><button draggable="true" className="ComponentButton" onDragStart={this.DragEvent.bind(this, 'start')}
-        onDragEnd={this.DragEvent.bind(this, 'end')}>버튼툴바</button></li>;
+        onDragEnd={this.DragEvent.bind(this, 'end')}>버튼툴바</button><button onClick={this.ToggleActiveComponent.bind(this)}>Check</button></li>;
         this.html = "yes";
         this.style = {
         	width: 300+'px'
@@ -41,6 +41,14 @@ export default class ButtonToolbarComponent extends React.Component implements C
 	InsertCompomentEditor(){
 		return ipcRenderer.send('editor-drag', ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()));
 	}
+
+    ToggleActiveComponent(event){
+        if(this.props.selectComponent){
+            this.props.selectComponent();
+        }
+        event.stopPropagation();
+        event.preventDefault();
+    }
 
 	DragEvent(type, event){
 		if(type == 'start'){
@@ -59,7 +67,7 @@ export default class ButtonToolbarComponent extends React.Component implements C
 
     getComponentHtml(){
     	return(
-        	<div className="btn-toolbar" role="toolbar" aria-label="Group all">
+        	<div className="btn-toolbar component-wrap" data-component="toolbar" role="toolbar" aria-label="Group all">
         	  {Parser((()=>{
         	  	let text_ = ``
         	  	this.state.opt.group.map((item)=>{
