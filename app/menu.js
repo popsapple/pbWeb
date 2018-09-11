@@ -688,7 +688,6 @@ export default class MenuBuilder {
                   // this.mainWindow.webContents.reload();
                 }
               }
-             
             );
           }
         },
@@ -712,28 +711,28 @@ export default class MenuBuilder {
     };
 
     const subMenuEdit = {
-      label: 'Edit',
+      label: osPlatform.subMenuEdit.label,
       submenu: [
-        { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' },
+        { label: osPlatform.subMenuEdit.submenu[0].label, accelerator: osPlatform.subMenuEdit.submenu[0].accelerator, selector: osPlatform.subMenuEdit.submenu[0].selector },
+        { label: osPlatform.subMenuEdit.submenu[1].label, accelerator: osPlatform.subMenuEdit.submenu[1].accelerator, selector: osPlatform.subMenuEdit.submenu[1].selector },
+        { type: osPlatform.subMenuEdit.submenu[2].type },
+        { label: osPlatform.subMenuEdit.submenu[3].label, accelerator: osPlatform.subMenuEdit.submenu[3].accelerator, selector: osPlatform.subMenuEdit.submenu[3].selector },
+        { label: osPlatform.subMenuEdit.submenu[4].label, accelerator: osPlatform.subMenuEdit.submenu[4].accelerator, selector: osPlatform.subMenuEdit.submenu[4].selector },
+        { label: osPlatform.subMenuEdit.submenu[5].label, accelerator: osPlatform.subMenuEdit.submenu[5].accelerator, selector: osPlatform.subMenuEdit.submenu[5].selector },
         {
-          label: 'Select All',
-          accelerator: 'Command+A',
-          selector: 'selectAll:'
+          label: osPlatform.subMenuEdit.submenu[6].label,
+          accelerator: osPlatform.subMenuEdit.submenu[6].accelerator,
+          selector: osPlatform.subMenuEdit.submenu[6].selector
         }
       ]
     };
     
     const subMenuViewDev = {
-      label: 'View',
+      label: osPlatform.subMenuViewDev.label,
       submenu: [
         {
-          label: 'Preview',
-          accelerator: 'Ctrl+Command+P',
+          label: osPlatform.subMenuViewDev.submenu[0].label,
+          accelerator: osPlatform.subMenuViewDev.submenu[0].accelerator,
           click: () => {
             this.editor.send('preview-open',()=>{
             });
