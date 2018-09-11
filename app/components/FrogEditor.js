@@ -68,11 +68,10 @@ class FrogEditor extends React.Component {
           this.editor = editor;
           this.darg_point = "";
           this.editor.selected_item = "";
-          this.insert_html = this.store.store.dispatch(dragEditorHtml()).html;
+          this.insert_html = "";
 
           editor.events.on('dragover',dragEvent => { 
             this.insert_html = this.store.store.dispatch(dragEditorHtml()).html;
-            console.log("dragover :: "+this.insert_html);
             // Focus at the current posisiton.
             editor.markers.insertAtPoint(dragEvent.originalEvent);
             var $marker = editor.$el.find('.fr-marker');
@@ -119,7 +118,6 @@ class FrogEditor extends React.Component {
             if($drag_point) {
               $drag_point.remove();
             }
-            console.log("drop :: "+this.insert_html);
             editor.html.insert(this.insert_html);
 
             if (!editor.undo.canDo()) editor.undo.saveStep();
