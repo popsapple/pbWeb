@@ -246,6 +246,7 @@ class FrogEditor extends React.Component {
 
   saveHTML = (theFileEntry, saveMessage) => {
     setTimeout(()=>{
+      console.log("theFileEntry: "+theFileEntry)
       fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
         if(err) console.log(`Read failed: ${err}`);
         console.log("saveMessage : "+saveMessage)
