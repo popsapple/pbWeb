@@ -1,5 +1,5 @@
 import React from 'react';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, dialog } from 'electron';
 import 'froala-editor/js/froala_editor.pkgd.min';
 import 'froala-editor/js/plugins/inline_style.min';
 import 'froala-editor/js/plugins/image.min';
@@ -18,7 +18,6 @@ import FrogEditorView from './FrogEditorView';
 import { connect } from 'react-redux';
 import { showEditorView, setEditorView } from '../actions/actions';
 import { FrogEditorStyles } from './FrogEditorStyles';
-
 
 class FrogEditor extends React.Component {
   constructor() {
@@ -167,8 +166,8 @@ class FrogEditor extends React.Component {
       this.readCSSIntoEditor(filename);
     });
 
-    ipcRenderer.on('html-save', (event, filename) => {
-      this.saveHTML(filename);
+    ipcRenderer.on('html-save', (event, filename, saveMessage) => {
+      this.saveHTML(filename, saveMessage);
     });
 
     // ipcRenderer.on('html-saveAs', (event, filename) => {
@@ -245,12 +244,16 @@ class FrogEditor extends React.Component {
     });
   };
 
-  saveHTML = (theFileEntry) => {
+  saveHTML = (theFileEntry, saveMessage) => {
     setTimeout(()=>{
       fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
         if(err) console.log(`Read failed: ${err}`);
-      });
+        console.log("saveMessage : "+saveMessage)
+      });      
     },500)
+    if(saveMessage){
+      alert("저장되었습니다.")
+    }
   };
   
   render() {
