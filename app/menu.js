@@ -220,6 +220,7 @@ export default class MenuBuilder {
               "label": "&열기",
               "accelerator": "Ctrl+O"
             },
+            { "type": "separator" },
             {
               "label": "&저장",
               "accelerator": "Ctrl+S"
@@ -236,6 +237,7 @@ export default class MenuBuilder {
               "label": "&내보내기",
               "accelerator": "Ctrl+Q"
             },
+            { "type": "separator" },
             {
               "label": "&닫기",
               "accelerator": "Ctrl+W"
@@ -366,9 +368,6 @@ export default class MenuBuilder {
       //   this.makeWorkingDir_open(tempPath, count);
       // }
     })
-    // setTimeout(() => {
-      
-    // }, 500)
    
   }
 
@@ -492,12 +491,12 @@ export default class MenuBuilder {
     };
 
     const subMenuFile = {
-      label: 'File',
+      label: osPlatform.subMenuFile.label,
       submenu: [
         {
-          label: 'New',
+          label: osPlatform.subMenuFile.submenu[0].label,
           accelerator: osPlatform.subMenuFile.submenu[0].accelerator,
-          selector: 'new',
+          selector: osPlatform.subMenuFile.submenu[0].selector,
           click: () => {
             newOk = true;
             this.pbWebCheck(tempPath, count, newOk);  
@@ -505,7 +504,7 @@ export default class MenuBuilder {
           }        
         },
         {
-          label: 'Open...',
+          label: osPlatform.subMenuFile.submenu[1].label,
           accelerator: osPlatform.subMenuFile.submenu[1].accelerator,
           click: () => {
             dialog.showOpenDialog(
@@ -571,9 +570,9 @@ export default class MenuBuilder {
             );
           }
         },
-        { type: 'separator' },
+        { type: osPlatform.subMenuFile.submenu[2].type },
         {
-          label: 'Save',
+          label: osPlatform.subMenuFile.submenu[3].label,
           accelerator: osPlatform.subMenuFile.submenu[3].accelerator,
           click: () => {
             if (saveOk) { //새로운 파일을 저장할 경우
@@ -621,7 +620,7 @@ export default class MenuBuilder {
           }
         },
         {
-          label: 'Save as...',
+          label: osPlatform.subMenuFile.submenu[4].label,
           accelerator: osPlatform.subMenuFile.submenu[4].accelerator,
           click: () => {
             dialog.showSaveDialog(
@@ -694,17 +693,17 @@ export default class MenuBuilder {
           }
         },
         {
-          label: 'Print',
+          label: osPlatform.subMenuFile.submenu[5].label,
           accelerator: osPlatform.subMenuFile.submenu[5].accelerator
         },
         {
-          label: 'Export...',
+          label: osPlatform.subMenuFile.submenu[6].label,
           accelerator: osPlatform.subMenuFile.submenu[6].accelerator
         },
-        { type: 'separator' },
+        { type: osPlatform.subMenuFile.submenu[7].type },
         {
-          label: 'Close',
-          accelerator: osPlatform.subMenuFile.submenu[7].accelerator,
+          label: osPlatform.subMenuFile.submenu[8].label,
+          accelerator: osPlatform.subMenuFile.submenu[8].accelerator,
           click: () => {
             this.mainWindow.close();
           }
