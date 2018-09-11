@@ -7,7 +7,11 @@ export default class SideInspector extends React.Component{
     	super();
     	this.state = {
     		labal_draging: false,
-    		style: {}
+    		style: {},
+            tab: {
+                info: {display: 'none'},
+                tree: {display: 'block'}
+            }
     	}
     };
     DragLabelTab(event){
@@ -41,15 +45,36 @@ export default class SideInspector extends React.Component{
 	    	});
     	}
     }
+    ToggleInspector(type, event){
+        if(type == 'info'){
+            this.setState(()=>{
+                return {
+                    tab: {
+                        info: {display: 'block'},
+                        tree: {display: 'none'}
+                    }
+                }
+            })
+        }else{
+            this.setState(()=>{
+                return {
+                    tab: {
+                        info: {display: 'none'},
+                        tree: {display: 'block'}
+                    }
+                }
+            })
+        }
+    }
     render(){
         return(
         <div ref={ref => {this.container = ref;}} className="col-xs-2 col-sm-2 col-md-2 col-lg-2 inspector sidebar right" style={this.state.style}>
             <div className="component_list">
             	<button className="label" onMouseDown={this.DragLabelTab.bind(this)} onMouseLeave={this.DragLabelLeave.bind(this)} onMouseUp={this.DragLabelUp.bind(this)} onMouseMove={this.DragLabelMove.bind(this)}>Label</button>
-            	<button>Info</button>
-            	<button>Tree</button>
-            	<CompomentInfo />
-            	<WorkingTree />
+            	<button onClick={this.ToggleInspector.bind(this, 'info')}>Info</button>
+            	<button onClick={this.ToggleInspector.bind(this, 'tree')}>Tree</button>
+            	<CompomentInfo DataStyle={this.state.tab.info} />
+            	<WorkingTree DataStyle={this.state.tab.tree} />
             </div>
         </div>
         )

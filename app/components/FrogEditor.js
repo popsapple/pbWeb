@@ -255,15 +255,7 @@ class FrogEditor extends React.Component {
       alert("저장되었습니다.")
     }
   };
-
-  // saveAsHTML = (theFileEntry) => {
-  //   setTimeout(()=>{
-  //     fs.writeFile(theFileEntry+ '/index.html', this.state.model, (err) => {
-  //       if(err) console.log(`Read failed: ${err}`);
-  //     });
-  //   },500)
-  // }
-
+  
   render() {
     return (
       <div>
