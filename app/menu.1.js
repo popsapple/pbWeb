@@ -15,275 +15,16 @@ export default class MenuBuilder {
       this.editor = event.sender;
     });
 
-    /*ipcMain.on('componentlist-drag', (event, arg) => {
-      event.sender.send('componentlist-draginsert', arg);
-    }); */
+    ipcMain.on('editor-drag', (event, arg) => {
+      event.sender.send('editor-draginsert', arg)
+    });
 
-    ipcMain.on('SelectEditComponent', (event, arg) => {
-      event.sender.send('SelectEditComponent', arg); //event.sender
-    });     
+    ipcMain.on('componentlist-drag', (event, arg) => {
+      event.sender.send('componentlist-draginsert', arg);
+    });    
   }
 
-  buildMenu() { // label --> option.mac.subMenuAbout.label
-    const option = 
-    {
-      "mac": {
-        "subMenuAbout": {
-          "label": "PageBuilder",
-          "submenu": [
-            {
-              "label": "About ElectronReact",
-              "selector": "orderFrontStandardAboutPanel:"
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Services",
-              "submenu": []
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Hide ElectronReact",
-              "accelerator": "Command+H",
-              "selector": "hide:"
-            },
-            {
-              "label": "Hide Others",
-              "accelerator": "Command+Shift+H",
-              "selector": "hideOtherApplications:"
-            },
-            {
-              "label": "Show All",
-              "selector": "unhideAllApplications:"
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Quit",
-              "accelerator": "Command+Q"
-            }
-          ]
-        },
-        "subMenuFile": {
-          "label": "File",
-          "submenu": [
-            {
-              "label": "New",
-              "accelerator": "Command+N",
-              "selector": "new"
-            },
-            {
-              "label": "Open...",
-              "accelerator": "Command+O"
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Save",
-              "accelerator": "Command+S"
-            },
-            {
-              "label": "Save as...",
-              "accelerator": "Command+A"
-            },
-            {
-              "label": "Print",
-              "accelerator": "Command+P"
-            },
-            {
-              "label": "Export...",
-              "accelerator": "Command+Q"
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Close",
-              "accelerator": "Command+W"
-            }
-          ]
-        },
-        "subMenuEdit": {
-          "label": "Edit",
-          "submenu": [
-            {
-              "label": "Undo",
-              "accelerator": "Command+Z",
-              "selector": "undo:"
-            },
-            {
-              "label": "Redo",
-              "accelerator": "Shift+Command+Z",
-              "selector": "redo:"
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Cut",
-              "accelerator": "Command+X",
-              "selector": "cut:"
-            },
-            {
-              "label": "Copy",
-              "accelerator": "Command+C",
-              "selector": "copy:"
-            },
-            {
-              "label": "Paste",
-              "accelerator": "Command+V",
-              "selector": "paste:"
-            },
-            {
-              "label": "Select All",
-              "accelerator": "Command+A",
-              "selector": "selectAll:"
-            }
-          ]
-        },
-        "subMenuViewDev": {
-          "label": "View",
-          "submenu": [
-            {
-              "label": "Preview",
-              "accelerator": "Ctrl+Command+P"
-            },
-            {
-              "label": "Reload",
-              "accelerator": "Command+R"
-            },
-            {
-              "label": "Toggle Full Screen",
-              "accelerator": "Ctrl+Command+F"
-            },
-            {
-              "label": "Toggle Developer Tools",
-              "accelerator": "Alt+Command+I"
-            }
-          ]
-        },
-        "subMenuWindow": {
-          "label": "Window",
-          "submenu": [
-            {
-              "label": "Minimize",
-              "accelerator": "Command+M",
-              "selector": "performMiniaturize:"
-            },
-            {
-              "label": "Close",
-              "accelerator": "Command+W",
-              "selector": "performClose:"
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Bring All to Front",
-              "selector": "arrangeInFront:"
-            }
-          ]
-        },
-        "subMenuHelp": {
-          "label": "도움말",
-          "submenu": [
-            {
-              "label": "Learn More"
-            },
-            {
-              "label": "Documentation"
-            },
-            {
-              "label": "Community Discussions"
-            },
-            {
-              "label": "Search Issues"
-            }
-          ]
-        }
-      },
-      "window": {
-        "subMenuFile": {
-          "label": "&파일",
-          "submenu": [
-            {
-              "label": "&새로 만들기",
-              "accelerator": "Ctrl+N",
-              "selector": "new file"
-            },
-            {
-              "label": "&열기",
-              "accelerator": "Ctrl+O"
-            },
-            {
-              "label": "&저장",
-              "accelerator": "Ctrl+S"
-            },
-            {
-              "label": "&다른이름으로 저장",
-              "accelerator": "Ctrl+A"
-            },
-            {
-              "label": "&인쇄",
-              "accelerator": "Ctrl+P"
-            },
-            {
-              "label": "&내보내기",
-              "accelerator": "Ctrl+Q"
-            },
-            {
-              "label": "&닫기",
-              "accelerator": "Ctrl+W"
-            }
-          ]
-        },
-        "subMenuViewDev": {
-          "label": "&보기",
-          "submenu": [
-            {
-              "label": "&Preview",
-              "accelerator": "Ctrl+P"
-            },
-            {
-              "label": "&Reload",
-              "accelerator": "Ctrl+R"
-            },
-            {
-              "label": "Toggle &Full Screen",
-              "accelerator": "F11"
-            },
-            {
-              "label": "Toggle &Developer Tools",
-              "accelerator": "Alt+Ctrl+I"
-            }
-          ]
-        },
-        "subMenuHelp": {
-          "label": "Help",
-          "submenu": [
-            {
-              "label": "Learn More"
-            },
-            {
-              "label": "Documentation"
-            },
-            {
-              "label": "Community Discussions"
-            },
-            {
-              "label": "Search Issues"
-            }
-          ]
-        }
-      }
-    }
-
-
+  buildMenu() {
     if (
       process.env.NODE_ENV === 'development' ||
       process.env.DEBUG_PROD === 'true'
@@ -293,17 +34,10 @@ export default class MenuBuilder {
     const macTempPath = process.env.TMPDIR
     const windowTempPath = process.env.Temp
 
-    
-    var Mac_platform = "mac"    
-    var Window_platform = "window"  
-
     const template =
-      // process.platform === 'darwin'
-      //   ? this.buildDarwinTemplate(macTempPath)
-      //   : this.buildDefaultTemplate(windowTempPath);
       process.platform === 'darwin'
-        ? this.buildDarwinTemplate(option.mac, macTempPath)
-        : this.buildDarwinTemplate(option.window, windowTempPath);
+        ? this.buildDarwinTemplate(macTempPath)
+        : this.buildDefaultTemplate(windowTempPath);
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
 
@@ -327,7 +61,280 @@ export default class MenuBuilder {
     });
   }
 
-  //
+  
+
+
+
+
+  buildDefaultTemplate(tempPath) {
+    console.log("===> window : "+tempPath)
+    let saveOk = true;
+    let selectedFilePath = '';
+    var count = 1;
+    var workingDirPath = "";
+    var newOk = true;
+    var saveMessage = true;
+
+    const templateDefault = [
+      {
+        label: '&파일',
+        submenu: [
+          {
+            label: '&새로 만들기',
+            accelerator: 'Ctrl+N',
+            selector: 'new file',
+            click: () => {
+              newOk = true;
+              this.pbWebCheck(tempPath, count, newOk);  
+              saveOk = true;
+            }   
+          },
+          {
+            label: '&열기',
+            accelerator: 'Ctrl+O',
+            click: () => {
+              dialog.showOpenDialog(
+                {
+                  properties: ['openFile'],
+                  title: 'PageBuilder 파일 열기',
+                  filters: [
+                    { name: 'HTML', extensions: ['htm', 'html'] },
+                    { name: 'CSS', extensions: ['css'] },
+                    { name: 'Javascript', extensions: ['js'] },
+                    { name: 'All Files', extensions: ['*'] }
+                  ]
+                },
+                files => {
+                  if (files !== undefined) {
+                    if(files[0].match(/(.html)$/)){
+                      newOk = false;
+                      this.pbWebCheck(tempPath, count, newOk)
+                      var pathArray = files[0].split("/")
+                      for(let i=0; i<pathArray.length; i++){
+                        if (pathArray[i].match(/(.html)$/)){
+                          var selectedfolderPath = files[0].replace("/"+pathArray[i],'');
+                          var folderName = pathArray[pathArray.length-2]
+                        }
+                      }
+                      this.mainWindow.setTitle(`${folderName} - PageBuilder`)
+                      selectedFilePath = selectedfolderPath 
+  
+                      setTimeout(()=>{
+                        this.editor.send('file-open', files[0])
+                        this.inspectorList(selectedfolderPath)
+                      },500)
+  
+                    }
+                    else if(files[0].match(/(.css)$/)){
+                      pathArray = files[0].split("/")
+                      for(let i=0; i<pathArray.length; i++){
+                        if(pathArray[i].match(/(.css)$/)){
+                          console.log("pathArray: "+pathArray[i])
+                          console.log("files[0]: "+files[0])
+                          selectedfolderPath = files[0].replace("/css/"+pathArray[i],'');
+                        }
+                      }
+                      fs.copy(files[0], selectedfolderPath+"/css", (err) => {
+                        // this.editor.send("css-open", files[0])
+                        this.inspectorList(selectedfolderPath)
+                      })
+                    } 
+                    else if(files[0].match(/(.js)$/)){
+                      this.inspectorList(selectedfolderPath)
+                      fs.copy(files[0], selectedfolderPath+"/js", (err) => {
+                        // this.editor.send("js-open", files[0])
+  
+                        this.inspectorList(selectedfolderPath)
+                      })                  
+                    } 
+                  } else{
+                    //여러번 할 경우 MaxListenersExceededWarning 발생
+                    this.mainWindow.webContents.reload();
+                  }
+                  saveOk = false;
+                }
+              );
+            }
+          },
+          {
+            label: '&저장',
+            accelerator: 'Ctrl+S',
+            click: () => {
+              if (saveOk) { //새로운 파일을 저장할 경우
+                dialog.showSaveDialog(
+                  {
+                    properties: ['saveFile'],
+                    title: 'PageBuilder 저장'
+                  },
+                  files => {
+                    fs.move(this.workingDirPath, files, (err) => {
+                      if(err) console.log(err)
+                    })
+                    this.editor.send('html-save', files);
+  
+                    //저장한 title로 app title 설정하는 부분
+                    var pathArray = files.split("/")
+                    var filename = pathArray[pathArray.length-1]
+                    this.mainWindow.setTitle(`${filename} - PageBuilder`)
+  
+                    saveOk = false;
+                    selectedFilePath = files;     
+                  }
+                );
+              } else { //존재하는 파일에 덮어쓰기할 경우
+                var pathArray1 = selectedFilePath.split("/")
+                var text = ""
+                for(var i=0; i<pathArray1.length-1; i++){
+                  text = text.concat(pathArray1[i]+"/")
+                }
+                var titleArray = this.mainWindow.getTitle().split(" -")
+                selectedFilePath = text+titleArray[0]
+                this.editor.send('html-save', selectedFilePath);
+              }
+            }
+          },
+          {
+            label: '&다른이름으로 저장',
+            accelerator: 'Ctrl+A',
+            click: () => {
+              dialog.showSaveDialog(
+                {
+                  properties: ['saveAsFile'],
+                  title: 'PageBuilder 다른이름으로 저장'
+                },
+                files => {
+                  fs.access(this.workingDirPath)
+                    .then(()=>{ //저장하지 않은 파일일 경우(처음부터 saveAs 눌렀을 때)
+                      fs.copy(this.workingDirPath, files, (err) => {
+                        if(err) console.log(err)
+                      })
+                      setTimeout(()=>{
+                        fs.remove(this.workingDirPath, (err)=>{
+                          if(err) console.log(err)
+                        })
+                      },500)
+                      selectedFilePath = files
+                    })
+                    .catch(()=>{ //이미 저장되어있는 파일일 경우(save한 상태에서 saveAs를 눌렀을 경우)
+                      fs.copy(selectedFilePath, files, (err) => {
+                        if(err) console.log(err)
+                      })
+                    })
+  
+                  this.editor.send('html-save', files, this.workingDirPath);
+  
+                  //저장한 title로 app title 설정하는 부분
+                  var pathArray = files.split("/")
+                  var filename = pathArray[pathArray.length-1]
+                  this.mainWindow.setTitle(`${filename} - PageBuilder`)
+  
+                  saveOk = false;
+                }
+              );
+            }
+          },
+          {
+            label: '&인쇄',
+            accelerator: 'Ctrl+P'
+          },
+          {
+            label: '&내보내기',
+            accelerator: 'Ctrl+Q'
+          },
+          {
+            label: '&닫기',
+            accelerator: 'Ctrl+W',
+            click: () => {
+              this.mainWindow.close();
+            }
+          }
+        ]
+      },
+      {
+        label: '&보기',
+        submenu:
+          process.env.NODE_ENV === 'development'
+            ? [
+                {
+                  label: '&Preview',
+                  accelerator: 'Ctrl+P',
+                  click: () => {
+                    this.editor.send('preview-open',()=>{
+                    });
+                    //this.mainWindow.webContents.reload();
+                  }
+                },
+                {
+                  label: '&Reload',
+                  accelerator: 'Ctrl+R',
+                  click: () => {
+                    this.mainWindow.webContents.reload();
+                  }
+                },
+                {
+                  label: 'Toggle &Full Screen',
+                  accelerator: 'F11',
+                  click: () => {
+                    this.mainWindow.setFullScreen(
+                      !this.mainWindow.isFullScreen()
+                    );
+                  }
+                },
+                {
+                  label: 'Toggle &Developer Tools',
+                  accelerator: 'Alt+Ctrl+I',
+                  click: () => {
+                    this.mainWindow.toggleDevTools();
+                  }
+                }
+              ]
+            : [
+                {
+                  label: 'Toggle &Full Screen',
+                  accelerator: 'F11',
+                  click: () => {
+                    this.mainWindow.setFullScreen(
+                      !this.mainWindow.isFullScreen()
+                    );
+                  }
+                }
+              ]
+      },
+      {
+        label: 'Help',
+        submenu: [
+          {
+            label: 'Learn More',
+            click() {
+              shell.openExternal('http://electron.atom.io');
+            }
+          },
+          {
+            label: 'Documentation',
+            click() {
+              shell.openExternal(
+                'https://github.com/atom/electron/tree/master/docs#readme'
+              );
+            }
+          },
+          {
+            label: 'Community Discussions',
+            click() {
+              shell.openExternal('https://discuss.atom.io/c/electron');
+            }
+          },
+          {
+            label: 'Search Issues',
+            click() {
+              shell.openExternal('https://github.com/atom/electron/issues');
+            }
+          }
+        ]
+      }
+    ];
+
+    return templateDefault;
+  }
 
 
   pbWebCheck = (tempPath, count, newOk) => {
@@ -451,7 +458,8 @@ export default class MenuBuilder {
      })
   }
 
-  buildDarwinTemplate(osPlatform, tempPath) {
+  buildDarwinTemplate(tempPath) {
+    console.log("===> mac : "+tempPath)
     let saveOk = true;
     let selectedFilePath = '';
     var count = 1;
@@ -471,19 +479,19 @@ export default class MenuBuilder {
         { type: 'separator' },
         {
           label: 'Hide ElectronReact',
-          accelerator: osPlatform.subMenuAbout.submenu[4].accelerator, //option.mac.subMenuAbout.submenu[4].accelerator
+          accelerator: 'Command+H',
           selector: 'hide:'
         },
         {
           label: 'Hide Others',
-          accelerator: osPlatform.subMenuAbout.submenu[5].accelerator,
+          accelerator: 'Command+Shift+H',
           selector: 'hideOtherApplications:'
         },
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },
         {
           label: 'Quit',
-          accelerator: osPlatform.subMenuAbout.submenu[8].accelerator,
+          accelerator: 'Command+Q',
           click: () => {
             app.quit();
           }
@@ -496,7 +504,7 @@ export default class MenuBuilder {
       submenu: [
         {
           label: 'New',
-          accelerator: osPlatform.subMenuFile.submenu[0].accelerator,
+          accelerator: 'Command+N',
           selector: 'new',
           click: () => {
             newOk = true;
@@ -506,7 +514,7 @@ export default class MenuBuilder {
         },
         {
           label: 'Open...',
-          accelerator: osPlatform.subMenuFile.submenu[1].accelerator,
+          accelerator: 'Command+O',
           click: () => {
             dialog.showOpenDialog(
               {
@@ -574,7 +582,7 @@ export default class MenuBuilder {
         { type: 'separator' },
         {
           label: 'Save',
-          accelerator: osPlatform.subMenuFile.submenu[3].accelerator,
+          accelerator: 'Command+S',
           click: () => {
             if (saveOk) { //새로운 파일을 저장할 경우
               dialog.showSaveDialog(
@@ -622,7 +630,7 @@ export default class MenuBuilder {
         },
         {
           label: 'Save as...',
-          accelerator: osPlatform.subMenuFile.submenu[4].accelerator,
+          accelerator: 'Command+A',
           click: () => {
             dialog.showSaveDialog(
               {
@@ -695,16 +703,16 @@ export default class MenuBuilder {
         },
         {
           label: 'Print',
-          accelerator: osPlatform.subMenuFile.submenu[5].accelerator
+          accelerator: 'Command+P'
         },
         {
           label: 'Export...',
-          accelerator: osPlatform.subMenuFile.submenu[6].accelerator
+          accelerator: 'Command+Q'
         },
         { type: 'separator' },
         {
           label: 'Close',
-          accelerator: osPlatform.subMenuFile.submenu[7].accelerator,
+          accelerator: 'Command+W',
           click: () => {
             this.mainWindow.close();
           }

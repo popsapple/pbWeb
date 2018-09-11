@@ -89,20 +89,12 @@ app.on('ready', async () => {
     if(process.platform == "darwin"){
       console.log("mac")
       fs.remove(process.env.TMPDIR+'PbWeb', err => {
-        if(err){
-          return console.log(err)
-        } else{
-          console.log("remove success!")
-        }
+        if(err) return console.log(err)
       })
     } else {
       console.log("window")
       fs.remove(process.env.Temp+'PbWeb', err => {
-        if(err){
-          return console.log(err)
-        } else{
-          console.log("remove success!")
-        }
+        if(err) return console.log(err)
       })
     }
   }
