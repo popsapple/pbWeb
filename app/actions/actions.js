@@ -1,16 +1,17 @@
-export const SHOWEDITORVIEW = 'SHOWEDITORVIEW';
-export const SETEDITORVIEW = 'SETEDITORVIEW';
+export const DROPEDITORHTML = 'DROPEDITORHTML';
+export const DRAGEDITORHTML = 'DRAGEDITORHTML';
 
 
-export function showEditorView() {
+export function dropEditorHtml(html) {
     return {
-        type: SHOWEDITORVIEW
+        type: DROPEDITORHTML,
+        html: html
     };
 }
 
-export function setEditorView(ele){
+export function dragEditorHtml(html) {
     return {
-        type: SETEDITORVIEW,
-        ele: ele
+        type: DRAGEDITORHTML,
+        html: html
     };
 }

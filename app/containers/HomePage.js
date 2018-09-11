@@ -7,7 +7,6 @@ import SideComponent from '../components/SideComponent';
 import SideInspector from '../components/SideInspector';
 import { SampleProvider } from '../context';
 
-
 export default class HomePage extends Component {
   constructor(){
     super();
@@ -15,7 +14,6 @@ export default class HomePage extends Component {
 
   render() {
     return (
-      <SampleProvider>
       <div className="container-fluid">
         <div className="row">
             <SideComponent />
@@ -25,7 +23,6 @@ export default class HomePage extends Component {
             <SideInspector />
         </div>
       </div>
-      </SampleProvider>
     );
   }
 }

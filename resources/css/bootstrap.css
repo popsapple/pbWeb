@@ -6780,3 +6780,14 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+.fr_drag_point {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    border: 1px dashed rgb(224, 224, 224);
+    border-radius: 10px;
+    font-size: 14px;
+    pointer-events: none;
+    text-align: center;
+}

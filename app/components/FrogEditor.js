@@ -16,8 +16,10 @@ import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 import FrogEditorView from './FrogEditorView';
 
 import { connect } from 'react-redux';
-import { showEditorView, setEditorView } from '../actions/actions';
 import { FrogEditorStyles } from './FrogEditorStyles';
+
+import PropTypes from 'prop-types';
+import { dragEditorHtml, dropEditorHtml } from '../actions/actions';
 
 class FrogEditor extends React.Component {
   constructor() {
@@ -32,7 +34,6 @@ class FrogEditor extends React.Component {
     };
 
     this.editor;
-    this.insert_html;
 
     this.config = {
       model: "<div class='default_box'>hello</div>",
@@ -67,31 +68,31 @@ class FrogEditor extends React.Component {
           this.editor = editor;
           this.darg_point = "";
           this.editor.selected_item = "";
-
-          ipcRenderer.on('editor-draginsert', (e, arg) => {
-            this.insert_html = arg;
-          });
+          this.insert_html = this.store.store.dispatch(dragEditorHtml()).html;
 
           editor.events.on('dragover',dragEvent => { 
-              // Focus at the current posisiton.
-              editor.markers.insertAtPoint(dragEvent.originalEvent);
-              var $marker = editor.$el.find('.fr-marker');
-              var $drag_point = editor.$el.find('.fr_drag_point');
-              $marker.replaceWith($.FroalaEditor.MARKERS);
-              editor.selection.restore();
+            this.insert_html = this.store.store.dispatch(dragEditorHtml()).html;
+            console.log("dragover :: "+this.insert_html);
+            // Focus at the current posisiton.
+            editor.markers.insertAtPoint(dragEvent.originalEvent);
+            var $marker = editor.$el.find('.fr-marker');
+            var $drag_point = editor.$el.find('.fr_drag_point');
+            $marker.replaceWith($.FroalaEditor.MARKERS);
+            editor.selection.restore();
 
-              // Insert HTML.
-              if($drag_point) {
-                $drag_point.remove();
-              }
-              editor.html.insert("<span class='fr_drag_point'>drop here</span>");
+            // Insert HTML.
+            if($drag_point) {
+              $drag_point.remove();
+            }
+            editor.html.insert("<span class='fr_drag_point'>drop here</span>");
 
 
-              // Stop event propagation.
-              dragEvent.preventDefault();
-              dragEvent.stopPropagation();
-              return false;
+            // Stop event propagation.
+            dragEvent.preventDefault();
+            dragEvent.stopPropagation();
+            return false;
           });
+
           editor.events.on('mouseup', (e, editor_, keydownEvent) => {
             try {pb_selected_img ? pb_selected_img = false : '';}catch(err){}
             editor.$el.find('.fr-selected') ?  editor.$el.find('.fr-selected').removeClass("fr-selected") : "";
@@ -101,18 +102,7 @@ class FrogEditor extends React.Component {
             editor.selection.restore();
             this.editor.selected_item ?  $(this.editor.selected_item).addClass("fr-selected") : "";
           });
-          editor.events.on('keydown', (e, editor_, keydownEvent) => {
-            // Do something here.
-            if(e.keyCode == 13 && e.ctrlKey){
-            editor.html.insert("<div>break!!</div>", true);
 
-            // Save into undo stack the changes.
-
-            editor.undo.saveStep();
-            return false;
-
-            }
-          });
           editor.events.on('dragstart',(ev,id) => {  
             return false;
           })
@@ -129,12 +119,13 @@ class FrogEditor extends React.Component {
             if($drag_point) {
               $drag_point.remove();
             }
+            console.log("drop :: "+this.insert_html);
             editor.html.insert(this.insert_html);
 
             if (!editor.undo.canDo()) editor.undo.saveStep();
+            dropEvent.preventDefault();
             editor.undo.saveStep();
             // Stop event propagation.
-            dropEvent.preventDefault();
             dropEvent.stopPropagation();
             return false;
           }, true)
@@ -169,11 +160,6 @@ class FrogEditor extends React.Component {
     ipcRenderer.on('html-save', (event, filename, saveMessage) => {
       this.saveHTML(filename, saveMessage);
     });
-
-    // ipcRenderer.on('html-saveAs', (event, filename) => {
-    //   this.saveAsHTML(filename);
-    // });
-
   }
 
   handleModelChange(model) {
@@ -183,6 +169,7 @@ class FrogEditor extends React.Component {
   }
 
   handleManualController(item) {
+    console.log("handleManualController");
     this.config.iframeStyleFiles = [...this.state.csslist, `file://${this.state.dirname}/resources/css/bootstrap.css`];
     this.config.iframeScriptFiles = [...this.state.jslist, `file://${this.state.dirname}/resources/js/jquery.js`, `file://${this.state.dirname}/resources/js/bootstrap.js`];
     item.initialize(this.config);
@@ -257,6 +244,7 @@ class FrogEditor extends React.Component {
   };
   
   render() {
+    this.store = this.context;
     return (
       <div>
         <ReactFroalaWysiwyg
@@ -272,3 +260,7 @@ class FrogEditor extends React.Component {
   }
 }
 export default FrogEditor;
+
+FrogEditor.contextTypes = {
+    store: PropTypes.object
+}

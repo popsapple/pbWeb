@@ -16,13 +16,14 @@ export default class MenuBuilder {
       this.editor = event.sender;
     });
 
-    ipcMain.on('editor-drag', (event, arg) => {
-      event.sender.send('editor-draginsert', arg)
-    });
-
-    ipcMain.on('componentlist-drag', (event, arg) => {
+    /*ipcMain.on('componentlist-drag', (event, arg) => {
       event.sender.send('componentlist-draginsert', arg);
-    });    
+    }); */
+
+    ipcMain.on('SelectEditComponent', (event, arg) => {
+      event.sender.send('SelectEditComponent', arg); //event.sender
+    });  
+
   }
 
   buildMenu() {
@@ -67,6 +68,7 @@ export default class MenuBuilder {
     var count = 1;
     var workingDirPath = "";
     var newOk = true;
+    var saveMessage = true;
 
     const templateDefault = [
       {
@@ -98,7 +100,7 @@ export default class MenuBuilder {
                   ]
                 },
                 files => {
-                  if (files.length === 1) {
+                  if (files !== undefined) {
                     if(files[0].match(/(.html)$/)){
                       newOk = false;
                       this.pbWebCheck(tempPath, count, newOk)
@@ -111,12 +113,38 @@ export default class MenuBuilder {
                       }
                       this.mainWindow.setTitle(`${folderName} - PageBuilder`)
                       selectedFilePath = selectedfolderPath 
-  
+
                       setTimeout(()=>{
                         this.editor.send('file-open', files[0])
                         this.inspectorList(selectedfolderPath)
                       },500)
+
+                    }
+                    else if(files[0].match(/(.css)$/)){
+                      pathArray = files[0].split("/")
+                      for(let i=0; i<pathArray.length; i++){
+                        if(pathArray[i].match(/(.css)$/)){
+                          console.log("pathArray: "+pathArray[i])
+                          console.log("files[0]: "+files[0])
+                          selectedfolderPath = files[0].replace("/css/"+pathArray[i],'');
+                        }
+                      }
+                      fs.copy(files[0], selectedfolderPath+"/css", (err) => {
+                        // this.editor.send("css-open", files[0])
+                        this.inspectorList(selectedfolderPath)
+                      })
                     } 
+                    else if(files[0].match(/(.js)$/)){
+                      this.inspectorList(selectedfolderPath)
+                      fs.copy(files[0], selectedfolderPath+"/js", (err) => {
+                        // this.editor.send("js-open", files[0])
+
+                        this.inspectorList(selectedfolderPath)
+                      })                  
+                    } 
+                  } else{
+                    //여러번 할 경우 MaxListenersExceededWarning 발생
+                    this.mainWindow.webContents.reload();
                   }
                   saveOk = false;
                 }
@@ -131,21 +159,31 @@ export default class MenuBuilder {
                 dialog.showSaveDialog(
                   {
                     properties: ['saveFile'],
-                    title: 'PageBuilder 저장'
+                    title: 'PageBuilder 저장',
+                    buttonLabel: 'Save'
                   },
                   files => {
-                    fs.move(this.workingDirPath, files, (err) => {
-                      if(err) console.log(err)
-                    })
-                    this.editor.send('html-save', files);
-  
-                    //저장한 title로 app title 설정하는 부분
-                    var pathArray = files.split("/")
-                    var filename = pathArray[pathArray.length-1]
-                    this.mainWindow.setTitle(`${filename} - PageBuilder`)
-  
-                    saveOk = false;
-                    selectedFilePath = files;     
+                    if (files !== undefined) {
+                      fs.move(this.workingDirPath, files, (err) => {
+                        if(err) console.log(err)
+                      })
+                      saveMessage = true;
+                      this.editor.send('html-save', files, saveMessage);
+
+                      //저장한 title로 app title 설정하는 부분
+                      var pathArray = files.split("/")
+                      var filename = pathArray[pathArray.length-1]
+                      this.mainWindow.setTitle(`${filename} - PageBuilder`)
+
+                      saveOk = false;
+                      selectedFilePath = files;     
+                    } 
+                    else{ //저장 다이얼로그에서 취소 클릭 시
+                      //여러번 할 경우 MaxListenersExceededWarning 발생
+                      //this.mainWindow.webContents.reload();
+                      saveOk = true;
+                      saveMessage = false;
+                    }
                   }
                 );
               } else { //존재하는 파일에 덮어쓰기할 경우
@@ -156,7 +194,8 @@ export default class MenuBuilder {
                 }
                 var titleArray = this.mainWindow.getTitle().split(" -")
                 selectedFilePath = text+titleArray[0]
-                this.editor.send('html-save', selectedFilePath);
+                saveMessage = true;
+                this.editor.send('html-save', selectedFilePath, saveMessage);
               }
             }
           },
@@ -170,32 +209,47 @@ export default class MenuBuilder {
                   title: 'PageBuilder 다른이름으로 저장'
                 },
                 files => {
-                  fs.access(this.workingDirPath)
-                    .then(()=>{ //저장하지 않은 파일일 경우(처음부터 saveAs 눌렀을 때)
-                      fs.copy(this.workingDirPath, files, (err) => {
-                        if(err) console.log(err)
-                      })
-                      setTimeout(()=>{
-                        fs.remove(this.workingDirPath, (err)=>{
+                  if (files !== undefined) {
+                    fs.access(this.workingDirPath)
+                      .then(()=>{ //저장하지 않은 파일일 경우(처음부터 saveAs 눌렀을 때)
+                        fs.copy(this.workingDirPath, files, (err) => {
                           if(err) console.log(err)
                         })
-                      },500)
-                      selectedFilePath = files
-                    })
-                    .catch(()=>{ //이미 저장되어있는 파일일 경우(save한 상태에서 saveAs를 눌렀을 경우)
-                      fs.copy(selectedFilePath, files, (err) => {
-                        if(err) console.log(err)
+                        setTimeout(()=>{
+                          fs.remove(this.workingDirPath, (err)=>{
+                            if(err) console.log(err)
+                          })
+                        },500)
+                        selectedFilePath = files
+                        saveMessage = true
+                        this.editor.send('html-save', files, saveMessage);
+
+                        //저장한 title로 app title 설정하는 부분
+                        var pathArray = files.split("/")
+                        var filename = pathArray[pathArray.length-1]
+                        this.mainWindow.setTitle(`${filename} - PageBuilder`)
+
                       })
-                    })
-  
-                  this.editor.send('html-save', files, this.workingDirPath);
-  
-                  //저장한 title로 app title 설정하는 부분
-                  var pathArray = files.split("/")
-                  var filename = pathArray[pathArray.length-1]
-                  this.mainWindow.setTitle(`${filename} - PageBuilder`)
-  
-                  saveOk = false;
+                      .catch(()=>{ //이미 저장되어있는 파일일 경우(save한 상태에서 saveAs를 눌렀을 경우)
+                        fs.copy(selectedFilePath, files, (err) => {
+                          if(err) console.log(err)
+                        })
+                        saveMessage = true
+                        this.editor.send('html-save', files, saveMessage);
+
+                        // dialog.showMessageBox(
+                        //   { message: "저장되었습니다.",
+                        //     buttons: ["확인"]
+                        //   }
+                        // );
+                      })
+
+                    saveOk = false;
+                  }
+                  else{                  
+                    //여러번 할 경우 MaxListenersExceededWarning 발생
+                    this.mainWindow.webContents.reload();
+                  }
                 }
               );
             }

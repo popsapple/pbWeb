@@ -1,5 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { createStore } from 'redux';
+import counterApp from './reducers/reducers';
 import { AppContainer } from 'react-hot-loader';
 
 import Root from './containers/Root';
@@ -8,12 +10,12 @@ import { configureStore, history } from './store/configureStore';
 import style from './custom.scss';
 
 require('./app.global.css');
-const store = configureStore();
+const store = createStore(counterApp);
 
 render(
-  <AppContainer>
-    <Root store={store} history={history} />
-  </AppContainer>,
+    <AppContainer>
+      <Root store={store} history={history} />
+    </AppContainer>,
   document.getElementById('root')
 );
 

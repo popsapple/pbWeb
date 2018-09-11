@@ -1,7 +1,5 @@
 import React from 'react';
 import SideComponentOther from './side/other';
-import SideCopiedComponent from './SideCopiedComponent';
-
 export default class SideComponent extends React.Component{
     render(){
         return(
@@ -10,7 +8,6 @@ export default class SideComponent extends React.Component{
                 <ul>
                     <SideComponentOther />
                 </ul>
-                <SideCopiedComponent />
             </div>
         </div>
         )

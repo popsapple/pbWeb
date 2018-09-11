@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import PropTypes from 'prop-types';
 import ComponentInterface from './../ComponentInterface';
+import { dragEditorHtml, dropEditorHtml } from '../../actions/actions';
+import { connect } from 'react-redux';
 import Parser from 'html-react-parser';
 const {ipcRenderer} = require('electron');
 
@@ -22,7 +25,7 @@ export default class DropdownComponent extends React.Component implements Compon
         		]
         	}
         }
-
+        this.store = "";
         this.id = "sample";
         this.type = "dropdown";
         this.iconhml = <li><button draggable="true" className="ComponentButton" onClick={this.ToggleActiveComponent.bind(this)} onDragStart={this.DragEvent.bind(this, 'start')}
@@ -34,7 +37,9 @@ export default class DropdownComponent extends React.Component implements Compon
     }
 
 	InsertCompomentEditor(){
-		return ipcRenderer.send('editor-drag', ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()));
+        console.log(this.store.store);
+        return this.store.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml())));
+		//return ipcRenderer.send('editor-drag', ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()));
 	}
 
     ToggleActiveComponent(event){
@@ -85,10 +90,14 @@ export default class DropdownComponent extends React.Component implements Compon
     	return this.iconhml;
     }
     render(){
+        this.store = this.context;
 		if(this.state.is_list){
 			return this.getIconHtml();
     	}else{
     		return this.getComponentHtml();
     	}
     }
+}
+DropdownComponent.contextTypes = {
+    store: PropTypes.object
 }

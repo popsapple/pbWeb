@@ -1,18 +1,26 @@
-import { SHOWEDITORVIEW } from '../actions/actions';
-import { SETEDITORVIEW } from '../actions/actions';
+import { DROPEDITORHTML } from '../actions/actions';
+import { DRAGEDITORHTML } from '../actions/actions';
 import { combineReducers } from "redux"//findEdito
 
+let editor = {
+	dragitem: ""
+}
 const counter = (state = {}, action) => {
+	console.log("countercountercountercounter");
     switch(action.type) {
-        case SHOWEDITORVIEW:
+        case DROPEDITORHTML:
+		console.log("=========DROPEDITORHTML============");
+		console.log(editor);
+        	editor.dragitem = action.html;
 	        return {
-		      text: "SHOWEDITORVIEW",
-		      completed: false
+		      html: editor.dragitem
 		    };
-		case SETEDITORVIEW:
-			return Object.assign({}, state, {
-	        editor_view: action.ele
-	      })  
+		case DRAGEDITORHTML:
+		console.log("=========DRAGEDITORHTMLDRAGEDITORHTML============");
+		console.log(editor);
+	        return {
+		      html: editor.dragitem
+		    };
         default:
             return state;
     }

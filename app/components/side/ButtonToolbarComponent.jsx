@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import PropTypes from 'prop-types';
 import ComponentInterface from './../ComponentInterface';
+import { dragEditorHtml, dropEditorHtml } from '../../actions/actions';
+import { connect } from 'react-redux';
 import Parser from 'html-react-parser';
 const {ipcRenderer} = require('electron');
 
@@ -14,7 +17,7 @@ export default class ButtonToolbarComponent extends React.Component implements C
         			[
         				{
         					label: 'Frist Group',
-        					text: ["1","2","3"],
+        					text: ["11111","2222","3333"],
         					link: ["#1","#2","#3"]
         				}
 	        		],
@@ -28,6 +31,7 @@ export default class ButtonToolbarComponent extends React.Component implements C
         		]
         	}
         }
+        this.store = "";
         this.id = "sample";
         this.type = "buttontoolbar";
         this.iconhml = <li><button draggable="true" className="ComponentButton" onDragStart={this.DragEvent.bind(this, 'start')}
@@ -39,7 +43,9 @@ export default class ButtonToolbarComponent extends React.Component implements C
     }
 
 	InsertCompomentEditor(){
-		return ipcRenderer.send('editor-drag', ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()));
+            console.log(this.store.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()))).html);
+        return this.store.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml())));
+		//return ipcRenderer.send('editor-drag', ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()));
 	}
 
     ToggleActiveComponent(event){
@@ -86,10 +92,14 @@ export default class ButtonToolbarComponent extends React.Component implements C
     	return this.iconhml;
     }
     render(){
+        this.store = this.context;
     	if(this.state.is_list){
 			return this.getIconHtml();
     	}else{
     		return this.getComponentHtml();
     	}
     }
+}
+ButtonToolbarComponent.contextTypes = {
+    store: PropTypes.object
 }
