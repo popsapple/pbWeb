@@ -294,7 +294,7 @@ export default class MenuBuilder {
     }
     const macTempPath = process.env.TMPDIR
     const windowTempPath = process.env.Temp
-
+    console.log("windowTempPath :: "+windowTempPath);
     
     var Mac_platform = "mac"    
     var Window_platform = "window"  
@@ -333,14 +333,18 @@ export default class MenuBuilder {
 
 
   pbWebCheck = (tempPath, count, newOk) => {
-    var pbWebPath = tempPath+"PbWeb"
-    fs.access(pbWebPath)
-      .then(()=>{ //이미 폴더가 존재할경우
-        // console.log("Folder already exists"); 
-      })
-      .catch(()=>{ //폴더가 없을 경우
-        fs.mkdirs(pbWebPath) 
-      })
+    var pbWebPath = "C:/Users/clbee/AppData/Local/Temp/PbWeb"; //tempPath+"\PbWeb"
+    try{
+      if (!fs.existsSync(pbWebPath)){
+          console.log("make11");
+          fs.mkdirSync(pbWebPath);
+      }else{
+        console.log("none make1111");
+      }
+    }catch(err){
+      console.log("======  err  ======");
+      console.log(err);
+    }
 
     fs.readdir(pbWebPath, (err, dirList) => {
       if(!err && dirList.length != 0){
@@ -451,14 +455,14 @@ export default class MenuBuilder {
   }
 
   buildDarwinTemplate(osPlatform, tempPath) {
+    console.log("AAAAAAAAAAAA");
     let saveOk = true;
     let selectedFilePath = '';
     var count = 1;
     var workingDirPath = "";
     var newOk = true; 
     var saveMessage = true;
-
-    const subMenuAbout = {
+    /*const subMenuAbout = {
       label: 'PageBuilder',
       submenu: [
         {
@@ -488,8 +492,9 @@ export default class MenuBuilder {
           }
         }
       ]
-    };
+    };*/
 
+    console.log("BBBBBBBBB");
     const subMenuFile = {
       label: osPlatform.subMenuFile.label,
       submenu: [
@@ -584,6 +589,7 @@ export default class MenuBuilder {
                 },
                 files => {
                   if (files !== undefined) {
+                    console.log();
                     fs.move(this.workingDirPath, files, (err) => {
                       if(err) console.log(err)
                     })
@@ -710,7 +716,8 @@ export default class MenuBuilder {
       ]
     };
 
-    const subMenuEdit = {
+    console.log("CCCCCCCCCCC");
+    /*const subMenuEdit = {
       label: osPlatform.subMenuEdit.label,
       submenu: [
         { label: osPlatform.subMenuEdit.submenu[0].label, accelerator: osPlatform.subMenuEdit.submenu[0].accelerator, selector: osPlatform.subMenuEdit.submenu[0].selector },
@@ -725,8 +732,9 @@ export default class MenuBuilder {
           selector: osPlatform.subMenuEdit.submenu[6].selector
         }
       ]
-    };
+    };*/
     
+    console.log("DDDDDDDDD");
     const subMenuViewDev = {
       label: osPlatform.subMenuViewDev.label,
       submenu: [
@@ -763,8 +771,9 @@ export default class MenuBuilder {
       ]
     };
     
-    const subMenuWindow = {
-      label: 'Window',
+    console.log("EEEEEEEEEEE");
+    /*const subMenuWindow = {
+      label: 'WindowAAAAAAA',
       submenu: [
         {
           label: 'Minimize',
@@ -775,7 +784,7 @@ export default class MenuBuilder {
         { type: 'separator' },
         { label: 'Bring All to Front', selector: 'arrangeInFront:' }
       ]
-    };
+    };*/
     const subMenuHelp = {
       label: '도움말',
       submenu: [
@@ -808,15 +817,16 @@ export default class MenuBuilder {
       ]
     };
 
+    console.log("FFFFFFFFFFFFFFFFF");
     const subMenuView =
       process.env.NODE_ENV === 'development' ? subMenuViewDev : subMenuViewProd;
 
     return [
-      subMenuAbout,
+      //subMenuAbout,
       subMenuFile,
-      subMenuEdit,
+      //subMenuEdit,
       subMenuView,
-      subMenuWindow,
+      //subMenuWindow,
       subMenuHelp
     ];
   }
