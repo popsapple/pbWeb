@@ -63,7 +63,7 @@ export default class MenuBuilder {
   buildDefaultTemplate() {
     let saveOk = true;
     let selectedFilePath = '';
-    var tempPath = "%Temp%" // \AppData\Local\Temp
+    var tempPath = process.env.Temp
     var count = 1;
     var workingDirPath = "";
     var newOk = true;
@@ -146,9 +146,6 @@ export default class MenuBuilder {
   
                     saveOk = false;
                     selectedFilePath = files;     
-                  }, 
-                  (err) => {
-                    alert("저장실패")
                   }
                 );
               } else { //존재하는 파일에 덮어쓰기할 경우
@@ -308,16 +305,17 @@ export default class MenuBuilder {
 
 
   pbWebCheck = (tempPath, count, newOk) => {
-    fs.access(tempPath+"/PbWeb")
+    var pbWebPath = tempPath+"PbWeb"
+    fs.access(pbWebPath)
       .then(()=>{ //이미 폴더가 존재할경우
         // console.log("Folder already exists"); 
       })
       .catch(()=>{ //폴더가 없을 경우
-        fs.mkdirs(tempPath+"/PbWeb") 
+        fs.mkdirs(pbWebPath) 
       })
 
     setTimeout(() => {
-      fs.readdir(tempPath+"/PbWeb", (err, dirList) => {
+      fs.readdir(pbWebPath, (err, dirList) => {
         if(!err && dirList.length != 0){
           for(var i=0; i<dirList.length; i++){
             if(dirList[i].includes("untitled-")){
@@ -329,7 +327,7 @@ export default class MenuBuilder {
           count = 1;
         }
         if(newOk){ //new
-          this.makeWorkingDir(tempPath, count);
+          this.makeWorkingDir(pbWebPath, count);
         } 
         // else{ //open
         //   this.makeWorkingDir_open(tempPath, count);
@@ -339,20 +337,21 @@ export default class MenuBuilder {
    
   }
 
-  makeWorkingDir = (tempPath, cnt) => {
+  makeWorkingDir = (pbWebPath, cnt) => {
     //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
     var basicThemePath = __dirname+"/basicTheme" 
     var appName = "untitled-"+cnt
-
+    var untitledPath = pbWebPath+"/"+appName
+    
     this.mainWindow.setTitle(`[ ${appName} ] - PageBuilder`) //app title 설정
 
-    fs.copy(basicThemePath, tempPath+"/PbWeb/"+appName, (err) => { 
+    fs.copy(basicThemePath, untitledPath, (err) => { 
       if(err) console.log(err)
     })
     
-    this.workingDirPath = tempPath+"/PbWeb/"+appName
+    this.workingDirPath = untitledPath
 
-    var htmlPath = "/private/tmp/PbWeb/"+appName+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
+    var htmlPath = untitledPath+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
     var htmlPathArray = htmlPath.split("/")
     for(let i=0; i<htmlPathArray.length; i++){
       if (htmlPathArray[i].match(/(.html)$/)){
@@ -366,10 +365,10 @@ export default class MenuBuilder {
     },500)
   }
 
-  makeWorkingDir_open = (tempPath, count) => {
-    console.log("=== Let's make openDir ===")
+  // makeWorkingDir_open = (tempPath, count) => {
+  //   console.log("=== Let's make openDir ===")
     
-  }
+  // }
 
   inspectorList = (dirPath) => {
     var pureCssArray = []
@@ -395,7 +394,7 @@ export default class MenuBuilder {
         this.editor.send('js-list', pureJsArray);
       })
 
-      fs.readFile(dirPath+"/resources.json", (err, data)=>{
+      fs.readFile(dirPath+"/resources.json", (err, data) => { 
         var parseData = JSON.parse(data)
         for(var i=0; i<parseData.css.length; i++){
           var cssPath = dirPath+parseData.css[i]
@@ -418,10 +417,11 @@ export default class MenuBuilder {
   buildDarwinTemplate() {
     let saveOk = true;
     let selectedFilePath = '';
-    var tempPath = "/private/tmp"
+    var tempPath = process.env.TMPDIR // ex)/var/folders/8v/p5nf0gps3qb671xspfpr06dr0000gn/T/
     var count = 1;
     var workingDirPath = "";
     var newOk = true; 
+    var saveMessage = true;
 
     const subMenuAbout = {
       label: 'PageBuilder',
@@ -485,7 +485,7 @@ export default class MenuBuilder {
                 ]
               },
               files => {
-                if (files.length === 1) {
+                if (files !== undefined) {
                   if(files[0].match(/(.html)$/)){
                     newOk = false;
                     this.pbWebCheck(tempPath, count, newOk)
@@ -527,6 +527,9 @@ export default class MenuBuilder {
                       this.inspectorList(selectedfolderPath)
                     })                  
                   } 
+                } else{
+                  //여러번 할 경우 MaxListenersExceededWarning 발생
+                  this.mainWindow.webContents.reload();
                 }
                 saveOk = false;
               }
@@ -542,21 +545,31 @@ export default class MenuBuilder {
               dialog.showSaveDialog(
                 {
                   properties: ['saveFile'],
-                  title: 'PageBuilder 저장'
+                  title: 'PageBuilder 저장',
+                  buttonLabel: 'Save'
                 },
                 files => {
-                  fs.move(this.workingDirPath, files, (err) => {
-                    if(err) console.log(err)
-                  })
-                  this.editor.send('html-save', files);
+                  if (files !== undefined) {
+                    fs.move(this.workingDirPath, files, (err) => {
+                      if(err) console.log(err)
+                    })
+                    saveMessage = true;
+                    this.editor.send('html-save', files, saveMessage);
 
-                  //저장한 title로 app title 설정하는 부분
-                  var pathArray = files.split("/")
-                  var filename = pathArray[pathArray.length-1]
-                  this.mainWindow.setTitle(`${filename} - PageBuilder`)
+                    //저장한 title로 app title 설정하는 부분
+                    var pathArray = files.split("/")
+                    var filename = pathArray[pathArray.length-1]
+                    this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
-                  saveOk = false;
-                  selectedFilePath = files;     
+                    saveOk = false;
+                    selectedFilePath = files;     
+                  } 
+                  else{ //저장 다이얼로그에서 취소 클릭 시
+                    //여러번 할 경우 MaxListenersExceededWarning 발생
+                    this.mainWindow.webContents.reload();
+                    saveOk = true;
+                    saveMessage = false;
+                  }
                 }
               );
             } else { //존재하는 파일에 덮어쓰기할 경우
@@ -567,9 +580,9 @@ export default class MenuBuilder {
               }
               var titleArray = this.mainWindow.getTitle().split(" -")
               selectedFilePath = text+titleArray[0]
-              this.editor.send('html-save', selectedFilePath);
+              saveMessage = true;
+              this.editor.send('html-save', selectedFilePath, saveMessage);
             }
-             alert("저장되었습니다.")
           }
         },
         {
@@ -582,33 +595,49 @@ export default class MenuBuilder {
                 title: 'PageBuilder 다른이름으로 저장'
               },
               files => {
-                fs.access(this.workingDirPath)
-                  .then(()=>{ //저장하지 않은 파일일 경우(처음부터 saveAs 눌렀을 때)
-                    fs.copy(this.workingDirPath, files, (err) => {
-                      if(err) console.log(err)
-                    })
-                    setTimeout(()=>{
-                      fs.remove(this.workingDirPath, (err)=>{
+                if (files !== undefined) {
+                  fs.access(this.workingDirPath)
+                    .then(()=>{ //저장하지 않은 파일일 경우(처음부터 saveAs 눌렀을 때)
+                      fs.copy(this.workingDirPath, files, (err) => {
                         if(err) console.log(err)
                       })
-                    },500)
-                    selectedFilePath = files
-                  })
-                  .catch(()=>{ //이미 저장되어있는 파일일 경우(save한 상태에서 saveAs를 눌렀을 경우)
-                    fs.copy(selectedFilePath, files, (err) => {
-                      if(err) console.log(err)
+                      setTimeout(()=>{
+                        fs.remove(this.workingDirPath, (err)=>{
+                          if(err) console.log(err)
+                        })
+                      },500)
+                      selectedFilePath = files
+                      saveMessage = true
+                      this.editor.send('html-save', files, saveMessage);
+
+                      //저장한 title로 app title 설정하는 부분
+                      var pathArray = files.split("/")
+                      var filename = pathArray[pathArray.length-1]
+                      this.mainWindow.setTitle(`${filename} - PageBuilder`)
+
                     })
-                  })
+                    .catch(()=>{ //이미 저장되어있는 파일일 경우(save한 상태에서 saveAs를 눌렀을 경우)
+                      fs.copy(selectedFilePath, files, (err) => {
+                        if(err) console.log(err)
+                      })
+                      saveMessage = true
+                      this.editor.send('html-save', files, saveMessage);
 
-                this.editor.send('html-save', files, this.workingDirPath);
+                      // dialog.showMessageBox(
+                      //   { message: "저장되었습니다.",
+                      //     buttons: ["확인"]
+                      //   }
+                      // );
+                    })
 
-                //저장한 title로 app title 설정하는 부분
-                var pathArray = files.split("/")
-                var filename = pathArray[pathArray.length-1]
-                this.mainWindow.setTitle(`${filename} - PageBuilder`)
-
-                saveOk = false;
+                  saveOk = false;
+                }
+                else{                  
+                  //여러번 할 경우 MaxListenersExceededWarning 발생
+                  this.mainWindow.webContents.reload();
+                }
               }
+             
             );
           }
         },
@@ -634,12 +663,6 @@ export default class MenuBuilder {
     const subMenuEdit = {
       label: 'Edit',
       submenu: [
-        { label: 'ToCSS', selector: 'convertcss:',
-          click: () => {
-            console.log("=== convertCSS ===")
-
-          } 
-        },
         { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' },
         { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' },
         { type: 'separator' },

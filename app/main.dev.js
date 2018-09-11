@@ -86,11 +86,9 @@ app.on('ready', async () => {
 
   var count = parseInt(BrowserWindow.getAllWindows().length)
   if(count == 1){
-    console.log("count : "+count)
-
     if(process.platform == "darwin"){
       console.log("mac")
-      fs.remove('/private/tmp/PbWeb', err => {
+      fs.remove(process.env.TMPDIR+'PbWeb', err => {
         if(err){
           return console.log(err)
         } else{
@@ -98,7 +96,14 @@ app.on('ready', async () => {
         }
       })
     } else {
-      console.log("window") // %USERPROFILE%\AppData\Local\
+      console.log("window")
+      fs.remove(process.env.Temp+'PbWeb', err => {
+        if(err){
+          return console.log(err)
+        } else{
+          console.log("remove success!")
+        }
+      })
     }
   }
 
