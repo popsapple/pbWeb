@@ -453,7 +453,6 @@ export default class MenuBuilder {
             })
           }
         }) 
-        
       })
   }
 
@@ -884,7 +883,6 @@ export default class MenuBuilder {
         subMenuHelp
       ];
     }
-    
   }
 
 }
