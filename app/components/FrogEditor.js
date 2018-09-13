@@ -59,6 +59,8 @@ class FrogEditor extends React.Component {
       iframeStyleFiles: this.state.csslist,
       htmlDoNotWrapTags: ['input', 'style', 'script', 'img'],
       htmlAllowedEmptyTags: ['style', 'script'],
+      toolbarButtons: ['undo', 'redo' , '|', 'bold', 'italic', 'underline', 'color', 'fontSize', 'fontFamily', 'align', 'insertImage', 'url', 'insertLink', 'paragraphStyle', 'strikeThrough', 'insertTable', 'html'],
+      toolbarButtonsXS: ['undo', 'redo' , '-', 'bold', 'italic', 'underline'],
       lineBreakerOffset: 50,
       height: 600,
       toolbarVisibleWithoutSelection: true,

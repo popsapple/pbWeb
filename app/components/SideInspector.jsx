@@ -37,7 +37,7 @@ export default class SideInspector extends React.Component{
     DragLabelMove(event){
     	if(this.state.labal_draging){
     		let window_width = window.innerWidth;
-    		if(window_width - (event.clientX+10) < (window.innerWidth/6)){
+    		if(window_width - (event.clientX) < (window.innerWidth/6)){
     			return false;
     		}
     		this.setState({

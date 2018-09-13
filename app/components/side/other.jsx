@@ -12,7 +12,7 @@ export default class SideComponentOther extends React.Component{
 		let html = '';
         
         return(
-        	<SideComponentList/>
+        	<SideComponentList />
         )
     }
 }

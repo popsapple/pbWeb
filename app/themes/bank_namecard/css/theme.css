@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+KR');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  padding: 30px;
+}
+.namecard_template_style01 {
+  position: relative;
+  width: 400px;
+  height: 210px;
+  background: #fff7e5;
+  margin-bottom: 20px;
+  font-size: 0px;
+  box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.1);
+}
+
+.namecard_template_style01.back {
+  margin-bottom: 100px;
+}
+
+.namecard_template_style01 * {
+  font-family: 'Noto Serif KR', sans-serif;
+}
+.namecard_template_style01 .layoutbox {
+  position: relative;
+  display: inline-block;
+  width: 25%;
+  height: 70px;
+  box-sizing: border-box;
+  border :1px solid transparent;
+}
+.namecard_template_style01 .layoutbox:hover {
+  border: 1px dashed red;  
+}
+.namecard_template_style01 .flower_img {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: auto;
+  margin-left: -35px;
+  margin-top: -64px;
+  z-index: 1000;
+}
+.namecard_template_style01 .flower_mark {
+  font-size: 20px;
+  font-weight: 600;
+  color: #8e1859;
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  width:200px;
+  height:30px;
+  margin-left: -100px;
+  margin-top: 35px;
+  line-height: 30px;
+  text-align: center;
+  z-index: 1000;
+}
+
+
+
+/*********** style02 ************/
+
+
+.namecard_template_style02 {
+  position: relative;
+  width: 240px;
+  height: 400px;
+  background: #f9f9f9;
+  margin-bottom: 20px;
+  font-size: 0px;
+  box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.1);
+}
+
+.namecard_template_style02.back {
+  position: relative;
+  width: 240px;
+  height: 400px;
+  background: #000000;
+  margin-bottom: 100px;
+  font-size: 0px;
+}
+
+.namecard_template_style02.front hr.topline {
+  position: absolute;
+  width: 200px;
+  height: 3px;
+  display: block;
+  top: 250px;
+  left: 20px;
+  border: 0px;
+  background: #000000;
+}
+
+.namecard_template_style02.front hr.bottomline {
+  position: absolute;
+  width: 200px;
+  height: 3px;
+  display: block;
+  top: 350px;
+  left: 20px;
+  border: 0px;
+  background: #000000;
+}
+
+.namecard_template_style02 * {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.namecard_template_style02 .layoutbox {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 50px;
+  box-sizing: border-box;
+  border :1px solid transparent;
+}
+.namecard_template_style02 .layoutbox:hover {
+  border: 1px dashed red;  
+}
+.namecard_template_style02 .flower_img {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: auto;
+  margin-left: -35px;
+  margin-top: -64px;
+  z-index: 1000;
+}
+.namecard_template_style02 .company_mark {
+  position: absolute;
+  display: block;
+  top: 45px;
+  left: 130px;
+  width:100px;
+  height:auto;
+  z-index: 1000;
+}
+
+
+
+/*********** style03 ************/
+
+
+.namecard_template_style03 {
+  position: relative;
+  width: 400px;
+  height: 240px;
+  background: #f9f9f9;
+  margin-bottom: 20px;
+  font-size: 0px;
+  box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.1);
+}
+
+.namecard_template_style03.back {
+  position: relative;
+  width: 400px;
+  height: 240px;
+  background: url("../images/template_style03_bg.jpg");
+  margin-bottom: 100px;
+  font-size: 0px;
+}
+
+.namecard_template_style03 * {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.namecard_template_style03 .layoutbox {
+  position: relative;
+  display: inline-block;
+  width: 25%;
+  height: 80px;
+  box-sizing: border-box;
+  float:left;
+  border :1px solid transparent;
+}
+.namecard_template_style03 > .left_side {
+  width: 50%;
+  height: 240px;
+}
+.namecard_template_style03 > .right_side {
+  width: 50%;
+  height: 240px;
+}
+.namecard_template_style03 > .right_side {
+  background: url("../images/template_style03_leftbg.jpg");
+  background-position: -270px -120px;
+}
+.namecard_template_style03 .layoutbox:hover {
+  border: 1px dashed red;  
+}
+.namecard_template_style03 .compnayName {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 30px;
+  line-height: 30px;
+  margin-left: -70px;
+  margin-top: -15px;
+  z-index: 1000;
+  text-align: center;
+  color:#ffffff;
+  font-size:17px;
+  border: 1px solid #ffffff;
+}
+
+
+
+/*********** style04 ************/
+
+
+.namecard_template_style04 {
+  position: relative;
+  width: 400px;
+  height: 240px;
+  background: #f9f9f9;
+  margin-bottom: 20px;
+  font-size: 0px;
+  box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.1);
+  border-radius:30px;
+}
+
+.namecard_template_style04.back {
+  position: relative;
+  width: 400px;
+  height: 240px;
+  background: url("../images/template_style04_ middlebg.png");
+  background-size: 100%;
+  margin-bottom: 100px;
+  font-size: 0px;
+}
+
+.namecard_template_style04 * {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.namecard_template_style04 .layoutbox {
+  position: relative;
+  display: block; 
+  vertical-align: top;
+  width: 25%;
+  height: 40px;
+  box-sizing: border-box;
+  border :1px solid transparent;
+  float: left;
+}
+.namecard_template_style04 > .top_side {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  display: block;
+  height: 120px;
+}
+.namecard_template_style04 > .middle_side {
+  position: absolute;
+  top: 120px;
+  width: 100%;
+  display: block;
+  height: 60px;
+  background: url("../images/template_style04_ middlebg.png");
+  background-size: 100%;
+}
+.namecard_template_style04 > .middle_side {
+  position: absolute;
+  top: 120px;
+  width: 100%;
+  display: block;
+  height: 60px;
+  background: url("../images/template_style04_ middlebg.png");
+  background-size: 100%;
+}
+.namecard_template_style04 > .bottom_side {
+  position: absolute;
+  top: 180px;
+  width: 100%;
+  display: block;
+  height: 100px;
+}
+.namecard_template_style04 > .right_side {
+  background: url("../images/template_style04_leftbg.jpg");
+  background-position: -270px -120px;
+}
+.namecard_template_style04 .layoutbox:hover {
+  border: 1px dashed red;  
+}
+.namecard_template_style04 .compnayName {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 30px;
+  line-height: 30px;
+  margin-left: -70px;
+  margin-top: -15px;
+  z-index: 1000;
+  text-align: center;
+  color:#ffffff;
+  font-size:17px;
+  border: 1px solid #ffffff;
+}
+
+.namecard_template_style04 .company_mark {
+  position: absolute;
+  display: block;
+  top: 30px;
+  left: 330px;
+  width: 50px;
+  height: auto;
+}
