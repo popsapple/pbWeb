@@ -149,12 +149,18 @@ class FrogEditor extends React.Component {
       this.readFileIntoEditor(filename);
     });
 
-    ipcRenderer.on('js-open', (event, filename) => {
-      this.readJSIntoEditor(filename);
+    ipcRenderer.on('css-open', (event, dirPath, filename) => {
+      for(let i = 0; i < filename.length; i++){
+        var filepath = dirPath+filename[i];
+        this.readCSSIntoEditor(filepath);
+      }
     });
 
-    ipcRenderer.on('css-open', (event, filename) => {
-      this.readCSSIntoEditor(filename);
+    ipcRenderer.on('js-open', (event, dirPath, filename) => {
+      for(let i = 0; i < filename.length; i++){
+        var filepath = dirPath+filename[i];
+        this.readJSIntoEditor(filepath);
+      }
     });
 
     ipcRenderer.on('html-save', (event, filename, saveMessage) => {
@@ -202,7 +208,6 @@ class FrogEditor extends React.Component {
   readCSSIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
       console.log("read css : "+theFileEntry.toString())
-
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
@@ -232,16 +237,14 @@ class FrogEditor extends React.Component {
   };
 
   saveHTML = (theFileEntry, saveMessage) => {
-    setTimeout(()=>{
-      console.log("theFileEntry: "+theFileEntry)
-      fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
-        if(err) console.log(`Read failed: ${err}`);
-        console.log("saveMessage : "+saveMessage)
-      });      
-    },500)
-    if(saveMessage){
-      alert("저장되었습니다.")
-    }
+    console.log("theFileEntry: "+theFileEntry)
+    fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
+      if(err) console.log(`Read failed: ${err}`);
+      if(!err){
+        alert("저장되었습니다.")
+        // console.log("저장되었습니다.")
+      }
+    });  
   };
   
   render() {

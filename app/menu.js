@@ -6,6 +6,8 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import ErrorPage1 from './containers/ErrorPage'
 
+let isDirCopying = false;
+
 export default class MenuBuilder {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -24,7 +26,7 @@ export default class MenuBuilder {
     });     
   }
 
-  buildMenu() { // label --> option.mac.subMenuAbout.label
+  buildMenu() { 
     const option = 
     {
       "mac": {
@@ -190,7 +192,7 @@ export default class MenuBuilder {
           ]
         },
         "subMenuHelp": {
-          "label": "도움말",
+          "label": "Help",
           "submenu": [
             {
               "label": "Learn More"
@@ -285,7 +287,6 @@ export default class MenuBuilder {
       }
     }
 
-
     if (
       process.env.NODE_ENV === 'development' ||
       process.env.DEBUG_PROD === 'true'
@@ -294,18 +295,11 @@ export default class MenuBuilder {
     }
     const macTempPath = process.env.TMPDIR
     const windowTempPath = process.env.Temp
-    console.log("windowTempPath :: "+windowTempPath);
-    
-    var Mac_platform = "mac"    
-    var Window_platform = "window"  
 
     const template =
-      // process.platform === 'darwin'
-      //   ? this.buildDarwinTemplate(macTempPath)
-      //   : this.buildDefaultTemplate(windowTempPath);
       process.platform === 'darwin'
-        ? this.buildDarwinTemplate(option.mac, macTempPath)
-        : this.buildDarwinTemplate(option.window, windowTempPath);
+        ? this.buildTemplate(option.mac, macTempPath)
+        : this.buildTemplate(option.window, windowTempPath);
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
 
@@ -329,140 +323,8 @@ export default class MenuBuilder {
     });
   }
 
-  //
-
-
-  pbWebCheck = (tempPath, count, newOk) => {
-    var pbWebPath = "C:/Users/clbee/AppData/Local/Temp/PbWeb"; //tempPath+"\PbWeb"
-    try{
-      if (!fs.existsSync(pbWebPath)){
-          console.log("make11");
-          fs.mkdirSync(pbWebPath);
-      }else{
-        console.log("none make1111");
-      }
-    }catch(err){
-      console.log("======  err  ======");
-      console.log(err);
-    }
-
-    fs.readdir(pbWebPath, (err, dirList) => {
-      if(!err && dirList.length != 0){
-        for(var i=0; i<dirList.length; i++){
-          if(dirList[i].includes("untitled-")){
-            var untitled = dirList[i].split("-")
-            count = parseInt(untitled[1])+1
-          }
-        }
-      } else{
-        count = 1;
-      }
-      if(newOk){ //new
-        // let parseIntCount = parseInt(count)-1
-        // fs.access(pbWebPath+"/untitled-"+parseIntCount)
-        //   .then(()=>{
-        //     fs.remove(pbWebPath+"/untitled-"+parseIntCount, (err) => {
-        //       if(err) console.log(err)
-        //     })
-        //   })
-
-        this.makeWorkingDir(pbWebPath, count);
-      } 
-      // else{ //open
-      //   this.makeWorkingDir_open(tempPath, count);
-      // }
-    })
-   
-  }
-
-  makeWorkingDir = (pbWebPath, cnt) => {
-    //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
-    var basicThemePath = __dirname+"/basicTheme" 
-    var appName = "untitled-"+cnt
-    var untitledPath = pbWebPath+"/"+appName
-    
-    this.mainWindow.setTitle(`${appName} - PageBuilder`) //app title 설정
-
-    fs.copy(basicThemePath, untitledPath, (err) => { 
-      if(err) console.log(err)
-    })
-    
-    this.workingDirPath = untitledPath
-
-    var htmlPath = untitledPath+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
-    var htmlPathArray = htmlPath.split("/")
-    for(let i=0; i<htmlPathArray.length; i++){
-      if (htmlPathArray[i].match(/(.html)$/)){
-        var folderPath = htmlPath.replace("/"+htmlPathArray[i],'');
-      }
-    }    
-
-    // this.editor.send('new-file', htmlPath)
-    // this.inspectorList(folderPath)
-    setTimeout(() => { //delay 주지 않을 시 생성한 폴더를 찾지 못함.
-      this.editor.send('new-file', htmlPath)
-      this.inspectorList(folderPath)
-    }, 500)
-  }
-
-  // makeWorkingDir_open = (tempPath, count) => {
-  //   console.log("=== Let's make openDir ===")
-    
-  // }
-
-  inspectorList = (dirPath) => {
-    var pureCssArray = []
-    var pureJsArray = []
-
-    fs.access(dirPath+'/css' && dirPath+'/js' && dirPath+"/resources.json")
-     .then(()=>{
-      fs.readdir(dirPath+'/css', (error, cssList) => {
-        for(let i=0; i<cssList.length; i++){
-          if(cssList[i].match(/(.css)$/)){
-            pureCssArray = pureCssArray.concat(cssList[i])
-          }
-        }
-        this.editor.send('css-list', pureCssArray);
-      })
-
-      fs.readdir(dirPath+'/js', (error, jsList) => {
-        for(let i=0; i<jsList.length; i++){
-          if(jsList[i].match(/(.js)$/)){
-            pureJsArray = pureJsArray.concat(jsList[i])
-          }
-        }
-        this.editor.send('js-list', pureJsArray);
-      })
-
-      fs.readFile(dirPath+"/resources.json", (err, data) => { 
-        var parseData = JSON.parse(data)
-        for(var i=0; i<parseData.css.length; i++){
-          var cssPath = dirPath+parseData.css[i]
-          this.editor.send("css-open", cssPath)
-        }
-        for(var i=0; i<parseData.js.length; i++){
-          var jsPath = dirPath+parseData.js[i]
-          this.editor.send("js-open", jsPath)
-        }
-      })
-     })
-     .catch(()=>{ //css 폴더, js 폴더, resources.json 파일 중 하나라도 없을 경우 에러 처리
-      console.log("404 Error!!") 
-
-      this.editor.send('error-control', '404Error');
-
-     })
-  }
-
-  buildDarwinTemplate(osPlatform, tempPath) {
-    console.log("AAAAAAAAAAAA");
-    let saveOk = true;
-    let selectedFilePath = '';
-    var count = 1;
-    var workingDirPath = "";
-    var newOk = true; 
-    var saveMessage = true;
-    /*const subMenuAbout = {
+  darwinAddMenu = (osPlatform) => {
+    const subMenuAbout = {
       label: 'PageBuilder',
       submenu: [
         {
@@ -492,9 +354,203 @@ export default class MenuBuilder {
           }
         }
       ]
-    };*/
+    };
 
-    console.log("BBBBBBBBB");
+    const subMenuEdit = {
+      label: osPlatform.subMenuEdit.label,
+      submenu: [
+        { label: osPlatform.subMenuEdit.submenu[0].label, accelerator: osPlatform.subMenuEdit.submenu[0].accelerator, selector: osPlatform.subMenuEdit.submenu[0].selector },
+        { label: osPlatform.subMenuEdit.submenu[1].label, accelerator: osPlatform.subMenuEdit.submenu[1].accelerator, selector: osPlatform.subMenuEdit.submenu[1].selector },
+        { type: osPlatform.subMenuEdit.submenu[2].type },
+        { label: osPlatform.subMenuEdit.submenu[3].label, accelerator: osPlatform.subMenuEdit.submenu[3].accelerator, selector: osPlatform.subMenuEdit.submenu[3].selector },
+        { label: osPlatform.subMenuEdit.submenu[4].label, accelerator: osPlatform.subMenuEdit.submenu[4].accelerator, selector: osPlatform.subMenuEdit.submenu[4].selector },
+        { label: osPlatform.subMenuEdit.submenu[5].label, accelerator: osPlatform.subMenuEdit.submenu[5].accelerator, selector: osPlatform.subMenuEdit.submenu[5].selector },
+        {
+          label: osPlatform.subMenuEdit.submenu[6].label,
+          accelerator: osPlatform.subMenuEdit.submenu[6].accelerator,
+          selector: osPlatform.subMenuEdit.submenu[6].selector
+        }
+      ]
+    };
+
+    const subMenuWindow = {
+      label: osPlatform.subMenuWindow.label,
+      submenu: [
+        {
+          label: osPlatform.subMenuWindow.submenu[0].label,
+          accelerator: osPlatform.subMenuWindow.submenu[0].accelerator,
+          selector: osPlatform.subMenuWindow.submenu[0].selector
+        },
+        { label: osPlatform.subMenuWindow.submenu[1].label, accelerator: osPlatform.subMenuWindow.submenu[1].accelerator, selector: osPlatform.subMenuWindow.submenu[1].selector },
+        { type: osPlatform.subMenuWindow.submenu[2].type },
+        { label: osPlatform.subMenuWindow.submenu[3].label, selector: osPlatform.subMenuWindow.submenu[3].selector }
+      ]
+    };
+    return [
+      subMenuAbout,
+      subMenuEdit,
+      subMenuWindow
+    ];
+  }
+
+  pbWebCheck = (tempPath, count, isOpen) => {
+    process.platform === 'darwin' ? tempPath = tempPath : tempPath = tempPath.replace("\\","/")+"/"
+ 
+    var pbWebPath = tempPath+"PbWeb"
+
+    fs.access(pbWebPath)
+      .then(()=>{ //이미 폴더가 존재할경우
+        fs.readdir(pbWebPath, (err, dirList) => {
+          if(err) console.log("ACESS ERROR 01 :: "+err)
+          if(!err){
+            if(dirList.length != 0){
+              var max = 0;
+              for(var i=0; i<dirList.length; i++){
+                if(dirList[i].indexOf("untitled-") != -1){
+                  var untitled = dirList[i].split("-");
+                  max < parseInt(untitled[1]) ? max = parseInt(untitled[1]) : '';
+                }
+              }
+              count = max+1;
+              if(!isOpen){
+                this.makeWorkingDir(pbWebPath, count);
+              }
+            } else {
+              count = 1;
+              if(!isOpen){
+                this.makeWorkingDir(pbWebPath, count);
+              }
+            }
+          }
+        })
+      })
+      .catch(()=>{ //폴더가 없을 경우
+        fs.mkdir(pbWebPath, (err)=> {
+          if(err) console.log("ACESS ERROR 02 :: "+err)
+          if(!err){
+            fs.readdir(pbWebPath, (err, dirList) => {
+              if(err) console.log(err)
+              if(!err){
+                if(dirList.length != 0){
+                  var max = 0;
+                  for(var i=0; i<dirList.length; i++){
+                    if(dirList[i].indexOf("untitled-") != -1){
+                      var untitled = dirList[i].split("-");
+                      max < parseInt(untitled[1]) ? max = parseInt(untitled[1]) : '';
+                    }
+                  }
+                  count = max+1;
+                  if(!isOpen){
+                    this.makeWorkingDir(pbWebPath, count);
+                  }
+                } else {
+                  count = 1;
+                  if(!isOpen){
+                    this.makeWorkingDir(pbWebPath, count);
+                  }
+                }
+              }
+            })
+          }
+        }) 
+      })
+  }
+
+
+  makeWorkingDir = (pbWebPath, cnt) => {
+    //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
+    var basicThemePath = __dirname+"/basicTheme" 
+    var appName = "untitled-"+cnt
+    var untitledPath = pbWebPath+"/"+appName
+
+    this.mainWindow.setTitle(`${appName} - PageBuilder`) //app title 설정
+
+    isDirCopying = true;
+
+    fs.copy(basicThemePath, untitledPath, (err) => { 
+      if(err) {
+        console.log("ACESS ERROR 03 :: "+err);
+        isDirCopying = false;
+      }
+      if(!err){
+        isDirCopying = false;
+        var htmlPath = untitledPath+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
+        var htmlPathArray = htmlPath.split("/")
+        for(let i=0; i<htmlPathArray.length; i++){
+          if (htmlPathArray[i].match(/(.html)$/)){
+            var folderPath = htmlPath.replace("/"+htmlPathArray[i],'');
+          }
+        }    
+        //console.log("makeWorkingDir In 04")
+        this.workingDirPath = untitledPath
+  
+        //delay 주지 않을 시 생성한 폴더를 찾지 못함.
+        this.editor.send('new-file', htmlPath)
+        this.inspectorList(folderPath)
+
+      }
+    })
+  }
+
+  inspectorList = (dirPath) => {
+    var pureCssArray = []
+    var pureJsArray = []
+    
+    fs.access(dirPath+'/css' && dirPath+'/js' && dirPath+"/resources.json")
+     .then(()=>{
+      fs.readdir(dirPath+'/css', (err, cssList) => {
+        if(err) console.log("ACESS ERROR 04 :: "+err)
+        if(!err){
+          for(let i=0; i<cssList.length; i++){
+            if(cssList[i].match(/(.css)$/)){
+              pureCssArray = pureCssArray.concat(cssList[i])
+            }
+          }
+          this.editor.send('css-list', pureCssArray);
+        }
+      })
+
+      fs.readdir(dirPath+'/js', (err, jsList) => {
+        if(err) console.log("ACESS ERROR 05 :: "+err)
+        if(!err){
+          for(let i=0; i<jsList.length; i++){
+            if(jsList[i].match(/(.js)$/)){
+              pureJsArray = pureJsArray.concat(jsList[i])
+            }
+          }
+          this.editor.send('js-list', pureJsArray);
+        }
+      })
+
+      
+      fs.readFile(dirPath+"/resources.json", (err, data) => { 
+        if(err) console.log("ACESS ERROR 06 :: "+err)
+        if(!err){
+          var parseData = JSON.parse(data)
+          this.editor.send("css-open", dirPath, parseData.css);
+          this.editor.send("js-open", dirPath, parseData.js);
+        }
+      })
+     })
+     .catch(()=>{ //css 폴더, js 폴더, resources.json 파일 중 하나라도 없을 경우 에러 처리
+      console.log("404 Error!!") 
+      // this.editor.send('error-control', '404Error');
+
+     })
+  }
+
+  buildTemplate(osPlatform, tempPath) {
+    let saveOk = true;
+    let selectedFilePath = '';
+    var count = 1;
+    var workingDirPath = "";
+    var isOpen = false; 
+    var saveMessage = true;
+
+    if(process.platform === "darwin"){
+      var returnArray = this.darwinAddMenu(osPlatform)
+    }
+
     const subMenuFile = {
       label: osPlatform.subMenuFile.label,
       submenu: [
@@ -503,76 +559,99 @@ export default class MenuBuilder {
           accelerator: osPlatform.subMenuFile.submenu[0].accelerator,
           selector: osPlatform.subMenuFile.submenu[0].selector,
           click: () => {
-            newOk = true;
-            this.pbWebCheck(tempPath, count, newOk);  
-            saveOk = true;
+            if(isDirCopying){
+              console.log("현재 진행중입니다");
+              return false;
+            }else{
+              console.log("현재 진행중이 아닙니다");
+              isOpen = false;
+              this.pbWebCheck(tempPath, count, isOpen);  
+            }
           }        
         },
         {
           label: osPlatform.subMenuFile.submenu[1].label,
           accelerator: osPlatform.subMenuFile.submenu[1].accelerator,
           click: () => {
-            dialog.showOpenDialog(
-              {
-                properties: ['openFile'],
-                title: 'PageBuilder 파일 열기',
-                filters: [
-                  { name: 'HTML', extensions: ['htm', 'html'] },
-                  { name: 'CSS', extensions: ['css'] },
-                  { name: 'Javascript', extensions: ['js'] },
-                  { name: 'All Files', extensions: ['*'] }
-                ]
-              },
-              files => {
-                if (files !== undefined) {
-                  if(files[0].match(/(.html)$/)){
-                    newOk = false;
-                    this.pbWebCheck(tempPath, count, newOk)
-                    var pathArray = files[0].split("/")
-                    for(let i=0; i<pathArray.length; i++){
-                      if (pathArray[i].match(/(.html)$/)){
-                        var selectedfolderPath = files[0].replace("/"+pathArray[i],'');
-                        var folderName = pathArray[pathArray.length-2]
+            if(isDirCopying){
+              console.log("현재 진행중입니다_open");
+              return false;
+            }else{
+              console.log("현재 진행중이 아닙니다_open");
+              dialog.showOpenDialog(
+                {
+                  properties: ['openFile'],
+                  title: 'PageBuilder 파일 열기',
+                  filters: [
+                    { name: 'HTML', extensions: ['htm', 'html'] },
+                    { name: 'CSS', extensions: ['css'] },
+                    { name: 'Javascript', extensions: ['js'] },
+                    { name: 'All Files', extensions: ['*'] }
+                  ]
+                },
+                files => {
+                  if (files !== undefined) {
+                    if(files[0].match(/(.html)$/)){
+                      isOpen = true;
+
+                      this.pbWebCheck(tempPath, count, isOpen)
+
+                      var pathArray = files[0].split("/")
+                      for(let i=0; i<pathArray.length; i++){
+                        if (pathArray[i].match(/(.html)$/)){
+                          var selectedfolderPath = files[0].replace("/"+pathArray[i],'');
+                          var folderName = pathArray[pathArray.length-2]
+                        }
                       }
+                      this.mainWindow.setTitle(`${folderName} - PageBuilder`)
+                      selectedFilePath = selectedfolderPath 
+                      isDirCopying = true;
+                      fs.readFile(files[0], (err, data)=>{
+                        if(err) {
+                          console.log(err)
+                          isDirCopying = false;
+                        }
+                        if(!err){
+                          this.editor.send('file-open', files[0])
+                          this.inspectorList(selectedfolderPath)
+                          isDirCopying = false;
+                        }
+                      })
                     }
-                    this.mainWindow.setTitle(`${folderName} - PageBuilder`)
-                    selectedFilePath = selectedfolderPath 
-
-                    setTimeout(()=>{
-                      this.editor.send('file-open', files[0])
+                    else if(files[0].match(/(.css)$/)){
+                      pathArray = files[0].split("/")
+                      for(let i=0; i<pathArray.length; i++){
+                        if(pathArray[i].match(/(.css)$/)){
+                          selectedfolderPath = files[0].replace("/css/"+pathArray[i],'');
+                        }
+                      }
+                      
+                      fs.copy(files[0], selectedfolderPath+"/css", (err) => {
+                        if(err){
+                          console.log(err)
+                        } else{
+                          this.inspectorList(selectedfolderPath)
+                        }
+                        
+                      })
+                    } 
+                    else if(files[0].match(/(.js)$/)){
                       this.inspectorList(selectedfolderPath)
-                    },500)
-
+                      fs.copy(files[0], selectedfolderPath+"/js", (err) => {
+                        if(err) console.log(err)
+                        else{
+                          this.inspectorList(selectedfolderPath)
+                        }
+                      })                  
+                    } 
+                  } else{
+                    //여러번 할 경우 MaxListenersExceededWarning 발생
+                    // this.mainWindow.webContents.reload();
                   }
-                  else if(files[0].match(/(.css)$/)){
-                    pathArray = files[0].split("/")
-                    for(let i=0; i<pathArray.length; i++){
-                      if(pathArray[i].match(/(.css)$/)){
-                        console.log("pathArray: "+pathArray[i])
-                        console.log("files[0]: "+files[0])
-                        selectedfolderPath = files[0].replace("/css/"+pathArray[i],'');
-                      }
-                    }
-                    fs.copy(files[0], selectedfolderPath+"/css", (err) => {
-                      // this.editor.send("css-open", files[0])
-                      this.inspectorList(selectedfolderPath)
-                    })
-                  } 
-                  else if(files[0].match(/(.js)$/)){
-                    this.inspectorList(selectedfolderPath)
-                    fs.copy(files[0], selectedfolderPath+"/js", (err) => {
-                      // this.editor.send("js-open", files[0])
-
-                      this.inspectorList(selectedfolderPath)
-                    })                  
-                  } 
-                } else{
-                  //여러번 할 경우 MaxListenersExceededWarning 발생
-                  // this.mainWindow.webContents.reload();
+                  saveOk = false;
                 }
-                saveOk = false;
-              }
-            );
+              );
+            }
           }
         },
         { type: osPlatform.subMenuFile.submenu[2].type },
@@ -589,13 +668,14 @@ export default class MenuBuilder {
                 },
                 files => {
                   if (files !== undefined) {
-                    console.log();
                     fs.move(this.workingDirPath, files, (err) => {
-                      if(err) console.log(err)
+                      if(err) console.log(err);
+                      if(!err) {
+                        saveMessage = true;
+                        console.log("save1 : "+files)
+                        this.editor.send('html-save', files, saveMessage);
+                      }
                     })
-                    saveMessage = true;
-                    this.editor.send('html-save', files, saveMessage);
-
                     //저장한 title로 app title 설정하는 부분
                     var pathArray = files.split("/")
                     var filename = pathArray[pathArray.length-1]
@@ -621,7 +701,13 @@ export default class MenuBuilder {
               var titleArray = this.mainWindow.getTitle().split(" -")
               selectedFilePath = text+titleArray[0]
               saveMessage = true;
-              this.editor.send('html-save', selectedFilePath, saveMessage);
+
+              fs.readdir(selectedFilePath, (err, data)=>{
+                if(err) console.log(err)
+                if(!err){
+                  this.editor.send('html-save', selectedFilePath, saveMessage);
+                }
+              })
             }
           }
         },
@@ -641,45 +727,39 @@ export default class MenuBuilder {
                 if (files !== undefined) {
                   fs.access(this.workingDirPath)
                     .then(()=>{ //저장하지 않은 파일일 경우(처음부터 saveAs 눌렀을 때)
-                      // fs.copy(this.workingDirPath, files, (err) => {
-                      //   if(err) console.log(err)
-                      // })
-                      // setTimeout(()=>{
-                      //   fs.remove(this.workingDirPath, (err)=>{
-                      //     if(err) console.log(err)
-                      //   })
-                      // },500)
                       fs.move(this.workingDirPath, files, (err) => {
                         if(err) console.log(err)
+                        if(!err){
+                          selectedFilePath = files
+                          saveMessage = true
+                          console.log("saveAs1 : "+files)
+                          this.editor.send('html-save', selectedFilePath, saveMessage);
+                        }
                       })
-                      selectedFilePath = files
-                      saveMessage = true
-                      this.editor.send('html-save', files, saveMessage);
 
                       //저장한 title로 app title 설정하는 부분
                       var pathArray = files.split("/")
                       var filename = pathArray[pathArray.length-1]
                       this.mainWindow.setTitle(`${filename} - PageBuilder`)
-                      console.log("then saveAs selectedFilePath : "+selectedFilePath)
 
                     })
                     .catch(()=>{ //이미 저장되어있는 파일일 경우(save한 상태에서 saveAs를 눌렀을 경우)
-                      console.log("catch saveAs selectedFilePath : "+selectedFilePath)
-                      console.log("catch saveAs files : "+files)
-
+                      console.log("==> select : "+selectedFilePath)
                       fs.copy(selectedFilePath, files, (err) => {
-                        if(err) console.log(err)
+                        if(err) console.log(err);
+                        if(!err){
+                          saveMessage = true
+
+                          //저장한 title로 app title 설정하는 부분
+                          var pathArray = files.split("/")
+                          var filename = pathArray[pathArray.length-1]
+                          this.mainWindow.setTitle(`${filename} - PageBuilder`)
+
+                          selectedFilePath = files
+                          console.log("saveAs2 : "+selectedFilePath)
+                          this.editor.send('html-save', selectedFilePath, saveMessage);
+                        }
                       })
-                      saveMessage = true
-
-                      //저장한 title로 app title 설정하는 부분
-                      var pathArray = files.split("/")
-                      var filename = pathArray[pathArray.length-1]
-                      this.mainWindow.setTitle(`${filename} - PageBuilder`)
-
-
-                      this.editor.send('html-save', files, saveMessage);
-
                       // dialog.showMessageBox(
                       //   { message: "저장되었습니다.",
                       //     buttons: ["확인"]
@@ -716,25 +796,6 @@ export default class MenuBuilder {
       ]
     };
 
-    console.log("CCCCCCCCCCC");
-    /*const subMenuEdit = {
-      label: osPlatform.subMenuEdit.label,
-      submenu: [
-        { label: osPlatform.subMenuEdit.submenu[0].label, accelerator: osPlatform.subMenuEdit.submenu[0].accelerator, selector: osPlatform.subMenuEdit.submenu[0].selector },
-        { label: osPlatform.subMenuEdit.submenu[1].label, accelerator: osPlatform.subMenuEdit.submenu[1].accelerator, selector: osPlatform.subMenuEdit.submenu[1].selector },
-        { type: osPlatform.subMenuEdit.submenu[2].type },
-        { label: osPlatform.subMenuEdit.submenu[3].label, accelerator: osPlatform.subMenuEdit.submenu[3].accelerator, selector: osPlatform.subMenuEdit.submenu[3].selector },
-        { label: osPlatform.subMenuEdit.submenu[4].label, accelerator: osPlatform.subMenuEdit.submenu[4].accelerator, selector: osPlatform.subMenuEdit.submenu[4].selector },
-        { label: osPlatform.subMenuEdit.submenu[5].label, accelerator: osPlatform.subMenuEdit.submenu[5].accelerator, selector: osPlatform.subMenuEdit.submenu[5].selector },
-        {
-          label: osPlatform.subMenuEdit.submenu[6].label,
-          accelerator: osPlatform.subMenuEdit.submenu[6].accelerator,
-          selector: osPlatform.subMenuEdit.submenu[6].selector
-        }
-      ]
-    };*/
-    
-    console.log("DDDDDDDDD");
     const subMenuViewDev = {
       label: osPlatform.subMenuViewDev.label,
       submenu: [
@@ -748,54 +809,40 @@ export default class MenuBuilder {
           }
         },
         {
-          label: 'Reload',
-          accelerator: 'Command+R',
+          label: osPlatform.subMenuViewDev.submenu[1].label,
+          accelerator: osPlatform.subMenuViewDev.submenu[1].accelerator,
           click: () => {
             this.mainWindow.webContents.reload();
           }
         },
         {
-          label: 'Toggle Full Screen',
-          accelerator: 'Ctrl+Command+F',
+          label: osPlatform.subMenuViewDev.submenu[2].label,
+          accelerator: osPlatform.subMenuViewDev.submenu[2].accelerator,
           click: () => {
             this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
           }
         },
         {
-          label: 'Toggle Developer Tools',
-          accelerator: 'Alt+Command+I',
+          label: osPlatform.subMenuViewDev.submenu[3].label,
+          accelerator: osPlatform.subMenuViewDev.submenu[3].accelerator,
           click: () => {
             this.mainWindow.toggleDevTools();
           }
         }
       ]
     };
-    
-    console.log("EEEEEEEEEEE");
-    /*const subMenuWindow = {
-      label: 'WindowAAAAAAA',
-      submenu: [
-        {
-          label: 'Minimize',
-          accelerator: 'Command+M',
-          selector: 'performMiniaturize:'
-        },
-        { label: 'Close', accelerator: 'Command+W', selector: 'performClose:' },
-        { type: 'separator' },
-        { label: 'Bring All to Front', selector: 'arrangeInFront:' }
-      ]
-    };*/
+
     const subMenuHelp = {
-      label: '도움말',
+      label: osPlatform.subMenuHelp.label,
       submenu: [
         {
-          label: 'Learn More',
+          label: osPlatform.subMenuHelp.submenu[0].label,
           click() {
             shell.openExternal('http://electron.atom.io');
           }
         },
         {
-          label: 'Documentation',
+          label: osPlatform.subMenuHelp.submenu[1].label,
           click() {
             shell.openExternal(
               'https://github.com/atom/electron/tree/master/docs#readme'
@@ -803,13 +850,13 @@ export default class MenuBuilder {
           }
         },
         {
-          label: 'Community Discussions',
+          label: osPlatform.subMenuHelp.submenu[2].label,
           click() {
             shell.openExternal('https://discuss.atom.io/c/electron');
           }
         },
         {
-          label: 'Search Issues',
+          label: osPlatform.subMenuHelp.submenu[3].label,
           click() {
             shell.openExternal('https://github.com/atom/electron/issues');
           }
@@ -817,18 +864,25 @@ export default class MenuBuilder {
       ]
     };
 
-    console.log("FFFFFFFFFFFFFFFFF");
     const subMenuView =
       process.env.NODE_ENV === 'development' ? subMenuViewDev : subMenuViewProd;
 
-    return [
-      //subMenuAbout,
-      subMenuFile,
-      //subMenuEdit,
-      subMenuView,
-      //subMenuWindow,
-      subMenuHelp
-    ];
+    if(process.platform === "darwin"){
+      return [
+        returnArray[0],
+        subMenuFile,
+        returnArray[1],
+        subMenuView,
+        returnArray[2],
+        subMenuHelp   
+      ];
+    } else{
+      return [
+        subMenuFile,
+        subMenuView,
+        subMenuHelp
+      ];
+    }
   }
 
 }

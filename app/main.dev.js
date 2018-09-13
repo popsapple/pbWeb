@@ -93,7 +93,8 @@ app.on('ready', async () => {
       })
     } else {
       console.log("window")
-      fs.remove(process.env.Temp+'PbWeb', err => {
+      var tempPath = process.env.Temp.replace("\\","/")+"/"
+      fs.remove(tempPath+'PbWeb', err => {
         if(err) return console.log(err)
       })
     }
