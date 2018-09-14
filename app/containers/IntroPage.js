@@ -11,7 +11,6 @@ export default class IntroPage extends Component {
     super();
   };
 
-
   render() {
     return (
       <SampleProvider>

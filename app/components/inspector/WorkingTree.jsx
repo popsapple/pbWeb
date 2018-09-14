@@ -2,8 +2,6 @@ import React from 'react';
 import { ipcRenderer } from 'electron';
 import { Link } from 'react-router-dom';
 
-// import ErrorPage from '../ErrorPage';
-
 export default class WorkingTree extends React.Component{
     constructor(){
         super()
@@ -14,31 +12,12 @@ export default class WorkingTree extends React.Component{
     }
     componentWillMount(){
         ipcRenderer.on('css-list', (event, csslist) => {
-            if(csslist != null){
-                this.InputCSS(csslist)
-            } else {
-                console.log('no css file')
-                //  this.ErrorControl()
-            }
+            this.InputCSS(csslist)
         });
 
         ipcRenderer.on('js-list', (event, jslist) => {
-            if(jslist != null){
-                this.InputJS(jslist)
-            } else {
-                console.log('no js file')
-                //this.ErrorControl()
-            }
+            this.InputJS(jslist)
         });
-    }
-
-    ErrorControl = () => {
-        console.log('error in')
-        this.render
-        return(
-            console.log("404 error")
-            //<ErrorPage/>            
-        )
     }
 
     InputCSS = theFileEntry => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ipcRenderer, dialog } from 'electron';
+import { ipcMain, ipcRenderer, dialog } from 'electron';
 import 'froala-editor/js/froala_editor.pkgd.min';
 import 'froala-editor/js/plugins/inline_style.min';
 import 'froala-editor/js/plugins/image.min';
@@ -20,9 +20,10 @@ import { FrogEditorStyles } from './FrogEditorStyles';
 
 import PropTypes from 'prop-types';
 import { dragEditorHtml, dropEditorHtml } from '../actions/actions';
+import ErrorPage from '../containers/ErrorPage'
 
 class FrogEditor extends React.Component {
-  constructor() {
+  constructor(props, context) {
     super();
 
     this.state = {
@@ -141,22 +142,20 @@ class FrogEditor extends React.Component {
 
     ipcRenderer.on('new-file', (event, filename) => {
       this.makeFileIntoEditor(filename);
+      console.log("FrogEditor new-file")
     });
 
     ipcRenderer.on('file-open', (event, filename) => {
       this.readFileIntoEditor(filename);
     });
 
-    ipcRenderer.on('css-open', (event, dirPath, filename) => {
-      for(let i = 0; i < filename.length; i++){
-        var filepath = dirPath+filename[i];
+    ipcRenderer.on('resources-open', (event, dirPath, cssfile, jsfile) => {
+      for(let i = 0; i < cssfile.length; i++){
+        var filepath = dirPath+cssfile[i];
         this.readCSSIntoEditor(filepath);
       }
-    });
-
-    ipcRenderer.on('js-open', (event, dirPath, filename) => {
-      for(let i = 0; i < filename.length; i++){
-        var filepath = dirPath+filename[i];
+      for(let i = 0; i < jsfile.length; i++){
+        var filepath = dirPath+jsfile[i];
         this.readJSIntoEditor(filepath);
       }
     });
@@ -189,7 +188,6 @@ class FrogEditor extends React.Component {
       }
     });
   };
-
   
   readFileIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
@@ -205,7 +203,6 @@ class FrogEditor extends React.Component {
 
   readCSSIntoEditor = theFileEntry => {
     fs.readFile(theFileEntry.toString(), (err, data) => {
-      console.log("read css : "+theFileEntry.toString())
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
@@ -237,12 +234,12 @@ class FrogEditor extends React.Component {
   saveHTML = (theFileEntry, saveMessage) => {
     console.log("theFileEntry: "+theFileEntry)
     fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
-      if(err) console.log(`Read failed: ${err}`);
-      if(!err){
+      if(err) {
+        console.log(`save failed: ${err}`);
+      } else{
         alert("저장되었습니다.")
-        // console.log("저장되었습니다.")
       }
-    });  
+    });
   };
   
   render() {

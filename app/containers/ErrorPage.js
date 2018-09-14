@@ -1,15 +1,20 @@
-import { Component } from 'react';
-import Error from '../components/404Error'
+import React, { Component } from 'react';
+import { ipcRenderer } from 'electron';
 
-export default class ErrorPage1 extends Component {
+export default class ErrorPage extends Component {
     constructor(){
       super();
+      
+    ipcRenderer.on('error-occurred', (event, args) => {
+      console.log("error page ==> "+args)
+    });
+
     };
-  
+
     render() {
       return (
           <div>
-              <Error/>
+            <h1>error page</h1>
           </div>
       );
     }

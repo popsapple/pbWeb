@@ -1,12 +1,10 @@
 import { app, dialog, Menu, shell, ipcMain, ipcRenderer, BrowserWindow } from 'electron';
 import { buffer } from '../node_modules/rxjs/operators';
 const fs = require('fs-extra')
-import ErrorPage from './components/404Error'
 import React from 'react';
 import { Link } from 'react-router-dom'
-import ErrorPage1 from './containers/ErrorPage'
 
-let isDirCopying = false;
+let isWorking = false;
 
 export default class MenuBuilder {
   constructor(mainWindow) {
@@ -395,99 +393,89 @@ export default class MenuBuilder {
 
   pbWebCheck = (tempPath, count, isOpen) => {
     process.platform === 'darwin' ? tempPath = tempPath : tempPath = tempPath.replace("\\","/")+"/"
- 
+
     var pbWebPath = tempPath+"PbWeb"
 
-    fs.access(pbWebPath)
-      .then(()=>{ //이미 폴더가 존재할경우
-        fs.readdir(pbWebPath, (err, dirList) => {
-          if(err) console.log("ACESS ERROR 01 :: "+err)
-          if(!err){
-            if(dirList.length != 0){
+    fs.access(pbWebPath, fs.constants.F_OK, (err) => {  //check if the file is readable.   
+      if(err){ //pbweb folder does not exist
+        console.log("pbWeb 파일이 없을 경우")
+        fs.mkdir(pbWebPath, (err) => { //create pbweb folder
+          if(err){
+            console.log("failed to create directory", err);
+          } else{
+            fs.readdir(pbWebPath, (err, files) => {
+              if(err) {
+                console.log("failed to read directory1", err);
+              } else {
+                count = 1;
+                if(!isOpen){
+                  this.makeWorkingDir(pbWebPath, count);
+                } else{
+                  isWorking = false;
+                }
+              }
+            })
+          }
+        })
+      } else { //pbweb folder exists
+        fs.readdir(pbWebPath, (err, files) => {
+          if(err) {
+            console.log("failed to read directory2", err);
+          } else {
+            if(files.length != 0){
               var max = 0;
-              for(var i=0; i<dirList.length; i++){
-                if(dirList[i].indexOf("untitled-") != -1){
-                  var untitled = dirList[i].split("-");
+              for(var i=0; i<files.length; i++){
+                if(files[i].indexOf("untitled-") != -1){
+                  var untitled = files[i].split("-");
                   max < parseInt(untitled[1]) ? max = parseInt(untitled[1]) : '';
                 }
               }
               count = max+1;
               if(!isOpen){
                 this.makeWorkingDir(pbWebPath, count);
+              }else{
+                isWorking = false;
               }
             } else {
               count = 1;
               if(!isOpen){
                 this.makeWorkingDir(pbWebPath, count);
+              } else{
+                isWorking = false;
               }
             }
           }
         })
-      })
-      .catch(()=>{ //폴더가 없을 경우
-        fs.mkdir(pbWebPath, (err)=> {
-          if(err) console.log("ACESS ERROR 02 :: "+err)
-          if(!err){
-            fs.readdir(pbWebPath, (err, dirList) => {
-              if(err) console.log(err)
-              if(!err){
-                if(dirList.length != 0){
-                  var max = 0;
-                  for(var i=0; i<dirList.length; i++){
-                    if(dirList[i].indexOf("untitled-") != -1){
-                      var untitled = dirList[i].split("-");
-                      max < parseInt(untitled[1]) ? max = parseInt(untitled[1]) : '';
-                    }
-                  }
-                  count = max+1;
-                  if(!isOpen){
-                    this.makeWorkingDir(pbWebPath, count);
-                  }
-                } else {
-                  count = 1;
-                  if(!isOpen){
-                    this.makeWorkingDir(pbWebPath, count);
-                  }
-                }
-              }
-            })
-          }
-        }) 
-      })
+      }
+    });
   }
-
 
   makeWorkingDir = (pbWebPath, cnt) => {
     //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
-    var basicThemePath = __dirname+"/basicTheme" 
-    var appName = "untitled-"+cnt
-    var untitledPath = pbWebPath+"/"+appName
+    var basicThemePath = __dirname+"/basicTheme";
+    var appName = "untitled-"+cnt;
+    var untitledPath = pbWebPath+"/"+appName;
 
-    this.mainWindow.setTitle(`${appName} - PageBuilder`) //app title 설정
+    this.mainWindow.setTitle(`${appName} - PageBuilder`); //set app title
 
-    isDirCopying = true;
+    isWorking = true;
 
-    fs.copy(basicThemePath, untitledPath, (err) => { 
-      if(err) {
-        console.log("ACESS ERROR 03 :: "+err);
-        isDirCopying = false;
-      }
+    fs.access(untitledPath, fs.constants.F_OK, (err) => {
+      console.log("makeWorkingDir 01 => "+isWorking)
       if(!err){
-        isDirCopying = false;
-        var htmlPath = untitledPath+"/index.html" //새로 생성한 폴더의 index.html 읽어와야 함.
-        var htmlPathArray = htmlPath.split("/")
-        for(let i=0; i<htmlPathArray.length; i++){
-          if (htmlPathArray[i].match(/(.html)$/)){
-            var folderPath = htmlPath.replace("/"+htmlPathArray[i],'');
+        console.log("already exist folder", err);
+        isWorking = false;
+      } else{
+        fs.copy(basicThemePath, untitledPath, (err) => { //fs-extra
+          if(err){
+            console.log("failed copy basic directory", err);
+          } else{
+            this.workingDirPath = untitledPath;
+            var htmlPath = untitledPath+"/index.html"
+            this.editor.send('new-file', htmlPath);
+            this.inspectorList(untitledPath);
           }
-        }    
-        //console.log("makeWorkingDir In 04")
-        this.workingDirPath = untitledPath
-  
-        //delay 주지 않을 시 생성한 폴더를 찾지 못함.
-        this.editor.send('new-file', htmlPath)
-        this.inspectorList(folderPath)
-
+        })
       }
     })
   }
@@ -495,48 +483,63 @@ export default class MenuBuilder {
   inspectorList = (dirPath) => {
     var pureCssArray = []
     var pureJsArray = []
-    
-    fs.access(dirPath+'/css' && dirPath+'/js' && dirPath+"/resources.json")
-     .then(()=>{
-      fs.readdir(dirPath+'/css', (err, cssList) => {
-        if(err) console.log("ACESS ERROR 04 :: "+err)
-        if(!err){
-          for(let i=0; i<cssList.length; i++){
-            if(cssList[i].match(/(.css)$/)){
-              pureCssArray = pureCssArray.concat(cssList[i])
-            }
+
+    isWorking = true;
+
+    console.log("inspectorList In")
+    fs.access(dirPath+'/css' && dirPath+'/js' && dirPath+"/resources.json", fs.constants.F_OK, (err) => {
+      if(err){
+        //404 Error
+        console.log("failed to access css or js or resources.json", err);
+        // this.editor.send('error-occurred', "404Error");
+
+        dialog.showMessageBox(
+          {
+            message : "리소스 파일이 존재하지 않습니다.",
+            buttons : ["확인"]
           }
-          this.editor.send('css-list', pureCssArray);
-        }
-      })
+        )
+      } else{
+        fs.readFile(dirPath+"/resources.json", (err, data) => { 
+          if(err) {
+            console.log("failed to read resources.json file", err);
+          } else{
+            var cssPathArray = []
+            var jsPathArray = []
+            var splitData = []
+            var cssArray = []
+            var jsArray = []
 
-      fs.readdir(dirPath+'/js', (err, jsList) => {
-        if(err) console.log("ACESS ERROR 05 :: "+err)
-        if(!err){
-          for(let i=0; i<jsList.length; i++){
-            if(jsList[i].match(/(.js)$/)){
-              pureJsArray = pureJsArray.concat(jsList[i])
+            var parseData = JSON.parse(data)
+            var parseCSS = parseData.css
+            var parseJS = parseData.js
+
+            this.editor.send("resources-open", dirPath, parseData.css, parseData.js); //apply resources
+           
+            for(let i=0; i<parseCSS.length; i++){
+              if(parseCSS[i].match(/(.css)$/)){
+                cssPathArray = cssPathArray.concat(parseCSS[i])
+                splitData = cssPathArray[i].split("/")
+                cssArray = cssArray.concat(splitData[splitData.length-1])
+              }
             }
+
+            for(let i=0; i<parseJS.length; i++){
+              if(parseJS[i].match(/(.js)$/)){
+                jsPathArray = jsPathArray.concat(parseJS[i])
+                splitData = jsPathArray[i].split("/")
+                jsArray = jsArray.concat(splitData[splitData.length-1])
+              }
+            }
+
+            this.editor.send('css-list', cssArray);  
+            this.editor.send('js-list', jsArray); 
+
+            isWorking = false;
           }
-          this.editor.send('js-list', pureJsArray);
-        }
-      })
-
-      
-      fs.readFile(dirPath+"/resources.json", (err, data) => { 
-        if(err) console.log("ACESS ERROR 06 :: "+err)
-        if(!err){
-          var parseData = JSON.parse(data)
-          this.editor.send("css-open", dirPath, parseData.css);
-          this.editor.send("js-open", dirPath, parseData.js);
-        }
-      })
-     })
-     .catch(()=>{ //css 폴더, js 폴더, resources.json 파일 중 하나라도 없을 경우 에러 처리
-      console.log("404 Error!!") 
-      // this.editor.send('error-control', '404Error');
-
-     })
+        })
+      }
+    })    
   }
 
   buildTemplate(osPlatform, tempPath) {
@@ -554,47 +557,56 @@ export default class MenuBuilder {
     const subMenuFile = {
       label: osPlatform.subMenuFile.label,
       submenu: [
-        {
+        { //new
           label: osPlatform.subMenuFile.submenu[0].label,
           accelerator: osPlatform.subMenuFile.submenu[0].accelerator,
           selector: osPlatform.subMenuFile.submenu[0].selector,
           click: () => {
-            if(isDirCopying){
-              console.log("현재 진행중입니다");
+            if(isWorking){
+              dialog.showMessageBox(
+                { 
+                  message: "현재 새로만들기 진행중입니다.",
+                  buttons: ["확인"]
+                }
+              );
               return false;
-            }else{
-              console.log("현재 진행중이 아닙니다");
+            } else{
+              console.log("진행을 시작합니다.")
               isOpen = false;
-              this.pbWebCheck(tempPath, count, isOpen);  
+              isWorking = true;
+              this.pbWebCheck(tempPath, count, isOpen);
             }
           }        
         },
-        {
+        { //open
           label: osPlatform.subMenuFile.submenu[1].label,
           accelerator: osPlatform.subMenuFile.submenu[1].accelerator,
           click: () => {
-            if(isDirCopying){
-              console.log("현재 진행중입니다_open");
-              return false;
-            }else{
-              console.log("현재 진행중이 아닙니다_open");
-              dialog.showOpenDialog(
-                {
-                  properties: ['openFile'],
-                  title: 'PageBuilder 파일 열기',
-                  filters: [
-                    { name: 'HTML', extensions: ['htm', 'html'] },
-                    { name: 'CSS', extensions: ['css'] },
-                    { name: 'Javascript', extensions: ['js'] },
-                    { name: 'All Files', extensions: ['*'] }
-                  ]
-                },
-                files => {
-                  if (files !== undefined) {
-                    if(files[0].match(/(.html)$/)){
+            dialog.showOpenDialog(
+              {
+                properties: ['openFile'],
+                title: 'PageBuilder 파일 열기',
+                filters: [
+                  { name: 'HTML', extensions: ['htm', 'html'] },
+                  { name: 'CSS', extensions: ['css'] },
+                  { name: 'Javascript', extensions: ['js'] },
+                  { name: 'All Files', extensions: ['*'] }
+                ]
+              },
+              files => {
+                if (files !== undefined) { //click ok button
+                  if(files[0].match(/(.html)$/)){                      
+                    if(isWorking){
+                      dialog.showMessageBox(
+                        { 
+                          message: "현재 열기 진행중입니다.",
+                          buttons: ["확인"]
+                        }
+                      );
+                      return false;
+                    } else{
                       isOpen = true;
-
-                      this.pbWebCheck(tempPath, count, isOpen)
+                      this.pbWebCheck(tempPath, count, isOpen);
 
                       var pathArray = files[0].split("/")
                       for(let i=0; i<pathArray.length; i++){
@@ -605,53 +617,37 @@ export default class MenuBuilder {
                       }
                       this.mainWindow.setTitle(`${folderName} - PageBuilder`)
                       selectedFilePath = selectedfolderPath 
-                      isDirCopying = true;
-                      fs.readFile(files[0], (err, data)=>{
-                        if(err) {
-                          console.log(err)
-                          isDirCopying = false;
-                        }
-                        if(!err){
-                          this.editor.send('file-open', files[0])
-                          this.inspectorList(selectedfolderPath)
-                          isDirCopying = false;
-                        }
-                      })
-                    }
-                    else if(files[0].match(/(.css)$/)){
-                      pathArray = files[0].split("/")
-                      for(let i=0; i<pathArray.length; i++){
-                        if(pathArray[i].match(/(.css)$/)){
-                          selectedfolderPath = files[0].replace("/css/"+pathArray[i],'');
-                        }
+
+                      if(!isWorking){
+                        fs.readFile(files[0], (err, data) => {
+                          if(err) {
+                            console.log("failed to read html file", err)
+                          } else{
+                            console.log("open isWorking 03 => "+isWorking)
+                            isWorking = true;
+                            
+                            this.inspectorList(selectedfolderPath)
+                            this.editor.send('file-open', files[0])
+                          }
+                        })
+                      } else{
+                        console.log("Reading file...")
+                        return false;
                       }
-                      
-                      fs.copy(files[0], selectedfolderPath+"/css", (err) => {
-                        if(err){
-                          console.log(err)
-                        } else{
-                          this.inspectorList(selectedfolderPath)
-                        }
-                        
-                      })
-                    } 
-                    else if(files[0].match(/(.js)$/)){
-                      this.inspectorList(selectedfolderPath)
-                      fs.copy(files[0], selectedfolderPath+"/js", (err) => {
-                        if(err) console.log(err)
-                        else{
-                          this.inspectorList(selectedfolderPath)
-                        }
-                      })                  
-                    } 
-                  } else{
-                    //여러번 할 경우 MaxListenersExceededWarning 발생
-                    // this.mainWindow.webContents.reload();
+                    }
                   }
-                  saveOk = false;
+                  else if(files[0].match(/(.css)$/)){
+                    //ing...
+                  } 
+                  else if(files[0].match(/(.js)$/)){
+                    //ing...
+                  } 
+                } else{ //click cancle open
+                  console.log("Cancel Open")
                 }
-              );
-            }
+                saveOk = false;
+              }
+            );
           }
         },
         { type: osPlatform.subMenuFile.submenu[2].type },
@@ -659,7 +655,7 @@ export default class MenuBuilder {
           label: osPlatform.subMenuFile.submenu[3].label,
           accelerator: osPlatform.subMenuFile.submenu[3].accelerator,
           click: () => {
-            if (saveOk) { //새로운 파일을 저장할 경우
+            if (saveOk) { //save new file
               dialog.showSaveDialog(
                 {
                   properties: ['saveFile'],
@@ -668,15 +664,16 @@ export default class MenuBuilder {
                 },
                 files => {
                   if (files !== undefined) {
-                    fs.move(this.workingDirPath, files, (err) => {
-                      if(err) console.log(err);
-                      if(!err) {
+                    fs.move(this.workingDirPath, files, (err) => { //fs-extra
+                      if(err) {
+                        console.log("failed to move directory_save", err);
+                      } else {
                         saveMessage = true;
-                        console.log("save1 : "+files)
                         this.editor.send('html-save', files, saveMessage);
                       }
                     })
-                    //저장한 title로 app title 설정하는 부분
+
+                    //set app title
                     var pathArray = files.split("/")
                     var filename = pathArray[pathArray.length-1]
                     this.mainWindow.setTitle(`${filename} - PageBuilder`)
@@ -684,15 +681,14 @@ export default class MenuBuilder {
                     saveOk = false;
                     selectedFilePath = files;     
                   } 
-                  else{ //저장 다이얼로그에서 취소 클릭 시
-                    //여러번 할 경우 MaxListenersExceededWarning 발생
-                    // this.mainWindow.webContents.reload();
+                  else{ //click cancel save
+                    console.log("cancel save")
                     saveOk = true;
                     saveMessage = false;
                   }
                 }
               );
-            } else { //존재하는 파일에 덮어쓰기할 경우
+            } else { //save an existing file
               var pathArray1 = selectedFilePath.split("/")
               var text = ""
               for(var i=0; i<pathArray1.length-1; i++){
@@ -700,11 +696,11 @@ export default class MenuBuilder {
               }
               var titleArray = this.mainWindow.getTitle().split(" -")
               selectedFilePath = text+titleArray[0]
-              saveMessage = true;
-
               fs.readdir(selectedFilePath, (err, data)=>{
-                if(err) console.log(err)
-                if(!err){
+                if(err){
+                  console.log("failed to read directory_save", err)
+                } else{
+                  saveMessage = true;
                   this.editor.send('html-save', selectedFilePath, saveMessage);
                 }
               })
@@ -721,57 +717,46 @@ export default class MenuBuilder {
                 title: 'PageBuilder 다른이름으로 저장'
               },
               files => {
-                console.log("saveAs files : "+files)
                 saveOk = true;
-
                 if (files !== undefined) {
-                  fs.access(this.workingDirPath)
-                    .then(()=>{ //저장하지 않은 파일일 경우(처음부터 saveAs 눌렀을 때)
-                      fs.move(this.workingDirPath, files, (err) => {
-                        if(err) console.log(err)
-                        if(!err){
-                          selectedFilePath = files
-                          saveMessage = true
-                          console.log("saveAs1 : "+files)
-                          this.editor.send('html-save', selectedFilePath, saveMessage);
-                        }
-                      })
-
-                      //저장한 title로 app title 설정하는 부분
-                      var pathArray = files.split("/")
-                      var filename = pathArray[pathArray.length-1]
-                      this.mainWindow.setTitle(`${filename} - PageBuilder`)
-
-                    })
-                    .catch(()=>{ //이미 저장되어있는 파일일 경우(save한 상태에서 saveAs를 눌렀을 경우)
-                      console.log("==> select : "+selectedFilePath)
+                  if(this.workingDirPath == undefined){ this.workingDirPath = "" }
+                  fs.access(this.workingDirPath, fs.constants.F_OK, (err) => {
+                    if(err){ //saved files
                       fs.copy(selectedFilePath, files, (err) => {
-                        if(err) console.log(err);
-                        if(!err){
+                        if(err) {
+                          console.log("failed to copy directory_saveAs", err)
+                        } else{
                           saveMessage = true
 
-                          //저장한 title로 app title 설정하는 부분
                           var pathArray = files.split("/")
                           var filename = pathArray[pathArray.length-1]
                           this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
                           selectedFilePath = files
-                          console.log("saveAs2 : "+selectedFilePath)
                           this.editor.send('html-save', selectedFilePath, saveMessage);
                         }
                       })
-                      // dialog.showMessageBox(
-                      //   { message: "저장되었습니다.",
-                      //     buttons: ["확인"]
-                      //   }
-                      // );
-                    })
+                    } else{ //save new file
+                      fs.move(this.workingDirPath, files, (err) => {
+                        if(err) {
+                          console.log("failed to move directory_saveAs", err);
+                        } else{
+                          selectedFilePath = files
+                          saveMessage = true
 
+                          var pathArray = files.split("/")
+                          var filename = pathArray[pathArray.length-1]
+                          this.mainWindow.setTitle(`${filename} - PageBuilder`)
+
+                          this.editor.send('html-save', selectedFilePath, saveMessage);
+                        }
+                      })
+                    }
+                  })
                   saveOk = false;
-                }
-                else{                  
-                  //여러번 할 경우 MaxListenersExceededWarning 발생
-                  // this.mainWindow.webContents.reload();
+                } else{ //click cancel saveAs
+                  console.log("cancel saveAs")
+                  saveOk = false;
                 }
               }
             );
