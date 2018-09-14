@@ -486,16 +486,14 @@ export default class MenuBuilder {
 
     fs.access(dirPath+'/css' && dirPath+'/js' && dirPath+"/resources.json", fs.constants.F_OK, (err) => {
       if(err){
-        //404 Error
-        console.log("failed to access css or js or resources.json", err);
         // this.editor.send('error-occurred', "404Error");
-
         dialog.showMessageBox(
           {
             message : "리소스 파일이 존재하지 않습니다.",
             buttons : ["확인"]
           }
         )
+        isWorking = false;
       } else{
         fs.readFile(dirPath+"/resources.json", (err, data) => { 
           if(err) {
@@ -566,9 +564,8 @@ export default class MenuBuilder {
                   buttons: ["확인"]
                 }
               );
-              return false;
+              isWorking = false;
             } else{
-              console.log("진행을 시작합니다.")
               isOpen = false;
               isWorking = true;
               this.pbWebCheck(tempPath, count, isOpen);
@@ -600,7 +597,7 @@ export default class MenuBuilder {
                           buttons: ["확인"]
                         }
                       );
-                      return false;
+                      isWorking = false;
                     } else{
                       isOpen = true;
                       this.pbWebCheck(tempPath, count, isOpen);
@@ -620,24 +617,48 @@ export default class MenuBuilder {
                           if(err) {
                             console.log("failed to read html file", err)
                           } else{
-                            console.log("open isWorking 03 => "+isWorking)
                             isWorking = true;
-                            
                             this.inspectorList(selectedfolderPath)
                             this.editor.send('file-open', files[0])
                           }
                         })
                       } else{
                         console.log("Reading file...")
-                        return false;
+                        isWorking = false;
                       }
                     }
                   }
                   else if(files[0].match(/(.css)$/)){
-                    //ing...
+                    if(!isWorking){
+                      fs.readFile(files[0], (err, data) => {
+                        if(err) {
+                          console.log("failed to read css file", err)
+                        } else{
+                          isWorking = true;
+                          var nullData = ""
+                          this.editor.send("resources-open", nullData, files[0], nullData);
+                          isWorking = false;
+                        }
+                      })
+                      var cssSplitData = files[0].split("/")
+                      this.editor.send('add-resources', cssSplitData[cssSplitData.length-1], "");  
+                    }
                   } 
                   else if(files[0].match(/(.js)$/)){
-                    //ing...
+                    if(!isWorking){
+                      fs.readFile(files[0], (err, data) => {
+                        if(err) {
+                          console.log("failed to read js file", err)
+                        } else{
+                          isWorking = true;
+                          var nullData = ""
+                          this.editor.send("resources-open", nullData, nullData, files[0]);
+                          isWorking = false;
+                        }
+                      })
+                      var jsSplitData = files[0].split("/")
+                      this.editor.send('add-resources', "", jsSplitData[jsSplitData.length-1]);
+                    }
                   } 
                 } else{ //click cancle open
                   console.log("Cancel Open")

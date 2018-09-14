@@ -18,6 +18,14 @@ export default class WorkingTree extends React.Component{
         ipcRenderer.on('js-list', (event, jslist) => {
             this.InputJS(jslist)
         });
+
+        ipcRenderer.on('add-resources', (event, css, js) => {
+            if(css != null && js == ""){
+                this.setState({ cssList: this.state.cssList.concat(css) })
+            } else{
+                this.setState({ jsList: this.state.jsList.concat(js) })
+            }
+        })
     }
 
     InputCSS = theFileEntry => {

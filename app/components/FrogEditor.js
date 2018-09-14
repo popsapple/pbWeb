@@ -142,7 +142,6 @@ class FrogEditor extends React.Component {
 
     ipcRenderer.on('new-file', (event, filename) => {
       this.makeFileIntoEditor(filename);
-      console.log("FrogEditor new-file")
     });
 
     ipcRenderer.on('file-open', (event, filename) => {
@@ -150,13 +149,22 @@ class FrogEditor extends React.Component {
     });
 
     ipcRenderer.on('resources-open', (event, dirPath, cssfile, jsfile) => {
-      for(let i = 0; i < cssfile.length; i++){
-        var filepath = dirPath+cssfile[i];
-        this.readCSSIntoEditor(filepath);
-      }
-      for(let i = 0; i < jsfile.length; i++){
-        var filepath = dirPath+jsfile[i];
-        this.readJSIntoEditor(filepath);
+      if(cssfile != null && jsfile == ""){
+        console.log("<css> open resources")
+          this.readCSSIntoEditor(cssfile);
+      } else if(jsfile != null && cssfile == ""){
+        console.log("<js> open resources")
+          this.readJSIntoEditor(jsfile);
+      } else {
+        console.log("<html> open resources")
+        for(let i = 0; i < cssfile.length; i++){
+          var filepath = dirPath+cssfile[i];
+          this.readCSSIntoEditor(filepath);
+        }
+        for(let i = 0; i < jsfile.length; i++){
+          var filepath = dirPath+jsfile[i];
+          this.readJSIntoEditor(filepath);
+        }
       }
     });
 
