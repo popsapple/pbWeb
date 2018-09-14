@@ -398,7 +398,6 @@ export default class MenuBuilder {
 
     fs.access(pbWebPath, fs.constants.F_OK, (err) => {  //check if the file is readable.   
       if(err){ //pbweb folder does not exist
-        console.log("pbWeb 파일이 없을 경우")
         fs.mkdir(pbWebPath, (err) => { //create pbweb folder
           if(err){
             console.log("failed to create directory", err);
@@ -461,7 +460,6 @@ export default class MenuBuilder {
     isWorking = true;
 
     fs.access(untitledPath, fs.constants.F_OK, (err) => {
-      console.log("makeWorkingDir 01 => "+isWorking)
       if(!err){
         console.log("already exist folder", err);
         isWorking = false;
@@ -486,7 +484,6 @@ export default class MenuBuilder {
 
     isWorking = true;
 
-    console.log("inspectorList In")
     fs.access(dirPath+'/css' && dirPath+'/js' && dirPath+"/resources.json", fs.constants.F_OK, (err) => {
       if(err){
         //404 Error
