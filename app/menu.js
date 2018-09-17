@@ -3,6 +3,7 @@ import { buffer } from '../node_modules/rxjs/operators';
 const fs = require('fs-extra')
 import React from 'react';
 import { Link } from 'react-router-dom'
+import { Route } from 'react-router';
 
 let isWorking = false;
 
@@ -89,7 +90,7 @@ export default class MenuBuilder {
             },
             {
               "label": "Save as...",
-              "accelerator": "Command+A"
+              "accelerator": "Shift+Command+S"
             },
             {
               "label": "Print",
@@ -104,7 +105,7 @@ export default class MenuBuilder {
             },
             {
               "label": "Close",
-              "accelerator": "Command+W"
+              "accelerator": "Shift+Command+W"
             }
           ]
         },
@@ -401,10 +402,12 @@ export default class MenuBuilder {
         fs.mkdir(pbWebPath, (err) => { //create pbweb folder
           if(err){
             console.log("failed to create directory", err);
+            isWorking = false;
           } else{
             fs.readdir(pbWebPath, (err, files) => {
               if(err) {
                 console.log("failed to read directory1", err);
+                isWorking = false;
               } else {
                 count = 1;
                 if(!isOpen){
@@ -420,6 +423,7 @@ export default class MenuBuilder {
         fs.readdir(pbWebPath, (err, files) => {
           if(err) {
             console.log("failed to read directory2", err);
+            isWorking = false;
           } else {
             if(files.length != 0){
               var max = 0;
@@ -463,11 +467,15 @@ export default class MenuBuilder {
       if(!err){
         console.log("already exist folder", err);
         isWorking = false;
+        return false;
       } else{
         fs.copy(basicThemePath, untitledPath, (err) => { //fs-extra
           if(err){
             console.log("failed copy basic directory", err);
+            isWorking = false;
+            return false;
           } else{
+            this.selectedFilePath = untitledPath;
             this.workingDirPath = untitledPath;
             var htmlPath = untitledPath+"/index.html"
             this.editor.send('new-file', htmlPath);
@@ -486,6 +494,9 @@ export default class MenuBuilder {
 
     fs.access(dirPath+'/css' && dirPath+'/js' && dirPath+"/resources.json", fs.constants.F_OK, (err) => {
       if(err){
+        // const ErrorPage = ({match}) => {
+        //   return <h1>hello {match.params.Error} </h1>
+        // }
         // this.editor.send('error-occurred', "404Error");
         dialog.showMessageBox(
           {
@@ -498,6 +509,7 @@ export default class MenuBuilder {
         fs.readFile(dirPath+"/resources.json", (err, data) => { 
           if(err) {
             console.log("failed to read resources.json file", err);
+            isWorking = false;
           } else{
             var cssPathArray = []
             var jsPathArray = []
@@ -568,6 +580,7 @@ export default class MenuBuilder {
             } else{
               isOpen = false;
               isWorking = true;
+              saveOk = true;
               this.pbWebCheck(tempPath, count, isOpen);
             }
           }        
@@ -616,10 +629,12 @@ export default class MenuBuilder {
                         fs.readFile(files[0], (err, data) => {
                           if(err) {
                             console.log("failed to read html file", err)
+                            isWorking = false;
                           } else{
                             isWorking = true;
                             this.inspectorList(selectedfolderPath)
-                            this.editor.send('file-open', files[0])
+                            // this.editor.send('file-open', files[0])
+                            this.editor.send('file-open', data)
                           }
                         })
                       } else{
@@ -633,10 +648,17 @@ export default class MenuBuilder {
                       fs.readFile(files[0], (err, data) => {
                         if(err) {
                           console.log("failed to read css file", err)
+                          isWorking = false;
                         } else{
                           isWorking = true;
                           var nullData = ""
                           this.editor.send("resources-open", nullData, files[0], nullData);
+
+                          if(selectedFilePath != ""){
+                            selectedFilePath = selectedFilePath
+                          } else{
+                            selectedFilePath = this.workingDirPath
+                          }                          
                           isWorking = false;
                         }
                       })
@@ -649,10 +671,17 @@ export default class MenuBuilder {
                       fs.readFile(files[0], (err, data) => {
                         if(err) {
                           console.log("failed to read js file", err)
+                          isWorking = false;
                         } else{
                           isWorking = true;
                           var nullData = ""
                           this.editor.send("resources-open", nullData, nullData, files[0]);
+
+                          if(selectedFilePath != ""){
+                            selectedFilePath = selectedFilePath
+                          } else{
+                            selectedFilePath = this.workingDirPath
+                          }
                           isWorking = false;
                         }
                       })
@@ -685,6 +714,7 @@ export default class MenuBuilder {
                     fs.move(this.workingDirPath, files, (err) => { //fs-extra
                       if(err) {
                         console.log("failed to move directory_save", err);
+                        isWorking = false;
                       } else {
                         saveMessage = true;
                         this.editor.send('html-save', files, saveMessage);
@@ -717,6 +747,7 @@ export default class MenuBuilder {
               fs.readdir(selectedFilePath, (err, data)=>{
                 if(err){
                   console.log("failed to read directory_save", err)
+                  isWorking = false;
                 } else{
                   saveMessage = true;
                   this.editor.send('html-save', selectedFilePath, saveMessage);
@@ -743,9 +774,9 @@ export default class MenuBuilder {
                       fs.copy(selectedFilePath, files, (err) => {
                         if(err) {
                           console.log("failed to copy directory_saveAs", err)
+                          isWorking = false;
                         } else{
                           saveMessage = true
-
                           var pathArray = files.split("/")
                           var filename = pathArray[pathArray.length-1]
                           this.mainWindow.setTitle(`${filename} - PageBuilder`)
@@ -758,6 +789,7 @@ export default class MenuBuilder {
                       fs.move(this.workingDirPath, files, (err) => {
                         if(err) {
                           console.log("failed to move directory_saveAs", err);
+                          isWorking = false;
                         } else{
                           selectedFilePath = files
                           saveMessage = true

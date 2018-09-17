@@ -144,8 +144,8 @@ class FrogEditor extends React.Component {
       this.makeFileIntoEditor(filename);
     });
 
-    ipcRenderer.on('file-open', (event, filename) => {
-      this.readFileIntoEditor(filename);
+    ipcRenderer.on('file-open', (event, htmlcode) => {
+      this.readFileIntoEditor(htmlcode);
     });
 
     ipcRenderer.on('resources-open', (event, dirPath, cssfile, jsfile) => {
@@ -156,6 +156,9 @@ class FrogEditor extends React.Component {
         console.log("<js> open resources")
           this.readJSIntoEditor(jsfile);
       } else {
+        this.setState({
+          csslist: []
+        });
         console.log("<html> open resources")
         for(let i = 0; i < cssfile.length; i++){
           var filepath = dirPath+cssfile[i];
@@ -197,16 +200,8 @@ class FrogEditor extends React.Component {
     });
   };
   
-  readFileIntoEditor = theFileEntry => {
-    fs.readFile(theFileEntry.toString(), (err, data) => {
-      var htmlCode = data.toString()
-      if (err) {
-        console.log(`Read failed: ${err}`);
-      } else {
-        this.handleModelChange(String(data));
-
-      }
-    });
+  readFileIntoEditor = htmlcode => {
+    this.handleModelChange(htmlcode.toString())
   };
 
   readCSSIntoEditor = theFileEntry => {
@@ -240,9 +235,9 @@ class FrogEditor extends React.Component {
   };
 
   saveHTML = (theFileEntry, saveMessage) => {
-    console.log("theFileEntry: "+theFileEntry)
+    console.log("theFileEntry: "+theFileEntry) //folder path
     fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
-      if(err) {
+      if(err){
         console.log(`save failed: ${err}`);
       } else{
         alert("저장되었습니다.")
