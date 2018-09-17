@@ -6791,3 +6791,11 @@ button.close {
     pointer-events: none;
     text-align: center;
 }
+html {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+button, a {
+  pointer-events: none;
+}

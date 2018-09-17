@@ -44,6 +44,7 @@ class FrogEditor extends React.Component {
       htmlUntouched : true,
       codeMirror: window.CodeMirror,
       fullPage: true,     
+      toolbarSticky: false,
       quickInsertButtons: ['image', 'table'],
       lineBreakerTags: [
         'table',
