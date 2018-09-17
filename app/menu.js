@@ -1,10 +1,9 @@
 import { app, dialog, Menu, shell, ipcMain, ipcRenderer, BrowserWindow } from 'electron';
 import { buffer } from '../node_modules/rxjs/operators';
+const fs = require('fs-extra')
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router';
-const fs = require('fs-extra')
-const path = require('path');
 
 let isWorking = false;
 
@@ -23,11 +22,11 @@ export default class MenuBuilder {
 
     ipcMain.on('SelectEditComponent', (event, arg) => {
       event.sender.send('SelectEditComponent', arg); //event.sender
-    });
+    });     
   }
 
-  buildMenu() {
-    const option =
+  buildMenu() { 
+    const option = 
     {
       "mac": {
         "subMenuAbout": {
@@ -303,12 +302,12 @@ export default class MenuBuilder {
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
 
-    return menu;
+    return menu; 
   }
 
   setupDevelopmentEnvironment() {
     this.mainWindow.openDevTools();
-
+    
     this.mainWindow.webContents.on('context-menu', (e, props) => {
       const { x, y } = props;
 
@@ -393,12 +392,12 @@ export default class MenuBuilder {
     ];
   }
 
-  pbWebCheck = (tempPath, count, isOpen, cssArr, jsArr) => {
+  pbWebCheck = (tempPath, count, isOpen) => {
     process.platform === 'darwin' ? tempPath = tempPath : tempPath = tempPath.replace("\\","/")+"/"
 
     var pbWebPath = tempPath+"PbWeb"
 
-    fs.access(pbWebPath, fs.constants.F_OK, (err) => {  //check if the file is readable.
+    fs.access(pbWebPath, fs.constants.F_OK, (err) => {  //check if the file is readable.   
       if(err){ //pbweb folder does not exist
         fs.mkdir(pbWebPath, (err) => { //create pbweb folder
           if(err){
@@ -412,7 +411,7 @@ export default class MenuBuilder {
               } else {
                 count = 1;
                 if(!isOpen){
-                  this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
+                  this.makeWorkingDir(pbWebPath, count);
                 } else{
                   isWorking = false;
                 }
@@ -436,14 +435,14 @@ export default class MenuBuilder {
               }
               count = max+1;
               if(!isOpen){
-                this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
+                this.makeWorkingDir(pbWebPath, count);
               }else{
                 isWorking = false;
               }
             } else {
               count = 1;
               if(!isOpen){
-                this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
+                this.makeWorkingDir(pbWebPath, count);
               } else{
                 isWorking = false;
               }
@@ -454,11 +453,11 @@ export default class MenuBuilder {
     });
   }
 
-  makeWorkingDir = (pbWebPath, cnt, cssArr, jsArr) => {
+  makeWorkingDir = (pbWebPath, cnt) => {
     //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
-    var basicThemePath = __dirname+path.sep+"basicTheme";
+    var basicThemePath = __dirname+"/basicTheme";
     var appName = "untitled-"+cnt;
-    var untitledPath = pbWebPath+path.sep+appName;
+    var untitledPath = pbWebPath+"/"+appName;
 
     this.mainWindow.setTitle(`${appName} - PageBuilder`); //set app title
 
@@ -478,22 +477,22 @@ export default class MenuBuilder {
           } else{
             this.selectedFilePath = untitledPath;
             this.workingDirPath = untitledPath;
-            var htmlPath = untitledPath+path.sep+"index.html"
+            var htmlPath = untitledPath+"/index.html"
             this.editor.send('new-file', htmlPath);
-            this.inspectorList(untitledPath, cssArr, jsArr);
+            this.inspectorList(untitledPath);
           }
         })
       }
     })
   }
 
-  inspectorList = (dirPath, cssArr, jsArr) => {
+  inspectorList = (dirPath) => {
     var pureCssArray = []
     var pureJsArray = []
 
     isWorking = true;
 
-    fs.access(dirPath+path.sep+'css' && dirPath+path.sep+'js' && dirPath+path.sep+"resources.json", fs.constants.F_OK, (err) => {
+    fs.access(dirPath+'/css' && dirPath+'/js' && dirPath+"/resources.json", fs.constants.F_OK, (err) => {
       if(err){
         // const ErrorPage = ({match}) => {
         //   return <h1>hello {match.params.Error} </h1>
@@ -507,7 +506,7 @@ export default class MenuBuilder {
         )
         isWorking = false;
       } else{
-        fs.readFile(dirPath+path.sep+"resources.json", (err, data) => {
+        fs.readFile(dirPath+"/resources.json", (err, data) => { 
           if(err) {
             console.log("failed to read resources.json file", err);
             isWorking = false;
@@ -519,37 +518,35 @@ export default class MenuBuilder {
             var jsArray = []
 
             var parseData = JSON.parse(data)
-            var parseCSS = parseData.css  // ex)/css/bootstrap.css
+            var parseCSS = parseData.css
             var parseJS = parseData.js
 
-            this.editor.send("resources-open", dirPath, parseCSS, parseJS); //apply resources
-
+            this.editor.send("resources-open", dirPath, parseData.css, parseData.js); //apply resources
+           
             for(let i=0; i<parseCSS.length; i++){
               if(parseCSS[i].match(/(.css)$/)){
                 cssPathArray = cssPathArray.concat(parseCSS[i])
-                splitData = cssPathArray[i].split(path.sep)
+                splitData = cssPathArray[i].split("/")
                 cssArray = cssArray.concat(splitData[splitData.length-1])
-                cssArr.push(`<link rel="stylesheet" type="text/css" href="${parseData.css[i]}">`)
               }
             }
 
             for(let i=0; i<parseJS.length; i++){
               if(parseJS[i].match(/(.js)$/)){
                 jsPathArray = jsPathArray.concat(parseJS[i])
-                splitData = jsPathArray[i].split(path.sep)
+                splitData = jsPathArray[i].split("/")
                 jsArray = jsArray.concat(splitData[splitData.length-1])
-                jsArr.push(`<script type="text/javascript" src="${parseData.js[i]}"></script>`)
               }
             }
 
-            this.editor.send('css-list', cssArray);
-            this.editor.send('js-list', jsArray);
+            this.editor.send('css-list', cssArray);  
+            this.editor.send('js-list', jsArray); 
 
             isWorking = false;
           }
         })
       }
-    })
+    })    
   }
 
   buildTemplate(osPlatform, tempPath) {
@@ -557,10 +554,8 @@ export default class MenuBuilder {
     let selectedFilePath = '';
     var count = 1;
     var workingDirPath = "";
-    var isOpen = false;
+    var isOpen = false; 
     var saveMessage = true;
-    var cssArr = [];
-    var jsArr = [];
 
     if(process.platform === "darwin"){
       var returnArray = this.darwinAddMenu(osPlatform)
@@ -576,7 +571,7 @@ export default class MenuBuilder {
           click: () => {
             if(isWorking){
               dialog.showMessageBox(
-                {
+                { 
                   message: "현재 새로만들기 진행중입니다.",
                   buttons: ["확인"]
                 }
@@ -586,9 +581,9 @@ export default class MenuBuilder {
               isOpen = false;
               isWorking = true;
               saveOk = true;
-              this.pbWebCheck(tempPath, count, isOpen, cssArr, jsArr);
+              this.pbWebCheck(tempPath, count, isOpen);
             }
-          }
+          }        
         },
         { //open
           label: osPlatform.subMenuFile.submenu[1].label,
@@ -607,10 +602,10 @@ export default class MenuBuilder {
               },
               files => {
                 if (files !== undefined) { //click ok button
-                  if(files[0].match(/(.html)$/)){
+                  if(files[0].match(/(.html)$/)){                      
                     if(isWorking){
                       dialog.showMessageBox(
-                        {
+                        { 
                           message: "현재 열기 진행중입니다.",
                           buttons: ["확인"]
                         }
@@ -620,17 +615,15 @@ export default class MenuBuilder {
                       isOpen = true;
                       this.pbWebCheck(tempPath, count, isOpen);
 
-                      var pathArray = files[0].split(path.sep)
-                      console.log("split pathArray => "+pathArray)
-
+                      var pathArray = files[0].split("/")
                       for(let i=0; i<pathArray.length; i++){
                         if (pathArray[i].match(/(.html)$/)){
-                          var selectedfolderPath = files[0].replace(path.sep+pathArray[i],'');
+                          var selectedfolderPath = files[0].replace("/"+pathArray[i],'');
                           var folderName = pathArray[pathArray.length-2]
                         }
                       }
                       this.mainWindow.setTitle(`${folderName} - PageBuilder`)
-                      selectedFilePath = selectedfolderPath
+                      selectedFilePath = selectedfolderPath 
 
                       if(!isWorking){
                         fs.readFile(files[0], (err, data) => {
@@ -639,8 +632,8 @@ export default class MenuBuilder {
                             isWorking = false;
                           } else{
                             isWorking = true;
-                            console.log("selectedFilePath => "+selectedFilePath)
-                            this.inspectorList(selectedFilePath, cssArr, jsArr)
+                            this.inspectorList(selectedfolderPath)
+                            // this.editor.send('file-open', files[0])
                             this.editor.send('file-open', data)
                           }
                         })
@@ -665,14 +658,14 @@ export default class MenuBuilder {
                             selectedFilePath = selectedFilePath
                           } else{
                             selectedFilePath = this.workingDirPath
-                          }
+                          }                          
                           isWorking = false;
                         }
                       })
-                      var cssSplitData = files[0].split(path.sep)
-                      this.editor.send('add-resources', cssSplitData[cssSplitData.length-1], "");
+                      var cssSplitData = files[0].split("/")
+                      this.editor.send('add-resources', cssSplitData[cssSplitData.length-1], "");  
                     }
-                  }
+                  } 
                   else if(files[0].match(/(.js)$/)){
                     if(!isWorking){
                       fs.readFile(files[0], (err, data) => {
@@ -692,13 +685,12 @@ export default class MenuBuilder {
                           isWorking = false;
                         }
                       })
-                      var jsSplitData = files[0].split(path.sep)
+                      var jsSplitData = files[0].split("/")
                       this.editor.send('add-resources', "", jsSplitData[jsSplitData.length-1]);
                     }
-                  }
+                  } 
                 } else{ //click cancle open
                   console.log("Cancel Open")
-                  return false;
                 }
                 saveOk = false;
               }
@@ -719,38 +711,36 @@ export default class MenuBuilder {
                 },
                 files => {
                   if (files !== undefined) {
-                    fs.move(this.workingDirPath, files, {overwrite: true}, (err) => { //fs-extra
+                    fs.move(this.workingDirPath, files, (err) => { //fs-extra
                       if(err) {
                         console.log("failed to move directory_save", err);
                         isWorking = false;
                       } else {
                         saveMessage = true;
-                       // console.log("this.cssArr => "+cssArr)
-                        this.editor.send('html-save', files, cssArr, jsArr, saveMessage);
+                        this.editor.send('html-save', files, saveMessage);
                       }
                     })
 
                     //set app title
-                    var pathArray = files.split(path.sep)
+                    var pathArray = files.split("/")
                     var filename = pathArray[pathArray.length-1]
                     this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
                     saveOk = false;
-                    selectedFilePath = files;
-                  }
+                    selectedFilePath = files;     
+                  } 
                   else{ //click cancel save
                     console.log("cancel save")
                     saveOk = true;
                     saveMessage = false;
-                    return false;
                   }
                 }
               );
             } else { //save an existing file
-              var pathArray1 = selectedFilePath.split(path.sep)
+              var pathArray1 = selectedFilePath.split("/")
               var text = ""
               for(var i=0; i<pathArray1.length-1; i++){
-                text = text.concat(pathArray1[i]+path.sep)
+                text = text.concat(pathArray1[i]+"/")
               }
               var titleArray = this.mainWindow.getTitle().split(" -")
               selectedFilePath = text+titleArray[0]
@@ -760,7 +750,7 @@ export default class MenuBuilder {
                   isWorking = false;
                 } else{
                   saveMessage = true;
-                  this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                  this.editor.send('html-save', selectedFilePath, saveMessage);
                 }
               })
             }
@@ -787,12 +777,12 @@ export default class MenuBuilder {
                           isWorking = false;
                         } else{
                           saveMessage = true
-                          var pathArray = files.split(path.sep)
+                          var pathArray = files.split("/")
                           var filename = pathArray[pathArray.length-1]
                           this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
                           selectedFilePath = files
-                          this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                          this.editor.send('html-save', selectedFilePath, saveMessage);
                         }
                       })
                     } else{ //save new file
@@ -804,11 +794,11 @@ export default class MenuBuilder {
                           selectedFilePath = files
                           saveMessage = true
 
-                          var pathArray = files.split(path.sep)
+                          var pathArray = files.split("/")
                           var filename = pathArray[pathArray.length-1]
                           this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
-                          this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                          this.editor.send('html-save', selectedFilePath, saveMessage);
                         }
                       })
                     }
@@ -817,7 +807,6 @@ export default class MenuBuilder {
                 } else{ //click cancel saveAs
                   console.log("cancel saveAs")
                   saveOk = false;
-                  return false;
                 }
               }
             );
@@ -920,7 +909,7 @@ export default class MenuBuilder {
         returnArray[1],
         subMenuView,
         returnArray[2],
-        subMenuHelp
+        subMenuHelp   
       ];
     } else{
       return [

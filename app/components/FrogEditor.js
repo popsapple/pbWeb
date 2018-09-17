@@ -43,7 +43,7 @@ class FrogEditor extends React.Component {
       dragInline : true,
       htmlUntouched : true,
       codeMirror: window.CodeMirror,
-      fullPage: true,
+      fullPage: true,     
       toolbarSticky: false,
       quickInsertButtons: ['image', 'table'],
       lineBreakerTags: [
@@ -75,7 +75,7 @@ class FrogEditor extends React.Component {
           this.editor.selected_item = "";
           this.insert_html = "";
 
-          editor.events.on('dragover',dragEvent => {
+          editor.events.on('dragover',dragEvent => { 
             this.insert_html = this.store.store.dispatch(dragEditorHtml()).html;
             // Focus at the current posisiton.
             editor.markers.insertAtPoint(dragEvent.originalEvent);
@@ -107,7 +107,7 @@ class FrogEditor extends React.Component {
             this.editor.selected_item ?  $(this.editor.selected_item).addClass("fr-selected") : "";
           });
 
-          editor.events.on('dragstart',(ev,id) => {
+          editor.events.on('dragstart',(ev,id) => {  
             return false;
           })
 
@@ -155,40 +155,28 @@ class FrogEditor extends React.Component {
     ipcRenderer.on('resources-open', (event, dirPath, cssfile, jsfile) => {
       if(cssfile != null && jsfile == ""){
         console.log("<css> open resources")
-        this.readCSSIntoEditor(cssfile);
+          this.readCSSIntoEditor(cssfile);
       } else if(jsfile != null && cssfile == ""){
         console.log("<js> open resources")
           this.readJSIntoEditor(jsfile);
       } else {
-        console.log("<html> open resources")
         this.setState({
           csslist: []
         });
-        for(let i=0; i<cssfile.length; i++){
-          fs.access(dirPath+cssfile[i], (err)=>{
-            if(err){
-              alert("리소스 경로가 올바르지 않습니다.")
-              return false;
-            }else{
-              this.readCSSIntoEditor(dirPath+cssfile[i]);
-            }
-          })
+        console.log("<html> open resources")
+        for(let i = 0; i < cssfile.length; i++){
+          var filepath = dirPath+cssfile[i];
+          this.readCSSIntoEditor(filepath);
         }
-        for(let i=0; i<jsfile.length; i++){
-          fs.access(dirPath+jsfile[i], (err)=>{
-            if(err){
-              alert("리소스 경로가 올바르지 않습니다.")
-              return false;
-            }else{
-              this.readJSIntoEditor(dirPath+jsfile[i]);
-            }
-          })
+        for(let i = 0; i < jsfile.length; i++){
+          var filepath = dirPath+jsfile[i];
+          this.readJSIntoEditor(filepath);
         }
       }
     });
 
-    ipcRenderer.on('html-save', (event, filename, cssArr, jsArr, saveMessage) => {
-      this.saveHTML(filename, cssArr, jsArr, saveMessage);
+    ipcRenderer.on('html-save', (event, filename, saveMessage) => {
+      this.saveHTML(filename, saveMessage);
     });
   }
 
@@ -215,14 +203,13 @@ class FrogEditor extends React.Component {
       }
     });
   };
-
+  
   readFileIntoEditor = htmlcode => {
     this.handleModelChange(htmlcode.toString())
   };
 
   readCSSIntoEditor = theFileEntry => {
-    //theFileEntry : ex)/var/folders/8v/p5nf0gps3qb671xspfpr06dr0000gn/T/PbWeb/untitled-1/css/bootstrap.css
-    fs.readFile(theFileEntry.toString(), (err, data) => { // data : css source code
+    fs.readFile(theFileEntry.toString(), (err, data) => {
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
@@ -251,15 +238,9 @@ class FrogEditor extends React.Component {
     });
   };
 
-  saveHTML = (theFileEntry, cssArr, jsArr, saveMessage) => {
+  saveHTML = (theFileEntry, saveMessage) => {
     console.log("theFileEntry: "+theFileEntry) //folder path
-
-    var html = this.state.model.toString();
-    var head = html.split("</head>")
-    var resourcesTagCode = head[0].concat(cssArr+jsArr)
-    var insertTagHTML = resourcesTagCode.concat("</head>"+head[1])
-
-    fs.writeFile(theFileEntry+'/index.html', insertTagHTML, {overwrite: true}, (err) => {
+    fs.writeFile(theFileEntry+'/index.html', this.state.model, (err) => {
       if(err){
         console.log(`save failed: ${err}`);
       } else{
@@ -267,7 +248,7 @@ class FrogEditor extends React.Component {
       }
     });
   };
-
+  
   render() {
     this.store = this.context;
     return (
