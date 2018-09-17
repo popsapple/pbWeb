@@ -56,6 +56,7 @@ class FrogEditor extends React.Component {
         'td',
         'span' //a
       ],
+      htmlRemoveTags : [ 'script' , 'style' , 'link' ] ,
       paragraphStyles: FrogEditorStyles,
       iframeScriptFiles: [],
       iframeStyleFiles: this.state.csslist,
