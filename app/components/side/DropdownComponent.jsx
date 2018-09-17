@@ -37,8 +37,7 @@ export default class DropdownComponent extends React.Component implements Compon
     }
 
 	InsertCompomentEditor(){
-        console.log(this.store.store);
-        return this.store.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml())));
+        return this.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml())));
 		//return ipcRenderer.send('editor-drag', ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()));
 	}
 
@@ -52,7 +51,6 @@ export default class DropdownComponent extends React.Component implements Compon
 
 	DragEvent(type, event){
 		if(type == 'start'){
-			ipcRenderer.send('componentlist-drag', 'DropdownComponent');
 			this.InsertCompomentEditor(event);
 			var img = document.createElement("img");
 		    img.src = "";
@@ -90,7 +88,7 @@ export default class DropdownComponent extends React.Component implements Compon
     	return this.iconhml;
     }
     render(){
-        this.store = this.context;
+        this.store = this.context.store;
 		if(this.state.is_list){
 			return this.getIconHtml();
     	}else{

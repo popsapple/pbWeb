@@ -43,8 +43,8 @@ export default class ButtonToolbarComponent extends React.Component implements C
     }
 
 	InsertCompomentEditor(){
-            console.log(this.store.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()))).html);
-        return this.store.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml())));
+            console.log(this.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()))).html);
+        return this.store.dispatch(dropEditorHtml(ReactDOMServer.renderToStaticMarkup(this.getComponentHtml())));
 		//return ipcRenderer.send('editor-drag', ReactDOMServer.renderToStaticMarkup(this.getComponentHtml()));
 	}
 
@@ -92,7 +92,7 @@ export default class ButtonToolbarComponent extends React.Component implements C
     	return this.iconhml;
     }
     render(){
-        this.store = this.context;
+        this.store = this.context.store;
     	if(this.state.is_list){
 			return this.getIconHtml();
     	}else{

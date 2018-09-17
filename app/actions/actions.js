@@ -1,5 +1,6 @@
 export const DROPEDITORHTML = 'DROPEDITORHTML';
 export const DRAGEDITORHTML = 'DRAGEDITORHTML';
+export const SELECTDOCTYPE = 'SELECTDOCTYPE';
 
 let editor = {
 	dragitem: ""
@@ -19,5 +20,13 @@ export function dragEditorHtml() {
     return {
         type: DRAGEDITORHTML,
         html: editor.dragitem
+    };
+}
+
+export function selectDocType(doc) {
+    console.log("action SELECTDOCTYPE ");
+    return {
+        type: SELECTDOCTYPE,
+        docType: doc.docType
     };
 }
