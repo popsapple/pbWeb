@@ -27,7 +27,6 @@ export default class MenuBuilder {
 
     ipcMain.on('root-loaded', (event, arg) => {
       console.log(`[ipcMain] got message from menu ${arg}`);
-      // event.sender.send('error', arg);
     });
   }
 
@@ -485,14 +484,14 @@ export default class MenuBuilder {
             this.workingDirPath = untitledPath;
             var htmlPath = untitledPath+path.sep+"index.html"
             this.editor.send('new-file', htmlPath);
-            this.inspectorList(untitledPath, cssArr, jsArr);
+            this.inspectorList(untitledPath, untitledPath, cssArr, jsArr);
           }
         })
       }
     })
   }
 
-  inspectorList = (dirPath, cssArr, jsArr) => {
+  inspectorList = (dirPath, untitledPath, cssArr, jsArr) => {
     var pureCssArray = []
     var pureJsArray = []
 
@@ -501,12 +500,6 @@ export default class MenuBuilder {
     fs.access(dirPath+path.sep+'css' && dirPath+path.sep+'js' && dirPath+path.sep+"resources.json", fs.constants.F_OK, (err) => {
       if(err){
         this.editor.send('error-occurred', "/Error");
-        dialog.showMessageBox(
-          {
-            message : "리소스 파일이 존재하지 않습니다.",
-            buttons : ["확인"]
-          }
-        )
         isWorking = false;
       } else{
         fs.readFile(dirPath+path.sep+"resources.json", (err, data) => {
@@ -526,24 +519,35 @@ export default class MenuBuilder {
 
             this.editor.send("resources-open", dirPath, parseCSS, parseJS); //apply resources
 
+            var linkTag =""
             for(let i=0; i<parseCSS.length; i++){
               if(parseCSS[i].match(/(.css)$/)){
                 cssPathArray = cssPathArray.concat(parseCSS[i])
                 splitData = cssPathArray[i].split(path.sep)
                 cssArray = cssArray.concat(splitData[splitData.length-1])
-                
-                cssArr.push(`<link rel="stylesheet" type="text/css" href="${parseData.css[i]}">`)
+                if(dirPath == untitledPath){
+                  linkTag = linkTag.concat(`<link rel="stylesheet" type="text/css" href="${__dirname+path.sep+"basicTheme"+parseData.css[i]}">`)
+                } else{
+                  linkTag = linkTag.concat(`<link rel="stylesheet" type="text/css" href="${dirPath+parseData.css[i]}">`)
+                }
               }
             }
+            cssArr.push(linkTag)
 
+            var scriptTag =""
             for(let i=0; i<parseJS.length; i++){
               if(parseJS[i].match(/(.js)$/)){
                 jsPathArray = jsPathArray.concat(parseJS[i])
                 splitData = jsPathArray[i].split(path.sep)
                 jsArray = jsArray.concat(splitData[splitData.length-1])
-                jsArr.push(`<script type="text/javascript" src="${parseData.js[i]}"></script>`)
+                if(dirPath == untitledPath){
+                  scriptTag = scriptTag.concat(`<script type="text/javascript" src="${__dirname+path.sep+"basicTheme"+parseData.js[i]}"></script>`)
+                } else{
+                  scriptTag = scriptTag.concat(`<script type="text/javascript" src="${dirPath+parseData.js[i]}"></script>`)
+                }
               }
             }
+            jsArr.push(scriptTag)
 
             this.editor.send('css-list', cssArray);
             this.editor.send('js-list', jsArray);
@@ -577,6 +581,7 @@ export default class MenuBuilder {
           accelerator: osPlatform.subMenuFile.submenu[0].accelerator,
           selector: osPlatform.subMenuFile.submenu[0].selector,
           click: () => {
+            // this.history.push("/homePage")
             if(isWorking){
               dialog.showMessageBox(
                 {
@@ -621,11 +626,9 @@ export default class MenuBuilder {
                       isWorking = false;
                     } else{
                       isOpen = true;
-                      this.pbWebCheck(tempPath, count, isOpen);
+                      this.pbWebCheck(tempPath, count, isOpen, cssArr, jsArr);
 
                       var pathArray = files[0].split(path.sep)
-                      console.log("split pathArray => "+pathArray)
-
                       for(let i=0; i<pathArray.length; i++){
                         if (pathArray[i].match(/(.html)$/)){
                           var selectedfolderPath = files[0].replace(path.sep+pathArray[i],'');
@@ -642,9 +645,9 @@ export default class MenuBuilder {
                             isWorking = false;
                           } else{
                             isWorking = true;
-                            console.log("selectedFilePath => "+selectedFilePath)
-                            this.inspectorList(selectedFilePath, cssArr, jsArr)
+                            this.inspectorList(selectedFilePath, "", cssArr, jsArr)
                             this.editor.send('file-open', data)
+                            isWorking = false;
                           }
                         })
                       } else{
@@ -728,7 +731,6 @@ export default class MenuBuilder {
                         isWorking = false;
                       } else {
                         saveMessage = true;
-                       // console.log("this.cssArr => "+cssArr)
                         this.editor.send('html-save', files, cssArr, jsArr, saveMessage);
                       }
                     })

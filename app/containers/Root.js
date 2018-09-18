@@ -29,7 +29,7 @@ export default class Root extends Component {
     ipcRenderer.send('root-loaded', 'Root');
 
     ipcRenderer.on('error-occurred', (event, args) => {
-      this.history.push('/Error');
+      this.history.push(args);
     });
   }
 

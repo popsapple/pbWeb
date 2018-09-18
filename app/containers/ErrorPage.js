@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 export default class ErrorPage extends React.Component {
   constructor(){
@@ -9,7 +10,8 @@ export default class ErrorPage extends React.Component {
   render() {
     return (
         <div>
-          <h1>error page</h1>
+          <Link to="homePage">GO BACK HOME</Link>
+          <img src={require('../../app/404Error.jpg')} style={{ width: '100%', height: '100%' }}/>
         </div>
     );
   }
