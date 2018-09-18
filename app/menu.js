@@ -299,6 +299,7 @@ export default class MenuBuilder {
     }
     const macTempPath = process.env.TMPDIR
     const windowTempPath = process.env.Temp
+    console.log(macTempPath)
 
     const template =
       process.platform === 'darwin'
@@ -459,6 +460,8 @@ export default class MenuBuilder {
   }
 
   makeWorkingDir = (pbWebPath, cnt, cssArr, jsArr) => {
+    console.log("test01001")
+
     //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
     var basicThemePath = __dirname+path.sep+"basicTheme";
     var appName = "untitled-"+cnt;
@@ -645,7 +648,8 @@ export default class MenuBuilder {
                             isWorking = false;
                           } else{
                             isWorking = true;
-                            this.inspectorList(selectedFilePath, "", cssArr, jsArr)
+                            var nullData = ""
+                            this.inspectorList(selectedFilePath, nullData, cssArr, jsArr)
                             this.editor.send('file-open', data)
                             isWorking = false;
                           }
@@ -676,7 +680,8 @@ export default class MenuBuilder {
                         }
                       })
                       var cssSplitData = files[0].split(path.sep)
-                      this.editor.send('add-resources', cssSplitData[cssSplitData.length-1], "");
+                      var nullData = ""
+                      this.editor.send('add-resources', cssSplitData[cssSplitData.length-1], nullData);
                     }
                   }
                   else if(files[0].match(/(.js)$/)){
@@ -699,7 +704,8 @@ export default class MenuBuilder {
                         }
                       })
                       var jsSplitData = files[0].split(path.sep)
-                      this.editor.send('add-resources', "", jsSplitData[jsSplitData.length-1]);
+                      var nullData = ""
+                      this.editor.send('add-resources', nullData, jsSplitData[jsSplitData.length-1]);
                     }
                   }
                 } else{ //click cancle open

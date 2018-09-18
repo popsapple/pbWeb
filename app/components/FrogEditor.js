@@ -20,7 +20,6 @@ import { FrogEditorStyles } from './FrogEditorStyles';
 
 import PropTypes from 'prop-types';
 import { dragEditorHtml, dropEditorHtml } from '../actions/actions';
-import ErrorPage from '../containers/ErrorPage'
 
 class FrogEditor extends React.Component {
   constructor(props, context) {
@@ -154,13 +153,10 @@ class FrogEditor extends React.Component {
 
     ipcRenderer.on('resources-open', (event, dirPath, cssfile, jsfile) => {
       if(cssfile != null && jsfile == ""){
-        console.log("<css> open resources")
         this.readCSSIntoEditor(cssfile);
       } else if(jsfile != null && cssfile == ""){
-        console.log("<js> open resources")
-          this.readJSIntoEditor(jsfile);
+        this.readJSIntoEditor(jsfile);
       } else {
-        console.log("<html> open resources")
         this.setState({
           csslist: []
         });
