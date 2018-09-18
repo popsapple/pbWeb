@@ -27,6 +27,7 @@ export default class MenuBuilder {
 
     ipcMain.on('root-loaded', (event, arg) => {
       console.log(`[ipcMain] got message from menu ${arg}`);
+      this.sender = event.sender;
     });
   }
 
@@ -299,7 +300,6 @@ export default class MenuBuilder {
     }
     const macTempPath = process.env.TMPDIR
     const windowTempPath = process.env.Temp
-    console.log(macTempPath)
 
     const template =
       process.platform === 'darwin'
@@ -460,7 +460,7 @@ export default class MenuBuilder {
   }
 
   makeWorkingDir = (pbWebPath, cnt, cssArr, jsArr) => {
-    console.log("test01001")
+    console.log("mkdir 01")
 
     //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
     var basicThemePath = __dirname+path.sep+"basicTheme";
@@ -504,6 +504,7 @@ export default class MenuBuilder {
       if(err){
         this.editor.send('error-occurred', "/Error");
         isWorking = false;
+        return false;
       } else{
         fs.readFile(dirPath+path.sep+"resources.json", (err, data) => {
           if(err) {
@@ -551,7 +552,6 @@ export default class MenuBuilder {
               }
             }
             jsArr.push(scriptTag)
-
             this.editor.send('css-list', cssArray);
             this.editor.send('js-list', jsArray);
 
@@ -584,7 +584,7 @@ export default class MenuBuilder {
           accelerator: osPlatform.subMenuFile.submenu[0].accelerator,
           selector: osPlatform.subMenuFile.submenu[0].selector,
           click: () => {
-            // this.history.push("/homePage")
+            this.sender.send('click-file', "/homePage");
             if(isWorking){
               dialog.showMessageBox(
                 {
@@ -605,15 +605,16 @@ export default class MenuBuilder {
           label: osPlatform.subMenuFile.submenu[1].label,
           accelerator: osPlatform.subMenuFile.submenu[1].accelerator,
           click: () => {
+            this.sender.send('click-file', "/homePage");
             dialog.showOpenDialog(
               {
                 properties: ['openFile'],
                 title: 'PageBuilder 파일 열기',
                 filters: [
-                  { name: 'HTML', extensions: ['htm', 'html'] },
-                  { name: 'CSS', extensions: ['css'] },
-                  { name: 'Javascript', extensions: ['js'] },
-                  { name: 'All Files', extensions: ['*'] }
+                  { name: 'HTML', extensions: ['htm', 'html'] }
+                  // { name: 'CSS', extensions: ['css'] },
+                  // { name: 'Javascript', extensions: ['js'] },
+                  // { name: 'All Files', extensions: ['*'] }
                 ]
               },
               files => {
@@ -758,6 +759,7 @@ export default class MenuBuilder {
                 }
               );
             } else { //save an existing file
+              saveOk = false;
               var pathArray1 = selectedFilePath.split(path.sep)
               var text = ""
               for(var i=0; i<pathArray1.length-1; i++){
@@ -792,7 +794,7 @@ export default class MenuBuilder {
                   if(this.workingDirPath == undefined){ this.workingDirPath = "" }
                   fs.access(this.workingDirPath, fs.constants.F_OK, (err) => {
                     if(err){ //saved files
-                      fs.copy(selectedFilePath, files, (err) => {
+                      fs.copy(selectedFilePath, files, {overwrite: true}, (err) => {
                         if(err) {
                           console.log("failed to copy directory_saveAs", err)
                           isWorking = false;
@@ -807,7 +809,7 @@ export default class MenuBuilder {
                         }
                       })
                     } else{ //save new file
-                      fs.move(this.workingDirPath, files, (err) => {
+                      fs.move(this.workingDirPath, files, {overwrite: true}, (err) => {
                         if(err) {
                           console.log("failed to move directory_saveAs", err);
                           isWorking = false;

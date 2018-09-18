@@ -36,7 +36,7 @@ class FrogEditorView extends React.Component {
             resolve(); // fulfilled 
           }catch(err){
             console.log(err);
-            reject("failure reason"); // rejected
+            reject("failure reason"); // rejectedpreview-
           }
         });
 

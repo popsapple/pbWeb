@@ -29,8 +29,16 @@ export default class Root extends Component {
     ipcRenderer.send('root-loaded', 'Root');
 
     ipcRenderer.on('error-occurred', (event, args) => {
+      console.log(this.history)
       this.history.push(args);
     });
+
+    ipcRenderer.on('click-file', (event, arg) => {
+      console.log(this.history)
+      if(this.history.location.pathname != arg){
+        this.history.push(arg)
+      }
+    })
   }
 
   componentWillUnMount() {

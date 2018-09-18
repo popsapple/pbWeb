@@ -10,7 +10,6 @@ export default class ErrorPage extends React.Component {
   render() {
     return (
         <div>
-          <Link to="homePage">GO BACK HOME</Link>
           <img src={require('../../app/404Error.jpg')} style={{ width: '100%', height: '100%' }}/>
         </div>
     );

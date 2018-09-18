@@ -141,49 +141,29 @@ class FrogEditor extends React.Component {
   }
 
   componentWillMount() {
+    console.log("=== componentWillMount IN ===")
     ipcRenderer.send('editor-loaded', 'FrogEditor');
-
+    
     ipcRenderer.on('new-file', (event, filename) => {
+      console.log("new-file 001")
       this.makeFileIntoEditor(filename);
     });
 
     ipcRenderer.on('file-open', (event, htmlcode) => {
+      console.log("new-file 002")
       this.readFileIntoEditor(htmlcode);
     });
 
     ipcRenderer.on('resources-open', (event, dirPath, cssfile, jsfile) => {
-      if(cssfile != null && jsfile == ""){
-        this.readCSSIntoEditor(cssfile);
-      } else if(jsfile != null && cssfile == ""){
-        this.readJSIntoEditor(jsfile);
-      } else {
-        this.setState({
-          csslist: []
-        });
-        for(let i=0; i<cssfile.length; i++){
-          fs.access(dirPath+cssfile[i], (err)=>{
-            if(err){
-              alert("리소스 경로가 올바르지 않습니다.")
-              return false;
-            }else{
-              this.readCSSIntoEditor(dirPath+cssfile[i]);
-            }
-          })
-        }
-        for(let i=0; i<jsfile.length; i++){
-          fs.access(dirPath+jsfile[i], (err)=>{
-            if(err){
-              alert("리소스 경로가 올바르지 않습니다.")
-              return false;
-            }else{
-              this.readJSIntoEditor(dirPath+jsfile[i]);
-            }
-          })
-        }
-      }
+      console.log("new-file 003")
+      this.setState({
+        csslist: []
+      });
+      this.readResourcesFile(dirPath, cssfile, jsfile);
     });
 
     ipcRenderer.on('html-save', (event, filename, cssArr, jsArr, saveMessage) => {
+      console.log("new-file 004")
       this.saveHTML(filename, cssArr, jsArr, saveMessage);
     });
   }
@@ -217,8 +197,7 @@ class FrogEditor extends React.Component {
   };
 
   readCSSIntoEditor = theFileEntry => {
-    //theFileEntry : ex)/var/folders/8v/p5nf0gps3qb671xspfpr06dr0000gn/T/PbWeb/untitled-1/css/bootstrap.css
-    fs.readFile(theFileEntry.toString(), (err, data) => { // data : css source code
+    fs.readFile(theFileEntry.toString(), (err, data) => { //theFileEntry: css file path, data: css source code
       if (err) {
         console.log(`Read failed: ${err}`);
       } else {
@@ -246,6 +225,38 @@ class FrogEditor extends React.Component {
       }
     });
   };
+
+  readResourcesFile = (dirPath, cssfile, jsfile) => {
+    if(cssfile != null && jsfile == ""){
+      this.readCSSIntoEditor(cssfile);
+    } else if(jsfile != null && cssfile == ""){
+      this.readJSIntoEditor(jsfile);
+    } else {
+      // this.setState({
+      //   csslist: []
+      // });
+      for(let i=0; i<cssfile.length; i++){
+        fs.access(dirPath+cssfile[i], (err)=>{
+          if(err){
+            alert("리소스 경로가 올바르지 않습니다.")
+            return false;
+          }else{
+            this.readCSSIntoEditor(dirPath+cssfile[i]);
+          }
+        })
+      }
+      for(let i=0; i<jsfile.length; i++){
+        fs.access(dirPath+jsfile[i], (err)=>{
+          if(err){
+            alert("리소스 경로가 올바르지 않습니다.")
+            return false;
+          }else{
+            this.readJSIntoEditor(dirPath+jsfile[i]);
+          }
+        })
+      }
+    }
+  }
 
   saveHTML = (theFileEntry, cssArr, jsArr, saveMessage) => {
     console.log("theFileEntry: "+theFileEntry) //folder path
