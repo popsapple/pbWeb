@@ -24,6 +24,11 @@ export default class MenuBuilder {
     ipcMain.on('SelectEditComponent', (event, arg) => {
       event.sender.send('SelectEditComponent', arg); //event.sender
     });
+
+    ipcMain.on('root-loaded', (event, arg) => {
+      console.log(`[ipcMain] got message from menu ${arg}`);
+      // event.sender.send('error', arg);
+    });
   }
 
   buildMenu() {
@@ -495,10 +500,7 @@ export default class MenuBuilder {
 
     fs.access(dirPath+path.sep+'css' && dirPath+path.sep+'js' && dirPath+path.sep+"resources.json", fs.constants.F_OK, (err) => {
       if(err){
-        // const ErrorPage = ({match}) => {
-        //   return <h1>hello {match.params.Error} </h1>
-        // }
-        // this.editor.send('error-occurred', "404Error");
+        this.editor.send('error-occurred', "/Error");
         dialog.showMessageBox(
           {
             message : "리소스 파일이 존재하지 않습니다.",
@@ -529,6 +531,7 @@ export default class MenuBuilder {
                 cssPathArray = cssPathArray.concat(parseCSS[i])
                 splitData = cssPathArray[i].split(path.sep)
                 cssArray = cssArray.concat(splitData[splitData.length-1])
+                
                 cssArr.push(`<link rel="stylesheet" type="text/css" href="${parseData.css[i]}">`)
               }
             }
