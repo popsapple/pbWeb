@@ -12,10 +12,10 @@ export default class MenuBuilder {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
 
-    ipcMain.on('editor-loaded', (event, arg) => {
-      console.log(`[ipcMain] got message from menu ${arg}`);
-      this.editor = event.sender;
-    });
+    // ipcMain.on('editor-loaded', (event, arg) => {
+    //   console.log(`[ipcMain] got message from menu ${arg}`);
+    //   this.editor = event.sender;
+    // });
 
     /*ipcMain.on('componentlist-drag', (event, arg) => {
       event.sender.send('componentlist-draginsert', arg);
@@ -27,7 +27,8 @@ export default class MenuBuilder {
 
     ipcMain.on('root-loaded', (event, arg) => {
       console.log(`[ipcMain] got message from menu ${arg}`);
-      this.sender = event.sender;
+      // this.sender = event.sender;
+      this.editor = event.sender;
     });
   }
 
@@ -567,7 +568,8 @@ export default class MenuBuilder {
           accelerator: osPlatform.subMenuFile.submenu[0].accelerator,
           selector: osPlatform.subMenuFile.submenu[0].selector,
           click: () => {
-            this.sender.send('click-file', "/homePage");
+            // this.sender.send('click-file', "/homePage");
+            this.editor.send('click-file', "/homePage");
             if(isWorking){
               dialog.showMessageBox(
                 {
@@ -588,7 +590,7 @@ export default class MenuBuilder {
           label: osPlatform.subMenuFile.submenu[1].label,
           accelerator: osPlatform.subMenuFile.submenu[1].accelerator,
           click: () => {
-            this.sender.send('click-file', "/homePage");
+            this.editor.send('click-file', "/homePage");
             dialog.showOpenDialog(
               {
                 properties: ['openFile'],

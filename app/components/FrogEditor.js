@@ -89,7 +89,6 @@ class FrogEditor extends React.Component {
             }
             editor.html.insert("<span class='fr_drag_point'>drop here</span>");
 
-
             // Stop event propagation.
             dragEvent.preventDefault();
             dragEvent.stopPropagation();
@@ -141,7 +140,7 @@ class FrogEditor extends React.Component {
   }
 
   componentWillMount() {
-    ipcRenderer.send('editor-loaded', 'FrogEditor');
+    // ipcRenderer.send('editor-loaded', 'FrogEditor');
     
     ipcRenderer.on('new-file', (event, filename) => {
       this.makeFileIntoEditor(filename);
@@ -204,7 +203,7 @@ class FrogEditor extends React.Component {
         console.log("FrogEditor : read css error");
       }
     }catch(err){
-      console.log("readCSSIntoEditor error => "+ err);
+      console.log("readCSSIntoEditor error => "+err);
     }
     
   };
@@ -221,23 +220,30 @@ class FrogEditor extends React.Component {
         if(this.props){
           this.props.pbUpdateHandler();
         }else{
+
         }
       }else {
         console.log("FrogEditor : read js error");
       }
     }catch(err){
-      console.log("readJSIntoEditor error => "+ err);
+      console.log("readJSIntoEditor error => "+err);
     }
     
   };
 
   readResourcesFile = (dirPath, cssfile, jsfile) => {    
+    this.setState({
+      csslist: [],
+      jslist: []
+    });
+
     for(let i=0; i<cssfile.length; i++){
       try {
         fs.accessSync(dirPath+cssfile[i], fs.constants.R_OK | fs.constants.W_OK);
         this.readCSSIntoEditor(dirPath+cssfile[i]); //err
       } catch (err) {
-        console.log("readResourcesFile readCSSIntoEditor error => "+ err)
+        console.log("===== readResourcesFile readCSSIntoEditor error =====")
+        console.log(err)
         alert("리소스 경로가 올바르지 않습니다.")
         return false;
       }
@@ -248,7 +254,8 @@ class FrogEditor extends React.Component {
         fs.accessSync(dirPath+jsfile[i], fs.constants.R_OK | fs.constants.W_OK);
         this.readJSIntoEditor(dirPath+jsfile[i]); //err
       } catch (err) {
-        console.log("readResourcesFile readJSIntoEditor error => "+ err)
+        console.log("===== readResourcesFile readJSIntoEditor error =====")
+        console.log(err)
         alert("리소스 경로가 올바르지 않습니다.")
         return false;
       }

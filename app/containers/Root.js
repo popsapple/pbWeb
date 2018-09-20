@@ -29,15 +29,17 @@ export default class Root extends Component {
     ipcRenderer.send('root-loaded', 'Root');
 
     ipcRenderer.on('error-occurred', (event, args) => {
-      console.log(this.history)
+      console.log("error occurred in_replace")
       this.history.push(args);
-    });
-
-    ipcRenderer.on('click-file', (event, arg) => {
       console.log(this.history)
+    });
+  
+    ipcRenderer.on('click-file', (event, arg) => {
+      console.log("click-file!!")
       if(this.history.location.pathname != arg){
         this.history.push(arg)
       }
+      console.log(this.history)
     })
   }
 
