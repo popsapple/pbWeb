@@ -400,98 +400,84 @@ export default class MenuBuilder {
 
   pbWebCheck = (tempPath, count, isOpen, cssArr, jsArr) => {
     process.platform === 'darwin' ? tempPath = tempPath : tempPath = tempPath.replace("\\","/")+"/"
-
     var pbWebPath = tempPath+"PbWeb"
-
-    fs.access(pbWebPath, fs.constants.F_OK, (err) => {  //check if the file is readable.
-      if(err){ //pbweb folder does not exist
-        fs.mkdir(pbWebPath, (err) => { //create pbweb folder
-          if(err){
-            console.log("failed to create directory", err);
-            isWorking = false;
-          } else{
-            fs.readdir(pbWebPath, (err, files) => {
-              if(err) {
-                console.log("failed to read directory1", err);
-                isWorking = false;
-              } else {
-                count = 1;
-                if(!isOpen){
-                  this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
-                } else{
-                  isWorking = false;
-                }
-              }
-            })
+    try {
+      fs.accessSync(pbWebPath, fs.constants.R_OK | fs.constants.W_OK);
+      console.log('pbweb exists');
+      var readdirData = fs.readdirSync(pbWebPath) //readdirData : [ 'untitled-1' ]
+      if(readdirData.length != 0){
+        var max = 0;
+        for(var i=0; i<readdirData.length; i++){
+          if(readdirData[i].indexOf("untitled-") != -1){
+            var untitled = readdirData[i].split("-");
+            max < parseInt(untitled[1]) ? max = parseInt(untitled[1]) : '';
           }
-        })
-      } else { //pbweb folder exists
-        fs.readdir(pbWebPath, (err, files) => {
-          if(err) {
-            console.log("failed to read directory2", err);
-            isWorking = false;
-          } else {
-            if(files.length != 0){
-              var max = 0;
-              for(var i=0; i<files.length; i++){
-                if(files[i].indexOf("untitled-") != -1){
-                  var untitled = files[i].split("-");
-                  max < parseInt(untitled[1]) ? max = parseInt(untitled[1]) : '';
-                }
-              }
-              count = max+1;
-              if(!isOpen){
-                this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
-              }else{
-                isWorking = false;
-              }
-            } else {
-              count = 1;
-              if(!isOpen){
-                this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
-              } else{
-                isWorking = false;
-              }
-            }
-          }
-        })
+        }
+        count = max+1;
+        if(!isOpen){
+          this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
+        }else{
+          isWorking = false;
+        }
+      } else {
+        count = 1;
+        if(!isOpen){
+          this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
+        } else{
+          isWorking = false;
+        }
       }
-    });
+    } catch (err) {
+      console.log('pbweb does not exist');
+      var is_mkdir = fs.mkdirSync(pbWebPath)
+      if(is_mkdir == undefined){ //success
+        var readdirData = fs.readdirSync(pbWebPath)
+        if(readdirData.length != 0){
+          console.log("error")
+          isWorking = false;
+        } else{
+          count = 1;
+          if(!isOpen){
+            this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
+          } else{
+            isWorking = false;
+          }
+        }        
+      } else{ //fail
+        console.log("failed to create directory", err);
+        isWorking = false;
+      }
+    }
   }
 
   makeWorkingDir = (pbWebPath, cnt, cssArr, jsArr) => {
-    console.log("mkdir 01")
-
     //__dirname : 현재 디렉터리의 절대 경로를 제공하는 Node 변수. ex)/Users/clbeemac3/Documents/ReactElectron/app
     var basicThemePath = __dirname+path.sep+"basicTheme";
     var appName = "untitled-"+cnt;
     var untitledPath = pbWebPath+path.sep+appName;
 
     this.mainWindow.setTitle(`${appName} - PageBuilder`); //set app title
-
     isWorking = true;
-
-    fs.access(untitledPath, fs.constants.F_OK, (err) => {
-      if(!err){
-        console.log("already exist folder", err);
-        isWorking = false;
-        return false;
-      } else{
-        fs.copy(basicThemePath, untitledPath, (err) => { //fs-extra
-          if(err){
-            console.log("failed copy basic directory", err);
-            isWorking = false;
-            return false;
-          } else{
-            this.selectedFilePath = untitledPath;
-            this.workingDirPath = untitledPath;
-            var htmlPath = untitledPath+path.sep+"index.html"
-            this.editor.send('new-file', htmlPath);
-            this.inspectorList(untitledPath, untitledPath, cssArr, jsArr);
-          }
-        })
-      }
-    })
+    try {
+      fs.accessSync(untitledPath, fs.constants.R_OK | fs.constants.W_OK);
+      console.log("already exist untitled folder", err);
+      isWorking = false;
+      return false;
+    } catch (err) {
+      fs.copy(basicThemePath, untitledPath, (err) => { //fs-extra
+        if(err){
+          console.log("failed copy basic directory", err);
+          isWorking = false;
+          return false;
+        } else{
+          this.selectedFilePath = untitledPath;
+          this.workingDirPath = untitledPath;
+          var htmlPath = untitledPath+path.sep+"index.html"
+          this.editor.send('new-file', htmlPath);
+          this.inspectorList(untitledPath, untitledPath, cssArr, jsArr);
+        }
+      })
+    }
   }
 
   inspectorList = (dirPath, untitledPath, cssArr, jsArr) => {
@@ -499,67 +485,64 @@ export default class MenuBuilder {
     var pureJsArray = []
 
     isWorking = true;
+    try {
+      fs.accessSync(dirPath+path.sep+'css' && dirPath+path.sep+'js' && dirPath+path.sep+"resources.json", fs.constants.R_OK | fs.constants.W_OK);
+      var is_read = fs.readFileSync(dirPath+path.sep+"resources.json");
+        if(is_read){
+          var cssPathArray = []
+          var jsPathArray = []
+          var splitData = []
+          var cssArray = []
+          var jsArray = []
 
-    fs.access(dirPath+path.sep+'css' && dirPath+path.sep+'js' && dirPath+path.sep+"resources.json", fs.constants.F_OK, (err) => {
-      if(err){
-        this.editor.send('error-occurred', "/Error");
-        isWorking = false;
-        return false;
-      } else{
-        fs.readFile(dirPath+path.sep+"resources.json", (err, data) => {
-          if(err) {
-            console.log("failed to read resources.json file", err);
-            isWorking = false;
-          } else{
-            var cssPathArray = []
-            var jsPathArray = []
-            var splitData = []
-            var cssArray = []
-            var jsArray = []
+          var parseData = JSON.parse(is_read)
+          var parseCSS = parseData.css  // ex)/css/bootstrap.css
+          var parseJS = parseData.js
 
-            var parseData = JSON.parse(data)
-            var parseCSS = parseData.css  // ex)/css/bootstrap.css
-            var parseJS = parseData.js
-
-            this.editor.send("resources-open", dirPath, parseCSS, parseJS); //apply resources
-
-            var linkTag =""
-            for(let i=0; i<parseCSS.length; i++){
-              if(parseCSS[i].match(/(.css)$/)){
-                cssPathArray = cssPathArray.concat(parseCSS[i])
-                splitData = cssPathArray[i].split(path.sep)
-                cssArray = cssArray.concat(splitData[splitData.length-1])
-                if(dirPath == untitledPath){
-                  linkTag = linkTag.concat(`<link rel="stylesheet" type="text/css" href="${__dirname+path.sep+"basicTheme"+parseData.css[i]}">`)
-                } else{
-                  linkTag = linkTag.concat(`<link rel="stylesheet" type="text/css" href="${dirPath+parseData.css[i]}">`)
-                }
+          var linkTag = ""
+          for(let i=0; i<parseCSS.length; i++){
+            if(parseCSS[i].match(/(.css)$/)){
+              cssPathArray = cssPathArray.concat(parseCSS[i])
+              splitData = cssPathArray[i].split(path.sep)
+              cssArray = cssArray.concat(splitData[splitData.length-1])
+              if(dirPath == untitledPath){
+                linkTag += `<link rel="stylesheet" type="text/css" href="${__dirname+path.sep+"basicTheme"+parseData.css[i]}" />`;
+              } else{
+                linkTag += `<link rel="stylesheet" type="text/css" href="${dirPath+parseData.css[i]}" />`;
               }
             }
-            cssArr.push(linkTag)
-
-            var scriptTag =""
-            for(let i=0; i<parseJS.length; i++){
-              if(parseJS[i].match(/(.js)$/)){
-                jsPathArray = jsPathArray.concat(parseJS[i])
-                splitData = jsPathArray[i].split(path.sep)
-                jsArray = jsArray.concat(splitData[splitData.length-1])
-                if(dirPath == untitledPath){
-                  scriptTag = scriptTag.concat(`<script type="text/javascript" src="${__dirname+path.sep+"basicTheme"+parseData.js[i]}"></script>`)
-                } else{
-                  scriptTag = scriptTag.concat(`<script type="text/javascript" src="${dirPath+parseData.js[i]}"></script>`)
-                }
-              }
-            }
-            jsArr.push(scriptTag)
-            this.editor.send('css-list', cssArray);
-            this.editor.send('js-list', jsArray);
-
-            isWorking = false;
           }
-        })
-      }
-    })
+          cssArr.push(linkTag)
+
+          var scriptTag =""
+          for(let i=0; i<parseJS.length; i++){
+            if(parseJS[i].match(/(.js)$/)){
+              jsPathArray = jsPathArray.concat(parseJS[i])
+              splitData = jsPathArray[i].split(path.sep)
+              jsArray = jsArray.concat(splitData[splitData.length-1])
+              if(dirPath == untitledPath){
+                scriptTag += `<script type="text/javascript" src="${__dirname+path.sep+"basicTheme"+parseData.js[i]}"></script>`;
+              } else{
+                scriptTag += `<script type="text/javascript" src="${dirPath+parseData.js[i]}"></script>`;
+              }
+            }
+          }
+          jsArr.push(scriptTag)
+
+          this.editor.send("resources-open", dirPath, parseCSS, parseJS); //apply resources
+          this.editor.send('css-list', cssArray);
+          this.editor.send('js-list', jsArray);
+
+          isWorking = false;
+        }else{
+          console.log("failed to read resources.json file");
+          isWorking = false;
+        }
+    } catch (err) {
+      this.editor.send('error-occurred', "/Error");
+      isWorking = false;
+      return false;
+    }
   }
 
   buildTemplate(osPlatform, tempPath) {
@@ -612,9 +595,6 @@ export default class MenuBuilder {
                 title: 'PageBuilder 파일 열기',
                 filters: [
                   { name: 'HTML', extensions: ['htm', 'html'] }
-                  // { name: 'CSS', extensions: ['css'] },
-                  // { name: 'Javascript', extensions: ['js'] },
-                  // { name: 'All Files', extensions: ['*'] }
                 ]
               },
               files => {
@@ -643,70 +623,21 @@ export default class MenuBuilder {
                       selectedFilePath = selectedfolderPath
 
                       if(!isWorking){
-                        fs.readFile(files[0], (err, data) => {
-                          if(err) {
-                            console.log("failed to read html file", err)
-                            isWorking = false;
-                          } else{
-                            isWorking = true;
-                            var nullData = ""
-                            this.inspectorList(selectedFilePath, nullData, cssArr, jsArr)
-                            this.editor.send('file-open', data)
-                            isWorking = false;
-                          }
-                        })
+                        var is_read = fs.readFileSync(files[0]);
+                        if(is_read){
+                          isWorking = true;
+                          var nullData = ""
+                          this.inspectorList(selectedFilePath, nullData, cssArr, jsArr)
+                          this.editor.send('file-open', is_read)
+                          isWorking = false;
+                        }else{
+                          console.log("failed to read html file");
+                          isWorking = false;
+                        }
                       } else{
                         console.log("Reading file...")
                         isWorking = false;
                       }
-                    }
-                  }
-                  else if(files[0].match(/(.css)$/)){
-                    if(!isWorking){
-                      fs.readFile(files[0], (err, data) => {
-                        if(err) {
-                          console.log("failed to read css file", err)
-                          isWorking = false;
-                        } else{
-                          isWorking = true;
-                          var nullData = ""
-                          this.editor.send("resources-open", nullData, files[0], nullData);
-
-                          if(selectedFilePath != ""){
-                            selectedFilePath = selectedFilePath
-                          } else{
-                            selectedFilePath = this.workingDirPath
-                          }
-                          isWorking = false;
-                        }
-                      })
-                      var cssSplitData = files[0].split(path.sep)
-                      var nullData = ""
-                      this.editor.send('add-resources', cssSplitData[cssSplitData.length-1], nullData);
-                    }
-                  }
-                  else if(files[0].match(/(.js)$/)){
-                    if(!isWorking){
-                      fs.readFile(files[0], (err, data) => {
-                        if(err) {
-                          console.log("failed to read js file", err)
-                          isWorking = false;
-                        } else{
-                          isWorking = true;
-                          var nullData = ""
-                          this.editor.send("resources-open", nullData, nullData, files[0]);
-
-                          if(selectedFilePath != ""){
-                            selectedFilePath = selectedFilePath
-                          } else{
-                            selectedFilePath = this.workingDirPath
-                          }
-                          isWorking = false;
-                        }
-                      })
-                      var jsSplitData = files[0].split(path.sep)
-                      var nullData = ""
-                      this.editor.send('add-resources', nullData, jsSplitData[jsSplitData.length-1]);
                     }
                   }
                 } else{ //click cancle open
@@ -741,7 +672,6 @@ export default class MenuBuilder {
                         this.editor.send('html-save', files, cssArr, jsArr, saveMessage);
                       }
                     })
-
                     //set app title
                     var pathArray = files.split(path.sep)
                     var filename = pathArray[pathArray.length-1]
@@ -767,15 +697,16 @@ export default class MenuBuilder {
               }
               var titleArray = this.mainWindow.getTitle().split(" -")
               selectedFilePath = text+titleArray[0]
-              fs.readdir(selectedFilePath, (err, data)=>{
-                if(err){
-                  console.log("failed to read directory_save", err)
-                  isWorking = false;
-                } else{
-                  saveMessage = true;
-                  this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
-                }
-              })
+
+              var readdirData = fs.readdirSync(selectedFilePath)
+              if(readdirData.length != 0){
+                saveMessage = true;
+                this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                isWorking = false;
+              } else{
+                console.log("failed to read directory_save", err)
+                isWorking = false;
+              }
             }
           }
         },
@@ -792,40 +723,39 @@ export default class MenuBuilder {
                 saveOk = true;
                 if (files !== undefined) {
                   if(this.workingDirPath == undefined){ this.workingDirPath = "" }
-                  fs.access(this.workingDirPath, fs.constants.F_OK, (err) => {
-                    if(err){ //saved files
-                      fs.copy(selectedFilePath, files, {overwrite: true}, (err) => {
-                        if(err) {
-                          console.log("failed to copy directory_saveAs", err)
-                          isWorking = false;
-                        } else{
-                          saveMessage = true
-                          var pathArray = files.split(path.sep)
-                          var filename = pathArray[pathArray.length-1]
-                          this.mainWindow.setTitle(`${filename} - PageBuilder`)
+                  try { //save new file
+                    fs.accessSync(this.workingDirPath, fs.constants.R_OK | fs.constants.W_OK);
+                    fs.move(this.workingDirPath, files, {overwrite: true}, (err) => {
+                      if(err) {
+                        console.log("failed to move directory_saveAs", err);
+                        isWorking = false;
+                      } else{
+                        selectedFilePath = files
+                        saveMessage = true
 
-                          selectedFilePath = files
-                          this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
-                        }
-                      })
-                    } else{ //save new file
-                      fs.move(this.workingDirPath, files, {overwrite: true}, (err) => {
-                        if(err) {
-                          console.log("failed to move directory_saveAs", err);
-                          isWorking = false;
-                        } else{
-                          selectedFilePath = files
-                          saveMessage = true
+                        var pathArray = files.split(path.sep)
+                        var filename = pathArray[pathArray.length-1]
+                        this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
-                          var pathArray = files.split(path.sep)
-                          var filename = pathArray[pathArray.length-1]
-                          this.mainWindow.setTitle(`${filename} - PageBuilder`)
+                        this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                      }
+                    })
+                  } catch (err) { //saved files
+                    fs.copy(selectedFilePath, files, {overwrite: true}, (err) => {
+                      if(err) {
+                        console.log("failed to copy directory_saveAs", err)
+                        isWorking = false;
+                      } else{
+                        saveMessage = true
+                        var pathArray = files.split(path.sep)
+                        var filename = pathArray[pathArray.length-1]
+                        this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
-                          this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
-                        }
-                      })
-                    }
-                  })
+                        selectedFilePath = files
+                        this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                      }
+                    })
+                  }
                   saveOk = false;
                 } else{ //click cancel saveAs
                   console.log("cancel saveAs")
