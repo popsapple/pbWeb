@@ -87,12 +87,10 @@ app.on('ready', async () => {
   var count = parseInt(BrowserWindow.getAllWindows().length)
   if(count == 1){
     if(process.platform == "darwin"){
-      console.log("mac")
       fs.remove(process.env.TMPDIR+'PbWeb', err => {
         if(err) return console.log(err)
       })
     } else {
-      console.log("window")
       var tempPath = process.env.Temp.replace("\\","/")+"/"
       fs.remove(tempPath+'PbWeb', err => {
         if(err) return console.log(err)

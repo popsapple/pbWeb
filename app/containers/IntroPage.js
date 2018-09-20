@@ -14,6 +14,10 @@ export default class IntroPage extends Component {
     this.store.store.dispatch(selectDocType({docType: event.target.value}));
   }
 
+  newFile(){
+    console.log("intro new file in!!!")
+  }
+
   render() {
     this.store = this.context;
     return (
@@ -41,11 +45,12 @@ export default class IntroPage extends Component {
             <h3>티셔츠</h3>
           </li>
         </ul>
-        <Link to="homePage">시작하기</Link>
+        <Link to="homePage" onClick={this.newFile.bind(this)}>시작하기</Link>
       </div>
     );
-}
   }
+}
+
 IntroPage.contextTypes = {
     store: PropTypes.object
 }

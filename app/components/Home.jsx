@@ -6,9 +6,6 @@ import { SampleConsumer } from '../context';
 export default class Home extends Component {
    constructor(){
     super();
-    this.state = {
-      refresh: true
-    }
     this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
   };
   forceUpdateHandler(){

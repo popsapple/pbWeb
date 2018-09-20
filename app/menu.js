@@ -12,11 +12,6 @@ export default class MenuBuilder {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
 
-    // ipcMain.on('editor-loaded', (event, arg) => {
-    //   console.log(`[ipcMain] got message from menu ${arg}`);
-    //   this.editor = event.sender;
-    // });
-
     /*ipcMain.on('componentlist-drag', (event, arg) => {
       event.sender.send('componentlist-draginsert', arg);
     }); */
@@ -399,7 +394,7 @@ export default class MenuBuilder {
     ];
   }
 
-  pbWebCheck = (tempPath, count, isOpen, cssArr, jsArr) => {
+  pbWebCheck = (tempPath, count = 1, isOpen = false, cssArr = [], jsArr = []) => {
     process.platform === 'darwin' ? tempPath = tempPath : tempPath = tempPath.replace("\\","/")+"/"
     var pbWebPath = tempPath+"PbWeb"
     try {
@@ -416,15 +411,19 @@ export default class MenuBuilder {
         }
         count = max+1;
         if(!isOpen){
+          console.log("pbweb 01")
           this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
         }else{
+          console.log("pbweb 02")
           isWorking = false;
         }
       } else {
         count = 1;
         if(!isOpen){
+          console.log("pbweb 03")
           this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
         } else{
+          console.log("pbweb 04")
           isWorking = false;
         }
       }
@@ -474,6 +473,7 @@ export default class MenuBuilder {
           this.selectedFilePath = untitledPath;
           this.workingDirPath = untitledPath;
           var htmlPath = untitledPath+path.sep+"index.html"
+          console.log("new check!!!!!")
           this.editor.send('new-file', htmlPath);
           this.inspectorList(untitledPath, untitledPath, cssArr, jsArr);
         }
@@ -568,7 +568,6 @@ export default class MenuBuilder {
           accelerator: osPlatform.subMenuFile.submenu[0].accelerator,
           selector: osPlatform.subMenuFile.submenu[0].selector,
           click: () => {
-            // this.sender.send('click-file', "/homePage");
             this.editor.send('click-file', "/homePage");
             if(isWorking){
               dialog.showMessageBox(
@@ -629,8 +628,12 @@ export default class MenuBuilder {
                         if(is_read){
                           isWorking = true;
                           var nullData = ""
-                          this.inspectorList(selectedFilePath, nullData, cssArr, jsArr)
-                          this.editor.send('file-open', is_read)
+                          var returnData = this.inspectorList(selectedFilePath, nullData, cssArr, jsArr)
+                          console.log("inspector return => "+returnData)
+                          if(returnData != false){
+                            console.log("is undefined!!")
+                            this.editor.send('file-open', is_read)
+                          }
                           isWorking = false;
                         }else{
                           console.log("failed to read html file");
