@@ -140,8 +140,6 @@ class FrogEditor extends React.Component {
   }
 
   componentWillMount() {
-    // ipcRenderer.send('editor-loaded', 'FrogEditor');
-    
     ipcRenderer.on('new-file', (event, filename) => {
       this.makeFileIntoEditor(filename);
     });
@@ -186,6 +184,7 @@ class FrogEditor extends React.Component {
   };
 
   readCSSIntoEditor = theFileEntry => {
+
     try{
       var cssCode = fs.readFileSync(theFileEntry.toString());
       if(cssCode){
@@ -197,7 +196,6 @@ class FrogEditor extends React.Component {
         if(this.props){
           this.props.pbUpdateHandler();
         }else{
-
         }
       }else {
         console.log("FrogEditor : read css error");
@@ -218,24 +216,29 @@ class FrogEditor extends React.Component {
         this.config.iframeScriptFiles = this.state.jslist;
         this.key_item += 1;
         if(this.props){
+          console.log("js props 01")
           this.props.pbUpdateHandler();
         }else{
-
         }
       }else {
         console.log("FrogEditor : read js error");
       }
     }catch(err){
       console.log("readJSIntoEditor error => "+err);
-    }
-    
+    }    
   };
 
-  readResourcesFile = (dirPath, cssfile, jsfile) => {    
+  readResourcesFile = (dirPath, cssfile, jsfile) => { 
     this.setState({
       csslist: [],
       jslist: []
     });
+
+    try{
+      this.editor.destroy();
+    }catch(err){
+      console.log("hey!"+err);
+    }
 
     for(let i=0; i<cssfile.length; i++){
       try {
@@ -271,6 +274,7 @@ class FrogEditor extends React.Component {
 
     var write = fs.writeFileSync(theFileEntry+'/index.html', insertTagHTML, {overwrite: true})
     if(write == undefined){
+      console.log("savehtml success")
       alert("저장되었습니다.")
     } else{
       console.log(`save failed: ${err}`);
