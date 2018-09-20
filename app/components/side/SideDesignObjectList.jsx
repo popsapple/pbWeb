@@ -7,15 +7,20 @@ import { connect } from 'react-redux';
 import DropdownComponent from './DropdownComponent';
 import ButtonToolbarComponent from './ButtonToolbarComponent';
 
+import SearchThemeList from './SearchThemeList';
 
 import ThemeControllbutton from './ThemeControllbutton';
 import TemplateList from './TemplateList';
-import ComponentLogo from './ComponentLogo';
-import ComponentCompanyName from './ComponentCompanyName';
-import ComponentTelLink from './ComponentTelLink';
+import ComponentImage from './ComponentImage';
+import ComponentLayout from './ComponentLayout';
+import ComponentGird from './ComponentGird';
+import ComponentLine from './ComponentLine';
+import ComponentPolygon from './ComponentPolygon';
+import ComponentChart from './ComponentChart';
+import TemplateListGroup from './TemplateListGroup';
 
 
-export default class SideComponentList extends React.Component {
+export default class SideDesignObjectList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,11 +40,12 @@ export default class SideComponentList extends React.Component {
                         <TemplateList type='namecard_template_style05' key={Math.random()} name='세로형템플릿02' />
                     ],
                     componentList: [
-                        <ComponentLogo type='namecard_logo_style01' key={Math.random()} />,
-                        <ComponentLogo type='namecard_logo_style02' key={Math.random()} />,
-                        <ComponentLogo type='namecard_logo_style03' key={Math.random()} />,
-                        <ComponentCompanyName type='namecard_companyname_style01' key={Math.random()} />,
-                        <ComponentTelLink type='namecard_tellink_style01' key={Math.random()} />
+                        <ComponentImage type='is_title component_image' key={Math.random()} />,
+                        <ComponentGird type='is_title component_grid' key={Math.random()} />,
+                        <ComponentPolygon type='is_title component_polygon' key={Math.random()} />,
+                        <ComponentLine type='is_title component_line' key={Math.random()} />,
+                        <ComponentChart type='is_title component_chart' key={Math.random()} />,
+                        <ComponentLayout type='is_title component_layout' key={Math.random()} />
                     ]
                 },
                 {
@@ -53,8 +59,12 @@ export default class SideComponentList extends React.Component {
                         <TemplateList type='namecard_template_style07' key={Math.random()} name='가로형템플릿02' />
                     ],
                     componentList: [
-                        <ComponentLogo type='namecard_logo_style04' key={Math.random()} />,
-                        <ComponentTelLink type='namecard_tellink_style02' key={Math.random()} />
+                        <ComponentImage type='is_title component_image' key={Math.random()} />,
+                        <ComponentGird type='is_title component_grid' key={Math.random()} />,
+                        <ComponentPolygon type='is_title component_polygon' key={Math.random()} />,
+                        <ComponentLine type='is_title component_line' key={Math.random()} />,
+                        <ComponentChart type='is_title component_chart' key={Math.random()} />,
+                        <ComponentLayout type='is_title component_layout' key={Math.random()} />
                     ]
                 },
                 {
@@ -68,8 +78,12 @@ export default class SideComponentList extends React.Component {
                         <TemplateList type='namecard_template_style09' key={Math.random()} name='가로형템플릿02' />
                     ],
                     componentList: [
-                        <ComponentLogo type='namecard_logo_style05' key={Math.random()} />,
-                        <ComponentTelLink type='namecard_tellink_style03' key={Math.random()} />
+                        <ComponentImage type='is_title component_image' key={Math.random()} />,
+                        <ComponentGird type='is_title component_grid' key={Math.random()} />,
+                        <ComponentPolygon type='is_title component_polygon' key={Math.random()} />,
+                        <ComponentLine type='is_title component_line' key={Math.random()} />,
+                        <ComponentChart type='is_title component_chart' key={Math.random()} />,
+                        <ComponentLayout type='is_title component_layout' key={Math.random()} />
                     ]
                 }
             ]
@@ -77,36 +91,26 @@ export default class SideComponentList extends React.Component {
 
         this.selected_theme = this.state.themes[this.state.selectedThemeIdx];
     }
+
+    SearchTheme(idx){
+        this.setState({
+            selectedThemeIdx : idx
+        },()=>{
+            this.setState({
+                selectedThemeIdx : idx
+            });
+            this.selected_theme = this.state.themes[this.state.selectedThemeIdx];
+        });
+    }
 	render(){
         this.store = this.context;
         return (
             <div>
-                <div className="controller_box">
-                    <ul className="controller_list">
-                        <li>
-                            <button>Theme</button>
-                        </li>
-                        <li>
-                            <button>Component</button>
-                        </li>
-                        {/*<li>
-                            <button>Background</button>
-                        </li>
-                        <li>
-                            <button>Share</button>
-                        </li>*/}
-                    </ul>
+                <div className="themeslist_box list_box active">
+                    <SearchThemeList ChangeList={this.SearchTheme.bind(this)} />
+                    <TemplateListGroup list={this.selected_theme.templateList} />
                 </div>
-                <div className="themeslist_box">
-                    <ul>
-                        {
-                            this.selected_theme.templateList.map((arr,idx)=>{
-                                return (arr);
-                            })
-                        }
-                    </ul>
-                </div>
-                <div className="componentlist_box">
+                <div className="componentlist_box list_box">
                     <ul>
                         {
                             this.selected_theme.componentList.map((arr,idx)=>{
@@ -119,6 +123,6 @@ export default class SideComponentList extends React.Component {
         )
     }
 }
-SideComponentList.contextTypes = {
+SideDesignObjectList.contextTypes = {
     store: PropTypes.object
 }

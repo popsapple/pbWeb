@@ -1,6 +1,30 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./../resources/css/font/font";
+@import './../resources/css/froala_style.min.css';
+
+$color_green: #99c432;
+$color_orange: #fc4d1e;
+$color_whitegray: #efefef;
+$color_graybg: #3f4652;
+$color_mint: #00c4cc;
+$color_fontgray: #505660;
+$color_fontwhite: #ffffff;
+
+@mixin gradient($from: #00c4cc, $to: #7d2ae8) {
+  /* fallback/image non-cover color */
+  background-color: $from;
+  /* Firefox 3.6+ */
+  background-image: -moz-linear-gradient($from, $to);
+  /* Safari 4+, Chrome 1+ */
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
+  /* Safari 5.1+, Chrome 10+ */
+  background-image: -webkit-linear-gradient($from, $to);
+  /* Opera 11.10+ */
+  background-image: -o-linear-gradient($from, $to);
+}
+
 * {
+
 	margin: 0px;
 	padding: 0px;
 	font-size: 14px;
@@ -13,21 +37,19 @@ li {
 	list-style: none;
 }
 .sidebar {
-	position: fixed;
-	border:0px;
-	z-index: 10;
-	border-right-width: 1px;
-	border-style: solid;
-	border-color: $gray-lightst;
-	background: $white;
-	height: 100vh;
-	padding: 10px;
-	box-sizing: border-box;
-	box-shadow: $gray-lighter 0px 0px 8px 1px;
-    top: 10px;
-    height: calc(100vh - 10px);
+	background: $color_graybg;
+    height: calc(100vh);
 	&.right {
 		border-left-width: 1px;
+		min-width: 0px !important;
+	    overflow: hidden;
+	    width: 0px;
+	    padding: 0px;
+	}
+	&+main {
+		padding: 0px;
+		margin: 0px;
+		background: #ebeced;
 	}
 }
 .bd-content{
@@ -60,6 +82,12 @@ li {
 .component_list {
 	input {
 		width: 100%;
+	}
+	.list_box {
+		display: none;
+		&.active {
+			display :block;
+		}
 	}
 }
 
@@ -122,15 +150,24 @@ html .fr-toolbar.fr-top {
 		}
 	}
 	> button {
+		background: $color_graybg;
 		position: absolute;
 		z-index: 10000;
-		bottom:30px;
-		right:30px;
-		width: 30px;
-		height: 30px;
+		bottom:40px;
+		right:40px;
+		width: 40px;
+		height: 40px;
 		border: 0px;
+		border-radius: 10px;
+		font-size: 14px;
+		font-weight: 300;
+		color: $color_whitegray;
+		&:hover {
+			background: lighten($color_graybg, 10%);
+			cursor: pointer;
+		}
 		&.zoomin {
-			right:60px;
+			right:85px;
 		}
 	}
 }
