@@ -72,7 +72,7 @@ export default class TemplateList extends React.Component {
 TemplateList.contextTypes = {
     store: PropTypes.object
 }
-TemplateList.PropTypes = {
+TemplateList.propTypes = {
     type: PropTypes.string,
     key: PropTypes.number,
     name: PropTypes.string

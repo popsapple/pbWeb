@@ -21,35 +21,35 @@ export default class SideDesignObjectTab extends React.Component {
         this.store = this.context;
         return (
             <div>
-                <div className="desigin_objects">
+                <div className="desigin_objects tab_group">
                     <ul>
                         <li>
-                            <button>
-                                <img src="" alt="돋보기" />
+                            <button class="disable">
+                                <i class="fas fa-search"></i>
                                 <span>검색</span>
                             </button>
                         </li>
                         <li>
-                            <button>
-                                <img src="" alt="템플릿" />
+                            <button class="active">
+                                <i class="fas fa-window-restore"></i>
                                 <span>템플릿</span>
                             </button>
                         </li>
                         <li>
                             <button>
-                                <img src="" alt="요소" />
+                                <i class="fas fa-object-group"></i>
                                 <span>요소</span>
                             </button>
                         </li>
                         <li>
                             <button>
-                                <img src="" alt="텍스트" />
+                                <i class="fas fa-font"></i>
                                 <span>텍스트</span>
-                            </button>
+                            </button> 
                         </li>
                         <li>
                             <button>
-                                <img src="" alt="업로드" />
+                                <i class="fas fa-upload"></i>
                                 <span>업로드</span>
                             </button>
                         </li>

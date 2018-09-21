@@ -17,6 +17,7 @@ import ComponentGird from './ComponentGird';
 import ComponentLine from './ComponentLine';
 import ComponentPolygon from './ComponentPolygon';
 import ComponentChart from './ComponentChart';
+import ComponentIcon from './ComponentIcon';
 import TemplateListGroup from './TemplateListGroup';
 
 
@@ -25,6 +26,15 @@ export default class SideDesignObjectList extends React.Component {
         super(props);
         this.state = {
             selectedThemeIdx: 0,
+            componentList: [
+                <ComponentImage type='is_title component_image' key={Math.random()} />,
+                <ComponentGird type='is_title component_grid' key={Math.random()} />,
+                <ComponentPolygon type='is_title component_polygon' key={Math.random()} />,
+                <ComponentLine type='is_title component_line' key={Math.random()} />,
+                <ComponentChart type='is_title component_chart' key={Math.random()} />,
+                <ComponentIcon type='is_title component_icon' key={Math.random()} />,
+                <ComponentLayout type='is_title component_layout' key={Math.random()} />
+            ],
             themes: [
                 {
                     name: 'Bank',
@@ -38,14 +48,6 @@ export default class SideDesignObjectList extends React.Component {
                         <TemplateList type='namecard_template_style03' key={Math.random()} name='가로형템플릿02' />,
                         <TemplateList type='namecard_template_style04' key={Math.random()} name='가로형템플릿03' />,
                         <TemplateList type='namecard_template_style05' key={Math.random()} name='세로형템플릿02' />
-                    ],
-                    componentList: [
-                        <ComponentImage type='is_title component_image' key={Math.random()} />,
-                        <ComponentGird type='is_title component_grid' key={Math.random()} />,
-                        <ComponentPolygon type='is_title component_polygon' key={Math.random()} />,
-                        <ComponentLine type='is_title component_line' key={Math.random()} />,
-                        <ComponentChart type='is_title component_chart' key={Math.random()} />,
-                        <ComponentLayout type='is_title component_layout' key={Math.random()} />
                     ]
                 },
                 {
@@ -57,14 +59,6 @@ export default class SideDesignObjectList extends React.Component {
                     templateList: [
                         <TemplateList type='namecard_template_style06' key={Math.random()} name='가로형템플릿01' />,
                         <TemplateList type='namecard_template_style07' key={Math.random()} name='가로형템플릿02' />
-                    ],
-                    componentList: [
-                        <ComponentImage type='is_title component_image' key={Math.random()} />,
-                        <ComponentGird type='is_title component_grid' key={Math.random()} />,
-                        <ComponentPolygon type='is_title component_polygon' key={Math.random()} />,
-                        <ComponentLine type='is_title component_line' key={Math.random()} />,
-                        <ComponentChart type='is_title component_chart' key={Math.random()} />,
-                        <ComponentLayout type='is_title component_layout' key={Math.random()} />
                     ]
                 },
                 {
@@ -76,14 +70,6 @@ export default class SideDesignObjectList extends React.Component {
                     templateList: [
                         <TemplateList type='namecard_template_style08' key={Math.random()} name='가로형템플릿01' />,
                         <TemplateList type='namecard_template_style09' key={Math.random()} name='가로형템플릿02' />
-                    ],
-                    componentList: [
-                        <ComponentImage type='is_title component_image' key={Math.random()} />,
-                        <ComponentGird type='is_title component_grid' key={Math.random()} />,
-                        <ComponentPolygon type='is_title component_polygon' key={Math.random()} />,
-                        <ComponentLine type='is_title component_line' key={Math.random()} />,
-                        <ComponentChart type='is_title component_chart' key={Math.random()} />,
-                        <ComponentLayout type='is_title component_layout' key={Math.random()} />
                     ]
                 }
             ]
@@ -111,9 +97,11 @@ export default class SideDesignObjectList extends React.Component {
                     <TemplateListGroup list={this.selected_theme.templateList} />
                 </div>
                 <div className="componentlist_box list_box">
+                    <SearchThemeList ChangeList={this.SearchTheme.bind(this)} />
+                    <TemplateListGroup list={this.selected_theme.templateList} />
                     <ul>
                         {
-                            this.selected_theme.componentList.map((arr,idx)=>{
+                            this.state.componentList.map((arr,idx)=>{
                                 return (arr);
                             })
                         }

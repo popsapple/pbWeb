@@ -60,7 +60,7 @@ export default class ComponentGird extends React.Component {
 ComponentGird.contextTypes = {
     store: PropTypes.object
 }
-ComponentGird.PropTypes = {
+ComponentGird.propTypes = {
     type: PropTypes.string,
     key: PropTypes.number
 }

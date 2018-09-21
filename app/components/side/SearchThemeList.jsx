@@ -28,6 +28,6 @@ export default class SearchThemeList extends React.Component {
 SearchThemeList.contextTypes = {
     store: PropTypes.object
 }
-SearchThemeList.PropTypes = {
+SearchThemeList.propTypes = {
     ChangeList: PropTypes.any
 }

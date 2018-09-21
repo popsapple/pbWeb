@@ -60,7 +60,7 @@ export default class ComponentPolygon extends React.Component {
 ComponentPolygon.contextTypes = {
     store: PropTypes.object
 }
-ComponentPolygon.PropTypes = {
+ComponentPolygon.propTypes = {
     type: PropTypes.string,
     key: PropTypes.number
 }

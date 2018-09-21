@@ -60,7 +60,7 @@ export default class ComponentImage extends React.Component {
 ComponentImage.contextTypes = {
     store: PropTypes.object
 }
-ComponentImage.PropTypes = {
+ComponentImage.propTypes = {
     type: PropTypes.string,
     key: PropTypes.number
 }

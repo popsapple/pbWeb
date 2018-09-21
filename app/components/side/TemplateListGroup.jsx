@@ -30,6 +30,6 @@ export default class TemplateListGroup extends React.Component {
 TemplateListGroup.contextTypes = {
     store: PropTypes.object
 }
-TemplateListGroup.PropTypes = {
+TemplateListGroup.propTypes = {
     list: PropTypes.array
 }

@@ -60,7 +60,7 @@ export default class ComponentLine extends React.Component {
 ComponentLine.contextTypes = {
     store: PropTypes.object
 }
-ComponentLine.PropTypes = {
+ComponentLine.propTypes = {
     type: PropTypes.string,
     key: PropTypes.number
 }

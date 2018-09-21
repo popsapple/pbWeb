@@ -26,7 +26,7 @@ export default class ThemeControllbutton extends React.Component {
 ThemeControllbutton.contextTypes = {
     store: PropTypes.object
 }
-ThemeControllbutton.PropTypes = {
+ThemeControllbutton.propTypes = {
     name: PropTypes.string,
     catrgory: PropTypes.string,
     nameKor: PropTypes.string,

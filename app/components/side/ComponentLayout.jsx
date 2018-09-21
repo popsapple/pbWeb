@@ -60,7 +60,7 @@ export default class ComponentLayout extends React.Component {
 ComponentLayout.contextTypes = {
     store: PropTypes.object
 }
-ComponentLayout.PropTypes = {
+ComponentLayout.propTypes = {
     type: PropTypes.string,
     key: PropTypes.number
 }

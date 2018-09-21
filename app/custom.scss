@@ -1,7 +1,6 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./../resources/css/font/font";
 @import './../resources/css/froala_style.min.css';
-
 $color_green: #99c432;
 $color_orange: #fc4d1e;
 $color_whitegray: #efefef;
@@ -11,16 +10,13 @@ $color_fontgray: #505660;
 $color_fontwhite: #ffffff;
 
 @mixin gradient($from: #00c4cc, $to: #7d2ae8) {
-  /* fallback/image non-cover color */
-  background-color: $from;
-  /* Firefox 3.6+ */
-  background-image: -moz-linear-gradient($from, $to);
-  /* Safari 4+, Chrome 1+ */
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
-  /* Safari 5.1+, Chrome 10+ */
-  background-image: -webkit-linear-gradient($from, $to);
-  /* Opera 11.10+ */
-  background-image: -o-linear-gradient($from, $to);
+	/* fallback/image non-cover color */
+	background: $from;
+
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#87e0fd+0,53cbf1+40,05abe0+100;Blue+3D+%23+16 */
+	background: -moz-linear-gradient(135deg, $from 0%, $to 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(135deg, $from 0%, $to 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, $from 0%, $to 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 * {
@@ -32,12 +28,16 @@ $color_fontwhite: #ffffff;
 html body,
 html body * { 
 	font-family: 'NanumSquare', sans-serif; 
+	&.fas {
+		font-family: 'FontAwesome', sans-serif; 
+	}
 }
 li {
 	list-style: none;
 }
 .sidebar {
 	background: $color_graybg;
+	padding: 10px 0px 0px 75px;
     height: calc(100vh);
 	&.right {
 		border-left-width: 1px;
@@ -79,6 +79,12 @@ li {
 	}
 }
 
+.category_select {
+	width: 100vw;
+	height: 100vh;
+	@include gradient();
+}
+
 .component_list {
 	input {
 		width: 100%;
@@ -87,6 +93,66 @@ li {
 		display: none;
 		&.active {
 			display :block;
+		}
+	}
+	.desigin_objects {
+		&.tab_group {
+			position:absolute;
+			left: 10px;
+			top: 10px;
+			li {
+				button {
+					position:absolute;
+					border: 0px;
+					width: 55px;
+					height: 55px;
+					background: $color_graybg;
+					border-radius: 10px;
+					&:hover:not(.disable),
+					&.active:not(.disable) {
+						background: darken($color_graybg, 10%);
+						border: 2px solid lighten($color_graybg, 3%);
+					}
+					border: 2px solid lighten($color_graybg, 10%);
+					&.disable {
+						opacity: 0.5;
+					}
+					span {
+						position:absolute;
+						bottom: 3px;
+						left: -2px;
+						display: inline-block;
+						width: 55px;
+						text-align: center;
+						color: $color_whitegray;
+						font-style: normal;
+						font-size: 12px;
+					}
+					i {
+						position:absolute;
+						bottom: 18px;
+						left: -2px;
+						display: inline-block;
+						width: 55px;
+						font-size: 18px;
+						text-align: center;
+						color: $color_whitegray;
+						font-style: normal;
+					}
+				}
+				&+li button {
+					top: 65px;
+				}
+				&+li+li button {
+					top: 130px;
+				}
+				&+li+li+li button {
+					top: 195px;
+				}
+				&+li+li+li+li button {
+					top: 260px;
+				}
+			}
 		}
 	}
 }
