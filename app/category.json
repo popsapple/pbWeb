@@ -1,0 +1,52 @@
+{
+	"categories" : [
+			{
+				"name": "명함",
+				"key": "NameCard",
+				"thumbnail": "./../resources/images/category_namecard.png",
+				"themes": []
+			},
+			{
+				"name": "현수막",
+				"key": "Banner",
+				"thumbnail": "./../resources/images/category_banner.png",
+				"themes": []
+			},
+			{
+				"name": "포스터",
+				"key": "Poster",
+				"thumbnail": "./../resources/images/category_poster.png",
+				"themes": []
+			},
+			{
+				"name": "전단지",
+				"key": "Leaflet",
+				"thumbnail": "./../resources/images/category_leaflet.png",
+				"themes": []
+			},
+			{
+				"name": "초대장",
+				"key": "Invitation",
+				"thumbnail": "./../resources/images/category_invitation.png",
+				"themes": []
+			},
+			{
+				"name": "로고",
+				"key": "Logo",
+				"thumbnail": "./../resources/images/category_logo.png",
+				"themes": []
+			},
+			{
+				"name": "인스타",
+				"key": "Instargram",
+				"thumbnail": "./../resources/images/category_instargram.png",
+				"themes": []
+			},
+			{
+				"name": "PPT",
+				"key": "PPT",
+				"thumbnail": "./../resources/images/category_ppt.png",
+				"themes": []
+			}
+	]
+}

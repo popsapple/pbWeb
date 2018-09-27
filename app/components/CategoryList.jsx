@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import CategoryListItem from './../components/CategoryListItem';
+import { selectDocType } from '../actions/actions';
+const list = require('./../category.json');
 
 export default class CategoryList extends React.Component {
-	constructor(){
+	 constructor(){
     	super();
     };
 
@@ -12,49 +15,13 @@ export default class CategoryList extends React.Component {
     };
 
     render(){
+        this.store = this.context;
+        let index = this.props.idx;
+        let items = [];
         return(
             <div>
-                <ul>
-                  <li>
-                    <input type="radio" name="docType" defaultChecked id="docType01" value="NameCard" onChange={this.onSelectDocType.bind(this)} />
-                    <label htmlFor="docType01"></label>
-                    <h3>명함</h3>
-                  </li>
-                  <li>
-                    <input type="radio" name="docType" defaultChecked id="docType02" value="Banner" onChange={this.onSelectDocType.bind(this)} />
-                    <label htmlFor="docType02"></label>
-                    <h3>현수막</h3>
-                  </li>
-                  <li>
-                    <input type="radio" name="docType" defaultChecked id="docType03" value="Poster" onChange={this.onSelectDocType.bind(this)} />
-                    <label htmlFor="docType03"></label>
-                    <h3>포스터</h3>
-                  </li>
-                  <li>
-                    <input type="radio" name="docType" defaultChecked id="docType04" value="Leaflet" onChange={this.onSelectDocType.bind(this)} />
-                    <label htmlFor="docType04"></label>
-                    <h3>전단지</h3>
-                  </li>
-                  <li>
-                    <input type="radio" name="docType" defaultChecked id="docType05" value="Invitation" onChange={this.onSelectDocType.bind(this)} />
-                    <label htmlFor="docType05"></label>
-                    <h3>초대장</h3>
-                  </li>
-                  <li>
-                    <input type="radio" name="docType" defaultChecked id="docType06" value="Logo" onChange={this.onSelectDocType.bind(this)} />
-                    <label htmlFor="docType06"></label>
-                    <h3>로고</h3>
-                  </li>
-                  <li>
-                    <input type="radio" name="docType" defaultChecked id="docType07" value="Instargarm" onChange={this.onSelectDocType.bind(this)} />
-                    <label htmlFor="docType07"></label>
-                    <h3>인스타</h3>
-                  </li>
-                  <li>
-                    <input type="radio" name="docType" defaultChecked id="docType08" value="PPT" onChange={this.onSelectDocType.bind(this)} />
-                    <label htmlFor="docType08"></label>
-                    <h3>PPT</h3>
-                  </li>
+                <ul className="category_list">
+                  <TempCategory idx={index} ChangeMode={this.onSelectDocType.bind(this)} />
                 </ul>
             </div>
         )
@@ -65,6 +32,38 @@ CategoryList.contextTypes = {
     store: PropTypes.object
 }
 CategoryList.propTypes = {
-    type: PropTypes.bool,
+    idx: PropTypes.number,
     ChangeMode: PropTypes.func
+}
+
+class TempCategory extends React.Component {
+  constructor(){
+    super();
+  };
+  render(){
+    this.store = this.context;
+    let index = this.props.idx;
+    let list_ = [];
+    (() => {
+        for(let i = 0; i < (index+1)*5; i++){
+            if(list.categories[i]){
+                let returnName = list.categories[i].name
+                let returnImg = list.categories[i].thumbnail
+                let returnId = list.categories[i].key
+                let returnFun = this.props.ChangeMode
+                let returnChecked;
+                i == 0 && index == 0 ? returnChecked = true : returnChecked = false;
+                console.log(list);
+                list_.push(
+                    <CategoryListItem Image={returnImg} Checked={returnChecked} Name={returnName} Id={returnId} Value={returnId} Change={returnFun} key={i} idx={i} />
+                )  
+            }
+        
+      }
+    })()
+    return list_;
+  }
+}
+TempCategory.contextTypes = {
+    store: PropTypes.object
 }
