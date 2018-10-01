@@ -8,9 +8,14 @@ import { app, dialog, Menu, shell, ipcRenderer, BrowserWindow } from 'electron';
 import CategoryList from './../components/CategoryList';
 
 export default class IntroPage extends React.Component {
+
   constructor(){
     super();
     this.pbNew = this.pbNew.bind(this);
+    
+    this.state = {
+      is_title: true
+    }
   };
   ChangeListMode(){
     this.setState({
@@ -34,7 +39,7 @@ export default class IntroPage extends React.Component {
         <h2>만드실 문서의 종류를 선택하세요</h2>
         <CategoryList type={this.state.is_title} ChangeMode={(()=>{this.ChangeListMode.bind(this)})}/>
         <button onClick={this.ChangeListMode.bind(this)}>자세히 보기</button>
-        <Link to="homePage" onClick={this.newFile.bind(this)}>시작하기</Link>
+        <button to="homePage" onClick={this.pbNew}>시작하기</button>
       </div>
     );
   }
