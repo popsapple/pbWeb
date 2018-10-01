@@ -40,7 +40,7 @@ export default class IntroPage extends React.Component {
         <div>
           <CategoryList idx={this.state.index} ChangeMode={(()=>{this.ChangeListMode.bind(this)})}/>
           <button className="catetory_more" onClick={this.ChangeListMode.bind(this)}>더보기</button>
-          <button to="homePage" onClick={this.pbNew}>시작하기</button>
+          <button className="catetory_more goto_start" to="homePage" onClick={this.pbNew}>시작하기</button>
         </div>
       </div>
     );

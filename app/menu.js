@@ -406,9 +406,8 @@ export default class MenuBuilder {
   pbWebCheck = (tempPath, count = 1, isOpen = false, cssArr = [], jsArr = []) => {
     process.platform === 'darwin' ? tempPath = tempPath : tempPath = tempPath.replace("\\","/")+"/"
     var pbWebPath = tempPath+"PbWeb"
-    try {
+    try { //pbweb exists
       fs.accessSync(pbWebPath, fs.constants.R_OK | fs.constants.W_OK);
-      console.log('pbweb exists');
       var readdirData = fs.readdirSync(pbWebPath) //readdirData : [ 'untitled-1' ]
       if(readdirData.length != 0){
         var max = 0;
@@ -424,7 +423,7 @@ export default class MenuBuilder {
         }else{
           isWorking = false;
         }
-      } else {
+      } else { 
         count = 1;
         if(!isOpen){
           this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
@@ -432,8 +431,7 @@ export default class MenuBuilder {
           isWorking = false;
         }
       }
-    } catch (err) {
-      console.log('pbweb does not exist');
+    } catch (err) { //pbweb does not exist
       var is_mkdir = fs.mkdirSync(pbWebPath)
       if(is_mkdir == undefined){ //success
         var readdirData = fs.readdirSync(pbWebPath)
@@ -478,7 +476,6 @@ export default class MenuBuilder {
           this.selectedFilePath = untitledPath;
           this.workingDirPath = untitledPath;
           var htmlPath = untitledPath+path.sep+"index.html"
-          console.log("new check!!!!!")
           this.editor.send('new-file', htmlPath);
           this.inspectorList(untitledPath, untitledPath, cssArr, jsArr);
         }
@@ -487,19 +484,19 @@ export default class MenuBuilder {
   }
 
   inspectorList = (dirPath, untitledPath, cssArr, jsArr) => {
-    var pureCssArray = []
-    var pureJsArray = []
-
+    var pureCssArray = [];
+    var pureJsArray = [];
+    cssArr = [];
+    jsArr = [];
     isWorking = true;
+
     try {
       fs.accessSync(dirPath+path.sep+'css' && dirPath+path.sep+'js' && dirPath+path.sep+"resources.json", fs.constants.R_OK | fs.constants.W_OK);
       var is_read = fs.readFileSync(dirPath+path.sep+"resources.json");
         if(is_read){
-          var cssPathArray = []
-          var jsPathArray = []
+          var cssPathArray = [], jsPathArray = []
+          var cssArray = [] , jsArray = []
           var splitData = []
-          var cssArray = []
-          var jsArray = []
 
           var parseData = JSON.parse(is_read)
           var parseCSS = parseData.css  // ex)/css/bootstrap.css
@@ -534,6 +531,9 @@ export default class MenuBuilder {
             }
           }
           jsArr.push(scriptTag)
+         
+          this.cssArr = cssArr;
+          this.jsArr = jsArr;
 
           this.editor.send("resources-open", dirPath, parseCSS, parseJS); //apply resources
           this.editor.send('css-list', cssArray);
@@ -554,13 +554,12 @@ export default class MenuBuilder {
 
   buildTemplate(osPlatform, tempPath) {
     let saveOk = true;
-    let selectedFilePath = '';
+    let selectedFilePath = "";
     var count = 1;
     var workingDirPath = "";
     var isOpen = false;
     var saveMessage = true;
-    var cssArr = [];
-    var jsArr = [];
+    var cssArr = [], jsArr = [];
 
     if(process.platform === "darwin"){
       var returnArray = this.darwinAddMenu(osPlatform)
@@ -635,9 +634,7 @@ export default class MenuBuilder {
                           isWorking = true;
                           var nullData = ""
                           var returnData = this.inspectorList(selectedFilePath, nullData, cssArr, jsArr)
-                          console.log("inspector return => "+returnData)
-                          if(returnData != false){
-                            console.log("is undefined!!")
+                          if(!returnData){
                             this.editor.send('file-open', is_read)
                           }
                           isWorking = false;
@@ -652,7 +649,6 @@ export default class MenuBuilder {
                     }
                   }
                 } else{ //click cancle open
-                  console.log("Cancel Open")
                   return false;
                 }
                 saveOk = false;
@@ -680,7 +676,7 @@ export default class MenuBuilder {
                         isWorking = false;
                       } else {
                         saveMessage = true;
-                        this.editor.send('html-save', files, cssArr, jsArr, saveMessage);
+                        this.editor.send('html-save', files, this.cssArr, this.jsArr, saveMessage);
                       }
                     })
                     //set app title
@@ -692,7 +688,6 @@ export default class MenuBuilder {
                     selectedFilePath = files;
                   }
                   else{ //click cancel save
-                    console.log("cancel save")
                     saveOk = true;
                     saveMessage = false;
                     return false;
@@ -712,7 +707,7 @@ export default class MenuBuilder {
               var readdirData = fs.readdirSync(selectedFilePath)
               if(readdirData.length != 0){
                 saveMessage = true;
-                this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                this.editor.send('html-save', selectedFilePath, this.cssArr, this.jsArr, saveMessage);
                 isWorking = false;
               } else{
                 console.log("failed to read directory_save", err)
@@ -748,7 +743,7 @@ export default class MenuBuilder {
                         var filename = pathArray[pathArray.length-1]
                         this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
-                        this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                        this.editor.send('html-save', selectedFilePath, this.cssArr, this.jsArr, saveMessage);
                       }
                     })
                   } catch (err) { //saved files
@@ -763,13 +758,12 @@ export default class MenuBuilder {
                         this.mainWindow.setTitle(`${filename} - PageBuilder`)
 
                         selectedFilePath = files
-                        this.editor.send('html-save', selectedFilePath, cssArr, jsArr, saveMessage);
+                        this.editor.send('html-save', selectedFilePath, this.cssArr, this.jsArr, saveMessage);
                       }
                     })
                   }
                   saveOk = false;
                 } else{ //click cancel saveAs
-                  console.log("cancel saveAs")
                   saveOk = false;
                   return false;
                 }

@@ -273,7 +273,6 @@ class FrogEditor extends React.Component {
   }
 
   saveHTML = (theFileEntry, cssArr, jsArr, saveMessage) => {
-    console.log("theFileEntry: "+theFileEntry) //folder path
     var html = this.state.model.toString();
     var head = html.split("</head>")
     var resourcesTagCode = (head[0]+cssArr+jsArr).replace(/(,)/g,'');
