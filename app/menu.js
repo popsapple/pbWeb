@@ -7,24 +7,33 @@ const fs = require('fs-extra')
 const path = require('path');
 
 let isWorking = false;
+let mainWindowObject;
 
 export default class MenuBuilder {
-  constructor(mainWindow) {
-    this.mainWindow = mainWindow;
-
-    /*ipcMain.on('componentlist-drag', (event, arg) => {
-      event.sender.send('componentlist-draginsert', arg);
-    }); */
-
-    ipcMain.on('SelectEditComponent', (event, arg) => {
-      event.sender.send('SelectEditComponent', arg); //event.sender
-    });
+  constructor(mainWindow_) {
+    if(mainWindow_){
+      this.mainWindowObject = mainWindow_;
+    }
+    this.mainWindow = this.mainWindowObject;
 
     ipcMain.on('root-loaded', (event, arg) => {
       console.log(`[ipcMain] got message from menu ${arg}`);
-      // this.sender = event.sender;
       this.editor = event.sender;
     });
+
+    ipcMain.on('send-new', (event, arg) => {
+      event.sender.send('new-page', "/homePage");
+    }); 
+
+    ipcMain.on('new-page-ended', (event, arg) => {
+      var tempPath = ''
+      process.platform === 'darwin' ? tempPath = process.env.TMPDIR : process.env.Temp;
+      this.pbWebCheck(tempPath);
+    }); 
+    
+    // ipcMain.on('SelectEditComponent', (event, arg) => {
+    //   event.sender.send('SelectEditComponent', arg); //event.sender
+    // });
   }
 
   buildMenu() {
@@ -411,19 +420,15 @@ export default class MenuBuilder {
         }
         count = max+1;
         if(!isOpen){
-          console.log("pbweb 01")
           this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
         }else{
-          console.log("pbweb 02")
           isWorking = false;
         }
       } else {
         count = 1;
         if(!isOpen){
-          console.log("pbweb 03")
           this.makeWorkingDir(pbWebPath, count, cssArr, jsArr);
         } else{
-          console.log("pbweb 04")
           isWorking = false;
         }
       }
@@ -540,6 +545,7 @@ export default class MenuBuilder {
           isWorking = false;
         }
     } catch (err) {
+      this.editor.send("resources-open", '', '', '');
       this.editor.send('error-occurred', "/Error");
       isWorking = false;
       return false;

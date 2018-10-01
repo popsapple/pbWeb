@@ -216,7 +216,6 @@ class FrogEditor extends React.Component {
         this.config.iframeScriptFiles = this.state.jslist;
         this.key_item += 1;
         if(this.props){
-          console.log("js props 01")
           this.props.pbUpdateHandler();
         }else{
         }
@@ -229,38 +228,46 @@ class FrogEditor extends React.Component {
   };
 
   readResourcesFile = (dirPath, cssfile, jsfile) => { 
-    this.setState({
-      csslist: [],
-      jslist: []
-    });
-
-    try{
-      this.editor.destroy();
-    }catch(err){
-      console.log("hey!"+err);
-    }
-
-    for(let i=0; i<cssfile.length; i++){
-      try {
-        fs.accessSync(dirPath+cssfile[i], fs.constants.R_OK | fs.constants.W_OK);
-        this.readCSSIntoEditor(dirPath+cssfile[i]); //err
-      } catch (err) {
-        console.log("===== readResourcesFile readCSSIntoEditor error =====")
-        console.log(err)
-        alert("리소스 경로가 올바르지 않습니다.")
-        return false;
+    if(!dirPath && !cssfile && !jsfile){
+      try{
+        this.editor.destroy();
+      }catch(err){
+        console.log("destroy err 01 => "+err);
       }
-    }
-
-    for(let i=0; i<jsfile.length; i++){
-      try {
-        fs.accessSync(dirPath+jsfile[i], fs.constants.R_OK | fs.constants.W_OK);
-        this.readJSIntoEditor(dirPath+jsfile[i]); //err
-      } catch (err) {
-        console.log("===== readResourcesFile readJSIntoEditor error =====")
-        console.log(err)
-        alert("리소스 경로가 올바르지 않습니다.")
-        return false;
+    } else{
+      this.setState({
+        csslist: [],
+        jslist: []
+      });
+  
+      try{
+        this.editor.destroy();
+      }catch(err){
+        console.log("destroy err => "+err);
+      }
+  
+      for(let i=0; i<cssfile.length; i++){
+        try {
+          fs.accessSync(dirPath+cssfile[i], fs.constants.R_OK | fs.constants.W_OK);
+          this.readCSSIntoEditor(dirPath+cssfile[i]); //err
+        } catch (err) {
+          console.log("===== readResourcesFile readCSSIntoEditor error =====")
+          console.log(err)
+          alert("리소스 경로가 올바르지 않습니다.")
+          return false;
+        }
+      }
+  
+      for(let i=0; i<jsfile.length; i++){
+        try {
+          fs.accessSync(dirPath+jsfile[i], fs.constants.R_OK | fs.constants.W_OK);
+          this.readJSIntoEditor(dirPath+jsfile[i]); //err
+        } catch (err) {
+          console.log("===== readResourcesFile readJSIntoEditor error =====")
+          console.log(err)
+          alert("리소스 경로가 올바르지 않습니다.")
+          return false;
+        }
       }
     }
   }
@@ -274,7 +281,6 @@ class FrogEditor extends React.Component {
 
     var write = fs.writeFileSync(theFileEntry+'/index.html', insertTagHTML, {overwrite: true})
     if(write == undefined){
-      console.log("savehtml success")
       alert("저장되었습니다.")
     } else{
       console.log(`save failed: ${err}`);

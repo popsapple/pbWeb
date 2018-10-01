@@ -10,11 +10,11 @@ export default class WorkingTree extends React.Component{
             jsList: []
         }
     }
+    
     componentWillMount(){
         ipcRenderer.on('css-list', (event, csslist) => {
             this.InputCSS(csslist)
         });
-
         ipcRenderer.on('js-list', (event, jslist) => {
             this.InputJS(jslist)
         });
@@ -24,7 +24,6 @@ export default class WorkingTree extends React.Component{
         this.setState({
             cssList: theFileEntry
         });
-
     };
 
     InputJS = theFileEntry => {

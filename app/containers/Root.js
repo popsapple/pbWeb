@@ -22,25 +22,30 @@ export default class Root extends Component {
       store: this.props.store
     }
   }
+
   componentWillMount() {
     this.unsubscribe = store.subscribe(
       () => this.forceUpdate()
     )
+
     ipcRenderer.send('root-loaded', 'Root');
 
     ipcRenderer.on('error-occurred', (event, args) => {
       console.log("error occurred in_replace")
       this.history.push(args);
-      console.log(this.history)
     });
   
     ipcRenderer.on('click-file', (event, arg) => {
-      console.log("click-file!!")
       if(this.history.location.pathname != arg){
         this.history.push(arg)
       }
-      console.log(this.history)
-    })
+    });
+
+    ipcRenderer.on('new-page', (event, args) => {
+      this.history.push(args);
+      ipcRenderer.send('new-page-ended', 'Root');
+    });
+
   }
 
   componentWillUnMount() {

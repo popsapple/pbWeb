@@ -4,18 +4,20 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { selectDocType } from './../actions/actions';
 import { connect } from 'react-redux';
+import { app, dialog, Menu, shell, ipcRenderer, BrowserWindow } from 'electron';
 
 export default class IntroPage extends Component {
   constructor(){
     super();
+    this.pbNew = this.pbNew.bind(this);
   };
 
   onSelectDocType(event){
     this.store.store.dispatch(selectDocType({docType: event.target.value}));
   }
 
-  newFile(){
-    console.log("intro new file in!!!")
+  pbNew(){
+    ipcRenderer.send('send-new','IntroPage');    
   }
 
   render() {
@@ -45,7 +47,7 @@ export default class IntroPage extends Component {
             <h3>티셔츠</h3>
           </li>
         </ul>
-        <Link to="homePage" onClick={this.newFile.bind(this)}>시작하기</Link>
+        <button onClick={this.pbNew}>시작하기</button>
       </div>
     );
   }
