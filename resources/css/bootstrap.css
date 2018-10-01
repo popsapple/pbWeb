@@ -6794,8 +6794,17 @@ button.close {
 html {
   height: 100vh;
   overflow-y: scroll;
+  background: #ebeced;
 }
 
 button, a {
   pointer-events: none;
+}
+
+html .fr-view,
+body {
+  background: #ebeced !important;
+}
+html .fr-wrapper.show-placeholder .fr-placeholder {
+  display: none !important;
 }

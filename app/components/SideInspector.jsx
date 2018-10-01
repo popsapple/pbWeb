@@ -18,13 +18,13 @@ export default class SideInspector extends React.Component{
     	this.setState({
     		labal_draging: true
     	});
-    	this.container.className = "col-xs-2 col-sm-2 col-md-2 col-lg-2 inspector sidebar right active";
+    	this.container.className = " sidebar right active";
     }
     DragLabelUp(event){
     	this.setState({
     		labal_draging: false
     	});
-	    this.container.className = "col-xs-2 col-sm-2 col-md-2 col-lg-2 inspector sidebar right active";
+	    this.container.className = "inspector sidebar right active";
     }
     DragLabelLeave(event){
     	setTimeout(f=>{
@@ -68,7 +68,7 @@ export default class SideInspector extends React.Component{
     }
     render(){
         return(
-        <div ref={ref => {this.container = ref;}} className="col-xs-2 col-sm-2 col-md-2 col-lg-2 inspector sidebar right" style={this.state.style}>
+        <div ref={ref => {this.container = ref;}} className="inspector sidebar right" style={this.state.style}>
             <div className="component_list">
             	<button className="label" onMouseDown={this.DragLabelTab.bind(this)} onMouseLeave={this.DragLabelLeave.bind(this)} onMouseUp={this.DragLabelUp.bind(this)} onMouseMove={this.DragLabelMove.bind(this)}>Label</button>
             	<button onClick={this.ToggleInspector.bind(this, 'info')}>Info</button>
